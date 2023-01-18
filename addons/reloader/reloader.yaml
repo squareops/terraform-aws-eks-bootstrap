@@ -1,0 +1,13 @@
+reloader:
+  deployment:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: "Infra-Services"
+              operator: In
+              values:
+              - "true"
+  serviceMonitor:
+    enabled: ${enable_service_monitor}

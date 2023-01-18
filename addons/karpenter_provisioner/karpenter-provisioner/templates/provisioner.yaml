@@ -1,0 +1,34 @@
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: karpenter-provisioner
+spec:
+  labels:
+    App-Services: "true"
+  requirements:
+    - key: karpenter.sh/capacity-type         # optional, set to on-demand by default, spot if both are listed
+      operator: In
+      values: {{ .Values.karpenter_ec2_capacity_type }}
+    - key: karpenter.k8s.aws/instance-size
+      operator: NotIn
+      values: {{ .Values.karpenter_ec2_instance_type }}
+  providerRef:                                # optional, recommended to use instead of `provider`
+    name: karpenter-node-template
+  ttlSecondsAfterEmpty: 300                   # optional, but never scales down if not set
+  # ttlSecondsUntilExpired: 600     # optional, but never expires if not set
+
+---
+apiVersion: karpenter.k8s.aws/v1alpha1
+kind: AWSNodeTemplate
+metadata:
+  name: karpenter-node-template
+spec:
+  subnetSelector:                             # required
+    Name: {{ .Values.subnet_selector_name }}
+  securityGroupSelector:                      # required, when not using launchTemplate
+    aws:eks:cluster-name: {{ .Values.sg_selector_name }}
+  tags:
+    InternalAccountingTag: "1234"
+    KarpenerProvisionerName: "karpenter-provisioner"
+    NodeType: "karpenter-workshop"
+    IntentLabel: "apps"            # optional, add tags for your own use

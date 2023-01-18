@@ -1,0 +1,2 @@
+enableSqsTerminationDraining: false
+enablePrometheusServer: ${enable_service_monitor}
