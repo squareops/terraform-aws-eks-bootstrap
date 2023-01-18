@@ -1,0 +1,36 @@
+## Node affinity for particular node in which labels key is "Infra-Services" and value is "true"
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: "Infra-Services"
+          operator: In
+          values:
+          - "true"
+
+## Extra Arguments for cluster autoscaler
+
+extraArgs:
+  expander: least-waste
+  balance-similar-node-groups: true
+  skip-nodes-with-system-pods: false
+  skip-nodes-with-local-storage: false
+  aws-use-static-instance-list: true
+
+awsRegion: ${aws_region}
+
+autoDiscovery:
+  clusterName: ${eks_cluster_id}
+
+
+## Using limits and requests
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1000Mi
+  requests:
+    cpu: 50m
+    memory: 800Mi

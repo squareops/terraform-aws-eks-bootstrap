@@ -1,0 +1,25 @@
+nodeSelector:
+  kubernetes.io/os: linux
+clusterName: ${eks_cluster_id}
+clusterEndpoint: ${eks_cluster_endpoint}
+aws:
+  defaultInstanceProfile: ${node_iam_instance_profile}
+
+controller:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 200Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: "Infra-Services"
+          operator: In
+          values:
+          - "true"

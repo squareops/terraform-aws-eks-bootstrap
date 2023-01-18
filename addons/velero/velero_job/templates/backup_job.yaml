@@ -1,0 +1,22 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: {{ .Values.velero_backup_name }}
+  namespace: velero
+spec:
+  schedule: "{{ .Values.schedule_cron_time }}"
+  template:
+    includedNamespaces:
+    - '{{ .Values.namespaces }}'
+    includedResources:
+    - '*'
+    includeClusterResources: true
+    snapshotVolumes: true
+    storageLocation: default
+    volumeSnapshotLocations:
+      - default
+    ttl: 24h0m0s
+status:
+  phase: "Enabled"
+  lastBackup:
+  validationErrors:
