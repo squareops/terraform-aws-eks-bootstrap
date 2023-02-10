@@ -31,6 +31,11 @@ resource "helm_release" "istiod" {
     name  = "global.tracer.zipkin.address"
     value = "zipkin.svc.cluster:9411"
   }
+
+  /* set {
+    name  = "global.tracer.zipkin.address.co.elastic.logs/enabled"
+    value = "true"
+  } */
 }
 
 # resource "kubernetes_namespace" "istio_ingress" {
