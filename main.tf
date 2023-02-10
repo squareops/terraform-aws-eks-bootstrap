@@ -1,8 +1,9 @@
+data "aws_region" "current" {}
+
 data "aws_eks_cluster" "eks" {
   name = var.eks_cluster_id
 }
 
-### Service Monitor CRDs
 module "service_monitor_crd" {
   source = "./addons/service_monitor_crd"
 }
@@ -32,7 +33,7 @@ module "k8s_addons" {
   cluster_autoscaler_helm_config = {
     version = var.cluster_autoscaler_chart_version
     values = [templatefile("${path.module}/addons/cluster_autoscaler/cluster_autoscaler.yaml", {
-      aws_region     = var.region
+      aws_region     = data.aws_region.current.name
       eks_cluster_id = var.eks_cluster_id
     })]
   }
@@ -149,7 +150,7 @@ module "external_secrets" {
   provider_url           = var.provider_url
   cluster_id             = var.eks_cluster_id
   environment            = var.environment
-  region                 = var.region
+  region                 = data.aws_region.current.name
   name                   = var.name
   enable_service_monitor = var.create_service_monitor_crd
 
@@ -163,7 +164,7 @@ module "efs" {
   environment        = var.environment
   vpc_id             = var.vpc_id
   private_subnet_ids = var.private_subnet_ids
-  region             = var.region
+  region             = data.aws_region.current.name
   name               = var.name
   kms_key_id         = var.kms_key_id
 }
@@ -182,7 +183,7 @@ module "velero" {
   name          = var.name
   cluster_id    = var.eks_cluster_id
   environment   = var.environment
-  region        = var.region
+  region        = data.aws_region.current.name
   velero_config = var.velero_config
 
 }

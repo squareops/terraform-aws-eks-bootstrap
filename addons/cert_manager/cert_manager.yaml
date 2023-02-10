@@ -23,6 +23,9 @@ webhook:
             values:
             - "true"
 
+  podAnnotations:
+    co.elastic.logs/enabled: "true"
+
 cainjector:
   affinity:
     nodeAffinity:
@@ -33,6 +36,11 @@ cainjector:
             operator: In
             values:
             - "true"
+<<<<<<< HEAD
+  podAnnotations:
+    co.elastic.logs/enabled: "true"
+=======
+>>>>>>> db6a524689d4606ebf352dd390a236eff3d65c8b
 prometheus:
   enabled: ${enable_service_monitor}
   servicemonitor:

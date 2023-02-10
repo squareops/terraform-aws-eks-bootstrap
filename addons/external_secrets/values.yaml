@@ -137,7 +137,9 @@ fullnameOverride: ""
 # All label values must be strings
 deploymentLabels: {}
 
-podAnnotations: {}
+podAnnotations:
+  co.elastic.logs/enabled: "true"
+
 podLabels: {}
 
 priorityClassName: ""

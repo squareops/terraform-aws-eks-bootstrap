@@ -10,6 +10,9 @@ affinity:
           values:
           - "true"
 
+podAnnotations:
+  co.elastic.logs/enabled: "true"
+
 ## Extra Arguments for cluster autoscaler
 
 extraArgs:

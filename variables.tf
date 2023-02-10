@@ -115,12 +115,6 @@ variable "name" {
   type        = string
 }
 
-variable "region" {
-  description = "AWS region for the EKS cluster"
-  default     = "us-east-2"
-  type        = string
-}
-
 variable "vpc_id" {
   description = "ID of the VPC where the cluster and its nodes will be provisioned"
   default     = ""
@@ -143,8 +137,6 @@ variable "cert_manager_install_letsencrypt_http_issuers" {
   default     = false
   description = "Set to true to install http issuer"
 }
-
-#KMS
 
 variable "kms_key_id" {
   type        = string
@@ -225,7 +217,6 @@ variable "velero_config" {
     backup_bucket_name       = ""
   }
 }
-## karpenter provisioner
 
 variable "subnet_selector_name" {
   description = "Name of subnet selector for karpenter provisioner."

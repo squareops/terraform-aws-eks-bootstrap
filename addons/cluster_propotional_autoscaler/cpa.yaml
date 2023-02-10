@@ -17,6 +17,9 @@ config:
 #options:
 #  target:
 
+podAnnotations:
+  co.elastic.logs/enabled: "true"
+
 podSecurityContext:
   seccompProfile:
     type: RuntimeDefault
