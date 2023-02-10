@@ -5,14 +5,12 @@
 
 ### [SquareOps Technologies](https://squareops.com/) Your DevOps Partner for Accelerating cloud journey.
 <br>
-We publish several terraform modules.
-<br>
 Terraform module to create EKS cluster addons for workload deployment on AWS Cloud.
 
 ## Uses Example
 ```hcl
 module "eks_bootstrap" {
-  source                                        = "gitlab.com/sq-ia/aws/eks-bootstrap.git"
+  source                                        = "squareops/eks-bootstrap/aws"
   environment                                   = "production"
   name                                          = "skaf"
   eks_cluster_id                                = "Cluster-Name"
@@ -61,7 +59,7 @@ module "eks_bootstrap" {
 ```
 
 ## IAM Permissions
-The required IAM permissions to create resources from this module can be found [here](https://gitlab.com/sq-ia/aws/eks-bootstrap/-/blob/v1.0.0/IAM.md)
+The required IAM permissions to create resources from this module can be found [here](https://github.com/squareops/terraform-aws-eks-bootstrap/blob/main/IAM.md)
 
 ## Important Note
 Kubernetes addons are additional components that can be installed in a Kubernetes cluster to provide extra features and functionality. They are designed to work seamlessly with the Kubernetes API and can be managed just like any other Kubernetes resource. Some common examples of Kubernetes addons include:
@@ -288,6 +286,6 @@ We believe that the key to success in the digital age is the ability to deliver 
 
 We provide [support](https://squareops.com/contact-us/) on all of our projects, no matter how small or large they may be.
 
-You can find more information about our company on this [squareops.com](https://squareops.com/), follow us on [Linkdin](https://www.linkedin.com/company/squareops-technologies-pvt-ltd/), or fill out a [job application](https://squareops.com/careers/). If you have any questions or would like assistance with your cloud strategy and implementation, please don't hesitate to [contact us](https://squareops.com/contact-us/).
+You can find more information about our company on this [squareops.com](https://squareops.com/), follow us on [Linkedin](https://www.linkedin.com/company/squareops-technologies-pvt-ltd/), or fill out a [job application](https://squareops.com/careers/). If you have any questions or would like assistance with your cloud strategy and implementation, please don't hesitate to [contact us](https://squareops.com/contact-us/).
 
 <!-- END OF PRE-COMMIT-PIKE DOCS HOOK -->
