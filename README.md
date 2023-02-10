@@ -44,7 +44,7 @@ module "eks_bootstrap" {
   subnet_selector_name= "skaf-private-subnet"
   sg_selector_name= "security_group_selector_name"
   karpenter_ec2_capacity_type= ["on_demand"]
-  karpenter_ec2_instance_type= ["nano", "micro", "small"]
+  excluded_karpenter_ec2_instance_type= ["nano", "micro", "small"]
   velero_config = {
     enable_velero = true
     slack_token = "xoxb-slack-token-skaf"
@@ -67,7 +67,7 @@ The required IAM permissions to create resources from this module can be found [
 Kubernetes addons are additional components that can be installed in a Kubernetes cluster to provide extra features and functionality. They are designed to work seamlessly with the Kubernetes API and can be managed just like any other Kubernetes resource. Some common examples of Kubernetes addons include:
 
 <details>
-  <summary> aws alb </summary>
+  <summary> AWS ALB </summary>
 Amazon Web Services (AWS) Application Load Balancer (ALB) is a highly available and scalable load balancing service that routes incoming application traffic to multiple Amazon EC2 instances, containers, and IP addresses. It automatically distributes incoming application traffic across multiple targets, ensuring that your applications are highly available and scalable.
 
 With AWS ALB, you can handle increased traffic levels, automatically scale your applications, and improve the overall performance of your applications. ALB provides advanced routing capabilities, including content-based routing, host-based routing, and path-based routing, enabling you to route traffic to different target groups based on specific rules.
@@ -102,13 +102,13 @@ The Cluster Autoscaler works by monitoring the resource usage of your pods and c
 Cluster Autoscaler is supported by many cloud providers, including Amazon Web Services (AWS), Google Cloud Platform (GCP), and Microsoft Azure. It can be easily integrated into your existing Kubernetes deployment and can be configured to use different scaling policies to meet the needs of your specific workloads.
 </details>
 <details>
-  <summary> efs </summary>
+  <summary> EFS </summary>
 Amazon Elastic File System (Amazon EFS) is a fully managed, scalable, and highly available file storage service for use with Amazon Elastic Compute Cloud (Amazon EC2) instances. It provides a simple and scalable file storage solution that can be used by multiple EC2 instances at the same time, making it ideal for use cases such as big data, content management, and media sharing.
 
 Amazon EFS is easy to set up, manage, and scale, and it automatically replicates data across multiple Availability Zones for high durability and availability. The service is also highly performant, with low latency and high throughput, making it suitable for a wide range of workloads.
 </details>
 <details>
-  <summary> external Secrets </summary>
+  <summary> External Secrets </summary>
 Kubernetes External Secrets is a feature in Kubernetes that allows secrets to be stored and managed outside of the cluster. External secrets are useful in scenarios where sensitive information, such as passwords or API keys, should not be stored directly in the cluster, but still needs to be used by applications running in the cluster.
 Kubernetes External Secrets can be stored in external systems such as Hashicorp Vault, AWS Secrets Manager, or GCP Secret Manager, and accessed by pods using a Kubernetes Secret object. The Secret object references the external secret and maps it to a Kubernetes Secret, which can then be used by pods in the same way as regular Kubernetes Secrets.
 By using External Secrets, organizations can ensure that sensitive information is securely managed and stored outside of the cluster, while still being able to use that information in their applications running in the cluster.
@@ -225,7 +225,7 @@ Velero is designed to work with cloud native environments, making it a popular c
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment identifier for the EKS cluster | `string` | `"stg"` | no |
 | <a name="input_ingress_nginx_version"></a> [ingress\_nginx\_version](#input\_ingress\_nginx\_version) | Specify the version of the nginx ingress | `string` | `"4.1.4"` | no |
 | <a name="input_karpenter_ec2_capacity_type"></a> [karpenter\_ec2\_capacity\_type](#input\_karpenter\_ec2\_capacity\_type) | EC2 provisioning capacity type | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
-| <a name="input_karpenter_ec2_instance_type"></a> [karpenter\_ec2\_instance\_type](#input\_karpenter\_ec2\_instance\_type) | List of instance types that can be used by Karpenter | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
+| <a name="input_karpenter_ec2_instance_type"></a> [karpenter\_ec2\_instance\_type](#input\_excluded\_karpenter\_ec2\_instance\_type) | List of instance types that can be used by Karpenter | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | <a name="input_karpenter_node_iam_role"></a> [karpenter\_node\_iam\_role](#input\_karpenter\_node\_iam\_role) | Specify the IAM role for the nodes provision through karpenter. | `string` | n/a | yes |
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | KMS key to Encrypt AWS resources | `string` | `""` | no |
 | <a name="input_kms_policy_arn"></a> [kms\_policy\_arn](#input\_kms\_policy\_arn) | Specify the ARN of KMS policy, for service accounts. | `string` | `""` | no |
@@ -251,38 +251,13 @@ Velero is designed to work with cloud native environments, making it a popular c
 
 ## Contribution & Issue Reporting
 
-To contribute to a project, you can typically:
-
-  1. Find the repository on a platform like GitHub
-  2. Fork the repository to your own account
-  3. Make changes to the code
-  4. Submit a pull request to the original repository
-
 To report an issue with a project:
 
-  1. Check the repository's [issue tracker](https://github.com/squareops/terraform-aws-vpc/issues) on GitHub
+  1. Check the repository's [issue tracker](https://github.com/squareops/terraform-aws-eks-bootstrap/issues) on GitHub
   2. Search to see if the issue has already been reported
   3. If you can't find an answer to your question in the documentation or issue tracker, you can ask a question by creating a new issue. Be sure to provide enough context and details so others can understand your problem.
   4. Contributing to the project can be a great way to get involved and get help. The maintainers and other contributors may be more likely to help you if you're already making contributions to the project.
-
-## Our Other Projects
-
-We have a number of other projects that you might be interested in:
-
-  1. [terraform-aws-vpc](https://github.com/squareops/terraform-aws-vpc): Terraform module to create Networking resources for workload deployment on AWS Cloud.
-
-  2. [terraform-aws-keypair](https://github.com/squareops/terraform-aws-keypair): Terraform module which creates EC2 key pair on AWS. The private key will be stored on SSM.
-
-     Follow Us:
-
-     To stay updated on our projects and future release, follow us on
-     [GitHub](https://github.com/squareops/),
-     [LinkedIn](https://www.linkedin.com/company/squareops-technologies-pvt-ltd/)
-
-     By joining our both the [email](https://github.com/squareops) and [Slack community](https://github.com/squareops), you can benefit from the different ways in which we provide support. You can receive timely notifications and updates through email and engage in real-time conversations and discussions with other members through Slack. This combination of resources can help you stay informed, get help when you need it, and contribute to the project in a meaningful way.  
-
-## Security, Validation and pull-requests
-we have offered here high standard, quality code. Hence we are using several [pre-commit hooks](.pre-commit-config.yaml) and [GitHub Actions](https://gitlab.com/sq-ia/aws/eks/-/tree/v1.0.0#security-validation-and-pull-requests) as a workflow. So here we will create pull-requests to any branch and validate the request automatically using pre-commit tool.
+  
 
 ## License
 
@@ -292,9 +267,9 @@ Apache License, Version 2.0, January 2004 (http://www.apache.org/licenses/).
 
 To support a GitHub project by liking it, you can follow these steps:
 
-  1. Visit the repository: Navigate to the GitHub repository.
+  1. Visit the repository: Navigate to the [GitHub repository](https://github.com/squareops/terraform-aws-eks-bootstrap).
 
-  2. Click the "Star" [button](https://github.com/squareops/terraform-aws-vpc): On the repository page, you'll see a "Star" button in the upper right corner. Clicking on it will star the repository, indicating your support for the project.
+  2. Click the "Star" button On the repository page, you'll see a "Star" button in the upper right corner. Clicking on it will star the repository, indicating your support for the project.
 
   3. Optionally, you can also leave a comment on the repository or open an issue to give feedback or suggest changes.
 
@@ -313,6 +288,6 @@ We believe that the key to success in the digital age is the ability to deliver 
 
 We provide [support](https://squareops.com/contact-us/) on all of our projects, no matter how small or large they may be.
 
-You can find more information about our company on this [squareops.com](https://squareops.com/), follow us on [linkdin](https://www.linkedin.com/company/squareops-technologies-pvt-ltd/), or fill out a [job application](https://squareops.com/careers/). If you have any questions or would like assistance with your cloud strategy and implementation, please don't hesitate to [contact us](https://squareops.com/contact-us/).
+You can find more information about our company on this [squareops.com](https://squareops.com/), follow us on [Linkdin](https://www.linkedin.com/company/squareops-technologies-pvt-ltd/), or fill out a [job application](https://squareops.com/careers/). If you have any questions or would like assistance with your cloud strategy and implementation, please don't hesitate to [contact us](https://squareops.com/contact-us/).
 
 <!-- END OF PRE-COMMIT-PIKE DOCS HOOK -->

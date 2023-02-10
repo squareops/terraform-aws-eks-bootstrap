@@ -42,7 +42,7 @@ module "eks_bootstrap" {
   subnet_selector_name= ""
   sg_selector_name= ""
   karpenter_ec2_capacity_type= ["spot"]
-  karpenter_ec2_instance_type= ["nano", "micro", "small"]
+  excluded_karpenter_ec2_instance_type= ["nano", "micro", "small"]
   velero_config = {
     enable_velero = true
     slack_token = ""
