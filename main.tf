@@ -1,7 +1,7 @@
 data "aws_region" "current" {}
 
 data "aws_eks_cluster" "eks" {
-  name = var.eks_cluster_id
+  name = var.eks_cluster_name
 }
 
 module "service_monitor_crd" {
@@ -9,8 +9,8 @@ module "service_monitor_crd" {
 }
 
 resource "aws_iam_instance_profile" "karpenter_profile" {
-  role        = var.karpenter_node_iam_role
-  name_prefix = var.eks_cluster_id
+  role        = var.worker_iam_role_name
+  name_prefix = var.eks_cluster_name
 
   tags = merge(
     { "Name"        = format("%s-%s-karpenter-profile", var.environment, var.name)
@@ -22,7 +22,7 @@ resource "aws_iam_instance_profile" "karpenter_profile" {
 module "k8s_addons" {
   depends_on     = [module.service_monitor_crd]
   source         = "github.com/aws-ia/terraform-aws-eks-blueprints//modules/kubernetes-addons?ref=v4.17.0"
-  eks_cluster_id = var.eks_cluster_id
+  eks_cluster_id = var.eks_cluster_name
   #ebs csi driver
   enable_amazon_eks_aws_ebs_csi_driver = var.enable_amazon_eks_aws_ebs_csi_driver
   amazon_eks_aws_ebs_csi_driver_config = {
@@ -34,7 +34,7 @@ module "k8s_addons" {
     version = var.cluster_autoscaler_chart_version
     values = [templatefile("${path.module}/addons/cluster_autoscaler/cluster_autoscaler.yaml", {
       aws_region     = data.aws_region.current.name
-      eks_cluster_id = var.eks_cluster_id
+      eks_cluster_id = var.eks_cluster_name
     })]
   }
   #metrics server
@@ -85,7 +85,7 @@ module "k8s_addons" {
   karpenter_helm_config = {
     values = [
       templatefile("${path.module}/addons/karpenter/karpenter.yaml", {
-        eks_cluster_id            = var.eks_cluster_id,
+        eks_cluster_id            = var.eks_cluster_name,
         node_iam_instance_profile = aws_iam_instance_profile.karpenter_profile.name
         eks_cluster_endpoint      = data.aws_eks_cluster.eks.endpoint
       })
@@ -138,7 +138,7 @@ module "single_az_sc" {
   source                               = "./addons/aws-ebs-storage-class"
   single_az_ebs_gp3_storage_class      = var.enable_single_az_ebs_gp3_storage_class
   single_az_ebs_gp3_storage_class_name = each.value.name
-  kms_key_id                           = var.kms_key_id
+  kms_key_id                           = var.kms_key_arn
   availability_zone                    = each.value.zone
 }
 
@@ -148,7 +148,7 @@ module "external_secrets" {
   count      = var.enable_external_secrets ? 1 : 0
 
   provider_url           = var.provider_url
-  cluster_id             = var.eks_cluster_id
+  cluster_id             = var.eks_cluster_name
   environment            = var.environment
   region                 = data.aws_region.current.name
   name                   = var.name
@@ -166,7 +166,7 @@ module "efs" {
   private_subnet_ids = var.private_subnet_ids
   region             = data.aws_region.current.name
   name               = var.name
-  kms_key_id         = var.kms_key_id
+  kms_key_id         = var.kms_key_arn
 }
 
 data "kubernetes_service" "nginx-ingress" {
@@ -181,11 +181,10 @@ module "velero" {
   source        = "./addons/velero"
   count         = var.velero_config.enable_velero ? 1 : 0
   name          = var.name
-  cluster_id    = var.eks_cluster_id
+  cluster_id    = var.eks_cluster_name
   environment   = var.environment
   region        = data.aws_region.current.name
   velero_config = var.velero_config
-
 }
 
 module "istio" {
@@ -196,11 +195,11 @@ module "istio" {
 }
 
 module "karpenter_provisioner" {
-  source                      = "./addons/karpenter_provisioner"
-  depends_on                  = [module.k8s_addons]
-  count                       = var.enable_karpenter ? 1 : 0
-  subnet_selector_name        = var.subnet_selector_name
-  sg_selector_name            = var.sg_selector_name
-  karpenter_ec2_capacity_type = var.karpenter_ec2_capacity_type
+  source                               = "./addons/karpenter_provisioner"
+  depends_on                           = [module.k8s_addons]
+  count                                = var.enable_karpenter ? 1 : 0
+  subnet_selector_name                 = var.private_subnet_name
+  sg_selector_name                     = var.eks_cluster_name
+  karpenter_ec2_capacity_type          = var.karpenter_ec2_capacity_type
   excluded_karpenter_ec2_instance_type = var.excluded_karpenter_ec2_instance_type
 }

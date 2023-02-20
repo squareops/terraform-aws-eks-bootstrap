@@ -16,7 +16,7 @@ variable "karpenter_ec2_capacity_type" {
   default     = [""]
 }
 
-variable "karpenter_ec2_instance_type" {
+variable "excluded_karpenter_ec2_instance_type" {
   description = "List of instance types that can be used by Karpenter"
   type        = list(string)
   default     = [""]
