@@ -1,27 +1,26 @@
 ## COMMON VARIABLES
 variable "enable_amazon_eks_aws_ebs_csi_driver" {
   description = "Enable EKS Managed AWS EBS CSI Driver add-on"
-  type        = bool
   default     = false
+  type        = bool
 }
 
 variable "enable_single_az_ebs_gp3_storage_class" {
-  type        = bool
-  default     = false
   description = "Enable Single az storage class."
+  default     = false
+  type        = bool
 }
 
 variable "single_az_sc_config" {
-  type        = list(any)
   description = "Define the Name and regions for storage class in Key-Value pair."
   default     = []
-
+  type        = list(any)
 }
 
 variable "enable_cluster_autoscaler" {
   description = "Enable Cluster autoscaler add-on"
-  type        = bool
   default     = false
+  type        = bool
 }
 
 variable "cluster_autoscaler_chart_version" {
@@ -32,14 +31,14 @@ variable "cluster_autoscaler_chart_version" {
 
 variable "enable_metrics_server" {
   description = "Enable metrics server add-on"
-  type        = bool
   default     = false
+  type        = bool
 }
 
 variable "metrics_server_helm_version" {
-  type        = string
-  default     = "3.8.2"
   description = "Mention the version of the metrics server helm chart"
+  default     = "3.8.2"
+  type        = string
 }
 
 variable "cert_manager_enabled" {
@@ -49,14 +48,14 @@ variable "cert_manager_enabled" {
 }
 
 variable "cert_manager_install_letsencrypt_r53_issuers" {
-  type        = bool
-  default     = false
   description = "Enable to create route53 issuer"
+  default     = false
+  type        = bool
 }
 
-variable "eks_cluster_id" {
+variable "eks_cluster_name" {
   description = "Fetch Cluster ID of the cluster"
-  default     = "stg-msa-reff"
+  default     = ""
   type        = string
 }
 
@@ -74,27 +73,26 @@ variable "enable_keda" {
 
 variable "environment" {
   description = "Environment identifier for the EKS cluster"
-  default     = "stg"
+  default     = ""
   type        = string
 }
 
 variable "enable_external_secrets" {
-  type        = bool
-  default     = false
   description = "Enable External Secrets operator add-on"
+  default     = false
+  type        = bool
 }
-
 
 variable "enable_ingress_nginx" {
   description = "Enable Ingress Nginx add-on"
-  type        = bool
   default     = false
+  type        = bool
 }
 
 variable "enable_aws_load_balancer_controller" {
   description = "Enable AWS Load Balancer Controller add-on"
-  type        = bool
   default     = false
+  type        = bool
 }
 
 variable "aws_load_balancer_version" {
@@ -111,7 +109,7 @@ variable "ingress_nginx_version" {
 
 variable "name" {
   description = "Specify the name prefix of the EKS cluster resources."
-  default     = "msa"
+  default     = ""
   type        = string
 }
 
@@ -127,27 +125,27 @@ variable "private_subnet_ids" {
 }
 
 variable "cert_manager_letsencrypt_email" {
+  description = "Enter cert manager email"
   default     = ""
   type        = string
-  description = "Enter cert manager email"
 }
 
 variable "cert_manager_install_letsencrypt_http_issuers" {
-  type        = bool
-  default     = false
   description = "Set to true to install http issuer"
+  default     = false
+  type        = bool
 }
 
-variable "kms_key_id" {
-  type        = string
-  default     = ""
+variable "kms_key_arn" {
   description = "KMS key to Encrypt AWS resources"
+  default     = ""
+  type        = string
 }
 
 variable "kms_policy_arn" {
-  type        = string
-  default     = ""
   description = "Specify the ARN of KMS policy, for service accounts."
+  default     = ""
+  type        = string
 }
 
 variable "provider_url" {
@@ -157,55 +155,55 @@ variable "provider_url" {
 }
 
 variable "enable_cluster_propotional_autoscaler" {
-  type        = bool
   description = "Set true to Enable Cluster propotional autoscaler"
   default     = false
+  type        = bool
 }
 
 variable "enable_karpenter" {
-  type        = bool
   description = "Set it to true to enable Karpenter"
   default     = false
+  type        = bool
 }
 
 variable "enable_reloader" {
-  type        = bool
   description = "Set true to enable reloader"
   default     = false
+  type        = bool
 }
 
-variable "karpenter_node_iam_role" {
-  type        = string
+variable "worker_iam_role_name" {
   description = "Specify the IAM role for the nodes provision through karpenter."
+  default     = ""
+  type        = string
 }
 
 variable "enable_aws_node_termination_handler" {
-  type        = bool
   description = "Set it to true to Enable node termination handler"
   default     = false
+  type        = bool
 }
 
 variable "enable_amazon_eks_vpc_cni" {
-  type        = bool
-  default     = false
   description = "Set true to install VPC CNI addon."
+  default     = false
+  type        = bool
 }
 
 variable "create_service_monitor_crd" {
-  type        = bool
-  default     = false
   description = "Set true to install CRDs for service monitor."
+  default     = false
+  type        = bool
 }
 
 variable "enable_istio" {
   description = "Enable istio for service mesh."
-  type        = bool
   default     = false
+  type        = bool
 }
 
 variable "velero_config" {
   description = "velero configurations"
-  type        = any
   default = {
     enable_velero            = false
     slack_token              = ""
@@ -216,28 +214,29 @@ variable "velero_config" {
     velero_backup_name       = ""
     backup_bucket_name       = ""
   }
+  type = any
 }
 
-variable "subnet_selector_name" {
+variable "private_subnet_name" {
   description = "Name of subnet selector for karpenter provisioner."
-  type        = string
   default     = ""
+  type        = string
 }
 
-variable "sg_selector_name" {
+/* variable "sg_selector_name" {
   description = "Name of security group selector for karpenter provisioner."
-  type        = string
   default     = ""
-}
+  type        = string
+} */
 
 variable "karpenter_ec2_capacity_type" {
   description = "EC2 provisioning capacity type"
-  type        = list(string)
   default     = [""]
+  type        = list(string)
 }
 
 variable "excluded_karpenter_ec2_instance_type" {
   description = "List of instance types that cannot be used by Karpenter"
-  type        = list(string)
   default     = [""]
+  type        = list(string)
 }

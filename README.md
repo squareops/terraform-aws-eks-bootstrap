@@ -7,52 +7,50 @@
 <br>
 Terraform module to create EKS cluster addons for workload deployment on AWS Cloud.
 
-## Uses Example
+## Usage Example
 ```hcl
 module "eks_bootstrap" {
   source                                        = "squareops/eks-bootstrap/aws"
   environment                                   = "production"
   name                                          = "skaf"
-  eks_cluster_id                                = "Cluster-Name"
-  enable_amazon_eks_aws_ebs_csi_driver          = true
-  kms_policy_arn                                = arn:aws:iam::222222222222:policy/kms_policy_arn
-  enable_single_az_ebs_gp3_storage_class        = true
+  eks_cluster_name                              = "Cluster-Name"
   single_az_sc_config                           = [{ name = "infra-service-sc", zone = "us-east-2a" }]
-  kms_key_id                                    = arn:aws:kms:us-east-2:222222222222:key/kms_key_arn
+  kms_key_arn                                   = "arn:aws:kms:us-east-2:222222222222:key/kms_key_arn"
+  kms_policy_arn                                = "arn:aws:iam::222222222222:policy/kms_policy_arn"
+  cert_manager_letsencrypt_email                = "email@example.com"
+  vpc_id                                        = "vpc-06e37f0786b7eskaf"
+  private_subnet_ids                            = ["subnet-00exyzd5df967d21w","subnet-0c4abcd5aedxyzaea"]
+  provider_url                                  = "cluster_oidc_issuer_url"
+  enable_single_az_ebs_gp3_storage_class        = true
+  enable_amazon_eks_aws_ebs_csi_driver          = true
   enable_amazon_eks_vpc_cni                     = true
   create_service_monitor_crd                    = true
   enable_cluster_autoscaler                     = true
   enable_cluster_propotional_autoscaler         = true
   enable_reloader                               = true
-  enable_metrics_server                         = false
+  enable_metrics_server                         = true
   enable_ingress_nginx                          = true
   cert_manager_enabled                          = true
   cert_manager_install_letsencrypt_http_issuers = true
-  cert_manager_letsencrypt_email                = "skaf@company.com"
   enable_external_secrets                       = true
-  provider_url                                  = module.eks.cluster_oidc_issuer_url
   enable_keda                                   = true
   create_efs_storage_class                      = true
-  vpc_id                                        = "vpc-06e37f0786b7eskaf"
-  private_subnet_ids                            = ["subnet-00exyzd5df967d21w","subnet-0c4abcd5aedxyzaea"]
-  enable_istio                                  = true
+  enable_istio                                  = false
   enable_karpenter                              = true
-  karpenter_node_iam_role                       = "worker_iam_role_name"
   enable_aws_node_termination_handler           = true
-  subnet_selector_name= "skaf-private-subnet"
-  sg_selector_name= "security_group_selector_name"
-  karpenter_ec2_capacity_type= ["on_demand"]
-  excluded_karpenter_ec2_instance_type= ["nano", "micro", "small"]
+  worker_iam_role_name                          = "worker_iam_role_name"
+  private_subnet_name                           = "private_subnet_name"
+  karpenter_ec2_capacity_type                   = ["spot"]
+  excluded_karpenter_ec2_instance_type          = ["nano", "micro", "small"]
   velero_config = {
-    enable_velero = true
-    slack_token = "xoxb-slack-token-skaf"
-    slack_channel_name = "skaf-backup-notifications"
+    enable_velero            = false
+    slack_token              = "xoxb-slack-token-skaf"
+    slack_channel_name       = "skaf-notifications"
     retention_period_in_days = 45
-    namespaces = "my-application"
-    schedule_cron_time = "* 6 * * *"
-    velero_backup_name = "my-application-backup"
-    backup_bucket_name = "velero-cluster-backup"
-
+    namespaces               = "my-application"
+    schedule_cron_time       = "* 6 * * *"
+    velero_backup_name       = "my-application-backup"
+    backup_bucket_name       = "velero-cluster-backup"
   }
 }
 
@@ -205,7 +203,7 @@ Velero is designed to work with cloud native environments, making it a popular c
 | <a name="input_cluster_autoscaler_chart_version"></a> [cluster\_autoscaler\_chart\_version](#input\_cluster\_autoscaler\_chart\_version) | Mention the version of the cluster autoscaler helm chart | `string` | `"9.19.1"` | no |
 | <a name="input_create_efs_storage_class"></a> [create\_efs\_storage\_class](#input\_create\_efs\_storage\_class) | Set to true if you want to enable the EFS | `bool` | `false` | no |
 | <a name="input_create_service_monitor_crd"></a> [create\_service\_monitor\_crd](#input\_create\_service\_monitor\_crd) | Set true to install CRDs for service monitor. | `bool` | `false` | no |
-| <a name="input_eks_cluster_id"></a> [eks\_cluster\_id](#input\_eks\_cluster\_id) | Fetch Cluster ID of the cluster | `string` | `"stg-msa-reff"` | no |
+| <a name="input_eks_cluster_name"></a> [eks\_cluster\_name](#input\_eks\_cluster\_name) | Fetch Cluster ID of the cluster | `string` | `""` | no |
 | <a name="input_enable_amazon_eks_aws_ebs_csi_driver"></a> [enable\_amazon\_eks\_aws\_ebs\_csi\_driver](#input\_enable\_amazon\_eks\_aws\_ebs\_csi\_driver) | Enable EKS Managed AWS EBS CSI Driver add-on | `bool` | `false` | no |
 | <a name="input_enable_amazon_eks_vpc_cni"></a> [enable\_amazon\_eks\_vpc\_cni](#input\_enable\_amazon\_eks\_vpc\_cni) | Set true to install VPC CNI addon. | `bool` | `false` | no |
 | <a name="input_enable_aws_load_balancer_controller"></a> [enable\_aws\_load\_balancer\_controller](#input\_enable\_aws\_load\_balancer\_controller) | Enable AWS Load Balancer Controller add-on | `bool` | `false` | no |
@@ -220,22 +218,21 @@ Velero is designed to work with cloud native environments, making it a popular c
 | <a name="input_enable_metrics_server"></a> [enable\_metrics\_server](#input\_enable\_metrics\_server) | Enable metrics server add-on | `bool` | `false` | no |
 | <a name="input_enable_reloader"></a> [enable\_reloader](#input\_enable\_reloader) | Set true to enable reloader | `bool` | `false` | no |
 | <a name="input_enable_single_az_ebs_gp3_storage_class"></a> [enable\_single\_az\_ebs\_gp3\_storage\_class](#input\_enable\_single\_az\_ebs\_gp3\_storage\_class) | Enable Single az storage class. | `bool` | `false` | no |
-| <a name="input_environment"></a> [environment](#input\_environment) | Environment identifier for the EKS cluster | `string` | `"stg"` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | Environment identifier for the EKS cluster | `string` | `""` | no |
+| <a name="input_excluded_karpenter_ec2_instance_type"></a> [excluded\_karpenter\_ec2\_instance\_type](#input\_excluded\_karpenter\_ec2\_instance\_type) | List of instance types that cannot be used by Karpenter | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | <a name="input_ingress_nginx_version"></a> [ingress\_nginx\_version](#input\_ingress\_nginx\_version) | Specify the version of the nginx ingress | `string` | `"4.1.4"` | no |
 | <a name="input_karpenter_ec2_capacity_type"></a> [karpenter\_ec2\_capacity\_type](#input\_karpenter\_ec2\_capacity\_type) | EC2 provisioning capacity type | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
-| <a name="input_karpenter_ec2_instance_type"></a> [karpenter\_ec2\_instance\_type](#input\_excluded\_karpenter\_ec2\_instance\_type) | List of instance types that can be used by Karpenter | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
-| <a name="input_karpenter_node_iam_role"></a> [karpenter\_node\_iam\_role](#input\_karpenter\_node\_iam\_role) | Specify the IAM role for the nodes provision through karpenter. | `string` | n/a | yes |
-| <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | KMS key to Encrypt AWS resources | `string` | `""` | no |
+| <a name="input_kms_key_arn"></a> [kms\_key\_arn](#input\_kms\_key\_arn) | KMS key to Encrypt AWS resources | `string` | `""` | no |
 | <a name="input_kms_policy_arn"></a> [kms\_policy\_arn](#input\_kms\_policy\_arn) | Specify the ARN of KMS policy, for service accounts. | `string` | `""` | no |
 | <a name="input_metrics_server_helm_version"></a> [metrics\_server\_helm\_version](#input\_metrics\_server\_helm\_version) | Mention the version of the metrics server helm chart | `string` | `"3.8.2"` | no |
-| <a name="input_name"></a> [name](#input\_name) | Specify the name prefix of the EKS cluster resources. | `string` | `"msa"` | no |
+| <a name="input_name"></a> [name](#input\_name) | Specify the name prefix of the EKS cluster resources. | `string` | `""` | no |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | Private subnets of the VPC which can be used by EFS | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
+| <a name="input_private_subnet_name"></a> [private\_subnet\_name](#input\_private\_subnet\_name) | Name of subnet selector for karpenter provisioner. | `string` | `""` | no |
 | <a name="input_provider_url"></a> [provider\_url](#input\_provider\_url) | Provider URL of OIDC | `string` | `""` | no |
-| <a name="input_sg_selector_name"></a> [sg\_selector\_name](#input\_sg\_selector\_name) | Name of security group selector for karpenter provisioner. | `string` | `""` | no |
 | <a name="input_single_az_sc_config"></a> [single\_az\_sc\_config](#input\_single\_az\_sc\_config) | Define the Name and regions for storage class in Key-Value pair. | `list(any)` | `[]` | no |
-| <a name="input_subnet_selector_name"></a> [subnet\_selector\_name](#input\_subnet\_selector\_name) | Name of subnet selector for karpenter provisioner. | `string` | `""` | no |
 | <a name="input_velero_config"></a> [velero\_config](#input\_velero\_config) | velero configurations | `any` | <pre>{<br>  "backup_bucket_name": "",<br>  "enable_velero": false,<br>  "namespaces": "",<br>  "retention_period_in_days": 45,<br>  "schedule_cron_time": "",<br>  "slack_channel_name": "",<br>  "slack_token": "",<br>  "velero_backup_name": ""<br>}</pre> | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC where the cluster and its nodes will be provisioned | `string` | `""` | no |
+| <a name="input_worker_iam_role_name"></a> [worker\_iam\_role\_name](#input\_worker\_iam\_role\_name) | Specify the IAM role for the nodes provision through karpenter. | `string` | `""` | no |
 
 ## Outputs
 
@@ -255,7 +252,7 @@ To report an issue with a project:
   2. Search to see if the issue has already been reported
   3. If you can't find an answer to your question in the documentation or issue tracker, you can ask a question by creating a new issue. Be sure to provide enough context and details so others can understand your problem.
   4. Contributing to the project can be a great way to get involved and get help. The maintainers and other contributors may be more likely to help you if you're already making contributions to the project.
-  
+
 
 ## License
 
@@ -277,7 +274,7 @@ Starring a repository on GitHub is a simple way to show your support and appreci
 
 We believe that the key to success in the digital age is the ability to deliver value quickly and reliably. That’s why we offer a comprehensive range of DevOps & Cloud services designed to help your organization optimize its systems & Processes for speed and agility.
 
-  1. We are an AWS Advanced consulting partner which reflects our deep expertise in AWS Cloud and helping 100+ clients over the last 4 years.
+  1. We are an AWS Advanced consulting partner which reflects our deep expertise in AWS Cloud and helping 100+ clients over the last 5 years.
   2. Expertise in Kubernetes and overall container solution helps companies expedite their journey by 10X.
   3. Infrastructure Automation is a key component to the success of our Clients and our Expertise helps deliver the same in the shortest time.
   4. DevSecOps as a service to implement security within the overall DevOps process and helping companies deploy securely and at speed.
