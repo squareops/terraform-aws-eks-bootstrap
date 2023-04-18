@@ -1,6 +1,6 @@
 locals {
   region      = "us-east-2"
-  environment = "production"
+  environment = "prod"
   name        = "skaf"
   additional_tags = {
     Owner      = "SquareOps"
@@ -10,46 +10,49 @@ locals {
 }
 
 module "eks_bootstrap" {
-  source                                        = "squareops/eks-bootstrap/aws"
-  environment                                   = local.environment
-  name                                          = local.name
-  eks_cluster_name                              = "prod-skaf"
-  single_az_sc_config                           = [{ name = "infra-service-sc", zone = "us-east-2a" }]
-  kms_key_arn                                   = ""
-  kms_policy_arn                                = ""
-  cert_manager_letsencrypt_email                = "email@example.com"
-  vpc_id                                        = ""
-  private_subnet_ids                            = []
-  provider_url                                  = ""
-  enable_single_az_ebs_gp3_storage_class        = true
-  enable_amazon_eks_aws_ebs_csi_driver          = true
-  enable_amazon_eks_vpc_cni                     = true
-  create_service_monitor_crd                    = true
-  enable_cluster_autoscaler                     = true
-  enable_cluster_propotional_autoscaler         = true
-  enable_reloader                               = true
-  enable_metrics_server                         = true
-  enable_ingress_nginx                          = true
-  cert_manager_enabled                          = true
-  cert_manager_install_letsencrypt_http_issuers = true
-  enable_external_secrets                       = true
-  enable_keda                                   = true
-  create_efs_storage_class                      = true
-  enable_istio                                  = false
-  enable_karpenter                              = true
-  enable_aws_node_termination_handler           = true
-  worker_iam_role_name                          = ""
-  private_subnet_name                           = ""
-  karpenter_ec2_capacity_type                   = ["spot"]
-  excluded_karpenter_ec2_instance_type          = ["nano", "micro", "small"]
-  velero_config = {
-    enable_velero            = false
-    slack_token              = ""
-    slack_channel_name       = ""
-    retention_period_in_days = 45
-    namespaces               = ""
-    schedule_cron_time       = ""
-    velero_backup_name       = ""
-    backup_bucket_name       = ""
+  source                        = "squareops/eks-bootstrap/aws"
+  name                          = local.name
+  vpc_id                        = ""
+  environment                   = local.environment
+  kms_key_arn                   = ""
+  keda_enabled                  = true
+  istio_enabled                 = false
+  kms_policy_arn                = "" ## eks module will create kms_policy_arn
+  eks_cluster_name              = ""
+  reloader_enabled              = true
+  karpenter_enabled             = true
+  single_az_sc_config           = [{ name = "infra-service-sc", zone = "us-east-2a" }]
+  cert_manager_enabled          = true
+  worker_iam_role_name          = ""
+  ingress_nginx_enabled         = true
+  metrics_server_enabled        = false
+  external_secrets_enabled      = true
+  amazon_eks_vpc_cni_enabled    = true
+  cluster_autoscaler_enabled    = true
+  service_monitor_crd_enabled   = true
+  karpenter_provisioner_enabled = false
+  karpenter_provisioner_config = {
+    private_subnet_name    = "private-subnet-name"
+    instance_capacity_type = ["on-demand"]
+    excluded_instance_type = ["nano", "micro", "small"]
   }
+  cert_manager_letsencrypt_email                = "email@email.com"
+  internal_ingress_nginx_enabled                = true
+  efs_storage_class_enabled                     = true
+  aws_node_termination_handler_enabled          = true
+  amazon_eks_aws_ebs_csi_driver_enabled         = true
+  cluster_propotional_autoscaler_enabled        = true
+  single_az_ebs_gp3_storage_class_enabled       = true
+  cert_manager_install_letsencrypt_http_issuers = true
+  velero_enabled                                = true
+  velero_config = {
+    namespaces                      = "" ## If you want full cluster backup, leave it blank else provide namespace.
+    slack_notification_token        = "xoxb-EuvmxrYxRatsM8R"
+    slack_notification_channel_name = ""
+    retention_period_in_days        = 45
+    schedule_backup_cron_time       = ""
+    velero_backup_name              = ""
+    backup_bucket_name              = ""
+  }
+
 }
