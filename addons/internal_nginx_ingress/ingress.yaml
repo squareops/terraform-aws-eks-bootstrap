@@ -1,0 +1,67 @@
+controller:
+  kind: Deployment
+  service:
+    enabled: true
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: nlb
+      service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+    externalTrafficPolicy: Cluster
+    internal:
+      enabled: false
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-type: nlb
+        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+        service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+      ingressClass: internal-nginx
+  ingressClassResource:
+    enabled: true
+    name: internal-nginx
+  ingressClass: internal-nginx
+
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 750Mi
+    requests:
+      cpu: 50m
+      memory: 200Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+  podAnnotations:
+    co.elastic.logs/enabled: "true"
+    co.elastic.logs/module: nginx
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - ingress-nginx
+          - key: app.kubernetes.io/instance
+            operator: In
+            values:
+            - ingress-nginx
+          - key: app.kubernetes.io/component
+            operator: In
+            values:
+            - controller
+        topologyKey: "kubernetes.io/hostname"
+
+
+
+## Enabling metrics for prometheus monitoring
+
+  metrics:
+    enabled: ${enable_service_monitor}
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: "prometheus-operator"

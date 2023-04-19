@@ -42,6 +42,8 @@ resource "aws_iam_policy" "velero_iam_policy" {
             "kms:GenerateDataKey",
             "kms:CreateGrant",
             "kms:Decrypt",
+            "kms:ReEncryptTo",
+            "kms:ReEncryptFrom",
             "ec2:DescribeVolumes",
             "ec2:DescribeSnapshots",
             "ec2:CreateTags",
@@ -64,7 +66,7 @@ EOF
 
 module "eks_blueprints_kubernetes_addons" {
   depends_on              = [aws_iam_policy.velero_iam_policy]
-  source                  = "github.com/aws-ia/terraform-aws-eks-blueprints//modules/kubernetes-addons?ref=v4.17.0"
+  source                  = "../../EKS-Blueprint/modules/kubernetes-addons"
   eks_cluster_id          = var.cluster_id
   enable_velero           = true
   velero_backup_s3_bucket = var.velero_config.backup_bucket_name
@@ -94,7 +96,7 @@ resource "helm_release" "velero_schedule_job" {
 
   set {
     name  = "schedule_cron_time"
-    value = var.velero_config.schedule_cron_time
+    value = var.velero_config.schedule_backup_cron_time
   }
 
   set {
@@ -254,8 +256,8 @@ resource "helm_release" "velero-notification" {
   values = [
     templatefile("${path.module}/velero_notification/values.yaml", {
       cluster_id         = var.cluster_id,
-      slack_token        = var.velero_config.slack_token,
-      slack_channel_name = var.velero_config.slack_channel_name
+      slack_token        = var.velero_config.slack_notification_token,
+      slack_channel_name = var.velero_config.slack_notification_channel_name
     })
   ]
 }

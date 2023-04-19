@@ -1,11 +1,11 @@
 ## COMMON VARIABLES
-variable "enable_amazon_eks_aws_ebs_csi_driver" {
+variable "amazon_eks_aws_ebs_csi_driver_enabled" {
   description = "Enable EKS Managed AWS EBS CSI Driver add-on"
   default     = false
   type        = bool
 }
 
-variable "enable_single_az_ebs_gp3_storage_class" {
+variable "single_az_ebs_gp3_storage_class_enabled" {
   description = "Enable Single az storage class."
   default     = false
   type        = bool
@@ -17,7 +17,7 @@ variable "single_az_sc_config" {
   type        = list(any)
 }
 
-variable "enable_cluster_autoscaler" {
+variable "cluster_autoscaler_enabled" {
   description = "Enable Cluster autoscaler add-on"
   default     = false
   type        = bool
@@ -29,7 +29,7 @@ variable "cluster_autoscaler_chart_version" {
   type        = string
 }
 
-variable "enable_metrics_server" {
+variable "metrics_server_enabled" {
   description = "Enable metrics server add-on"
   default     = false
   type        = bool
@@ -59,13 +59,13 @@ variable "eks_cluster_name" {
   type        = string
 }
 
-variable "create_efs_storage_class" {
+variable "efs_storage_class_enabled" {
   description = "Set to true if you want to enable the EFS"
   default     = false
   type        = bool
 }
 
-variable "enable_keda" {
+variable "keda_enabled" {
   description = "Enable KEDA Event-based autoscaler add-on"
   type        = bool
   default     = false
@@ -77,13 +77,13 @@ variable "environment" {
   type        = string
 }
 
-variable "enable_external_secrets" {
+variable "external_secrets_enabled" {
   description = "Enable External Secrets operator add-on"
   default     = false
   type        = bool
 }
 
-variable "enable_ingress_nginx" {
+variable "ingress_nginx_enabled" {
   description = "Enable Ingress Nginx add-on"
   default     = false
   type        = bool
@@ -118,11 +118,6 @@ variable "vpc_id" {
   default     = ""
   type        = string
 }
-variable "private_subnet_ids" {
-  description = "Private subnets of the VPC which can be used by EFS"
-  default     = [""]
-  type        = list(string)
-}
 
 variable "cert_manager_letsencrypt_email" {
   description = "Enter cert manager email"
@@ -148,95 +143,96 @@ variable "kms_policy_arn" {
   type        = string
 }
 
-variable "provider_url" {
-  description = "Provider URL of OIDC"
-  default     = ""
-  type        = string
-}
-
-variable "enable_cluster_propotional_autoscaler" {
+variable "cluster_propotional_autoscaler_enabled" {
   description = "Set true to Enable Cluster propotional autoscaler"
   default     = false
   type        = bool
 }
 
-variable "enable_karpenter" {
+variable "karpenter_enabled" {
   description = "Set it to true to enable Karpenter"
   default     = false
   type        = bool
 }
 
-variable "enable_reloader" {
+variable "reloader_enabled" {
   description = "Set true to enable reloader"
   default     = false
   type        = bool
 }
 
 variable "worker_iam_role_name" {
-  description = "Specify the IAM role for the nodes provision through karpenter."
+  description = "Specify the IAM role for the nodes that will be provisioned through karpenter"
   default     = ""
   type        = string
 }
 
-variable "enable_aws_node_termination_handler" {
+variable "aws_node_termination_handler_enabled" {
   description = "Set it to true to Enable node termination handler"
   default     = false
   type        = bool
 }
 
-variable "enable_amazon_eks_vpc_cni" {
+variable "amazon_eks_vpc_cni_enabled" {
   description = "Set true to install VPC CNI addon."
   default     = false
   type        = bool
 }
 
-variable "create_service_monitor_crd" {
+variable "service_monitor_crd_enabled" {
   description = "Set true to install CRDs for service monitor."
   default     = false
   type        = bool
 }
 
-variable "enable_istio" {
+variable "istio_enabled" {
   description = "Enable istio for service mesh."
   default     = false
   type        = bool
 }
 
+variable "velero_enabled" {
+  description = "Enable velero for eks cluster backup"
+  default     = false
+  type        = bool
+}
 variable "velero_config" {
   description = "velero configurations"
   default = {
-    enable_velero            = false
-    slack_token              = ""
-    slack_channel_name       = ""
-    retention_period_in_days = 45
-    namespaces               = ""
-    schedule_cron_time       = ""
-    velero_backup_name       = ""
-    backup_bucket_name       = ""
+    namespaces                      = "" ## If you want full cluster backup, leave it blank else provide namespace.
+    slack_notification_token        = ""
+    slack_notification_channel_name = ""
+    retention_period_in_days        = 45
+    schedule_backup_cron_time       = ""
+    velero_backup_name              = ""
+    backup_bucket_name              = ""
   }
   type = any
 }
 
-variable "private_subnet_name" {
-  description = "Name of subnet selector for karpenter provisioner."
-  default     = ""
-  type        = string
+variable "karpenter_provisioner_enabled" {
+  description = "Enable karpenter provisioner"
+  default     = false
+  type        = bool
+}
+variable "karpenter_provisioner_config" {
+  description = "karpenter provisioner configuration"
+  default = {
+    private_subnet_name    = ""
+    instance_capacity_type = ["spot"]
+    excluded_instance_type = ["nano", "micro", "small"]
+  }
+  type = any
 }
 
-/* variable "sg_selector_name" {
-  description = "Name of security group selector for karpenter provisioner."
-  default     = ""
-  type        = string
-} */
-
-variable "karpenter_ec2_capacity_type" {
-  description = "EC2 provisioning capacity type"
-  default     = [""]
-  type        = list(string)
+variable "internal_ingress_nginx_enabled" {
+  description = "Set it to true to deploy internal ingress controller"
+  default     = false
+  type        = bool
 }
 
-variable "excluded_karpenter_ec2_instance_type" {
-  description = "List of instance types that cannot be used by Karpenter"
-  default     = [""]
-  type        = list(string)
+variable "node_termination_handler_version" {
+  description = "Specify the version of node termination handler"
+  default     = "0.21.0"
+  type        = string
 }
