@@ -128,9 +128,9 @@ resource "kubernetes_role_binding_v1" "adot" {
   }
 
   subject {
+    api_group = "rbac.authorization.k8s.io"
     kind      = "User"
     name      = local.eks_addon_role_name
-    api_group = "rbac.authorization.k8s.io"
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"

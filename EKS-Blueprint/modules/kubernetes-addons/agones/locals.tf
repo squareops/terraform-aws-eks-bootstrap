@@ -7,10 +7,10 @@ locals {
     name               = local.name
     chart              = local.name
     repository         = "https://agones.dev/chart/stable"
+    values             = local.default_helm_values
     version            = "1.27.0"
     namespace          = local.namespace
     description        = "Agones Gaming Server Helm Chart deployment configuration"
-    values             = local.default_helm_values
     gameserver_minport = 7000
     gameserver_maxport = 8000
   }

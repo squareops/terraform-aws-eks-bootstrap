@@ -200,12 +200,12 @@ variable "velero_config" {
   description = "velero configurations"
   default = {
     namespaces                      = "" ## If you want full cluster backup, leave it blank else provide namespace.
+    backup_bucket_name              = ""
+    velero_backup_name              = ""
     slack_notification_token        = ""
-    slack_notification_channel_name = ""
     retention_period_in_days        = 45
     schedule_backup_cron_time       = ""
-    velero_backup_name              = ""
-    backup_bucket_name              = ""
+    slack_notification_channel_name = ""
   }
   type = any
 }

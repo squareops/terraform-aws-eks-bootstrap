@@ -1,12 +1,12 @@
 locals {
   default_managed_ng = {
     node_group_name          = "m5_on_demand" # Max node group length is 40 characters; including the node_group_name_prefix random id it's 63
-    enable_node_group_prefix = true
     instance_types           = ["m5.large"]
-    capacity_type            = "ON_DEMAND"  # ON_DEMAND, SPOT
     ami_type                 = "AL2_x86_64" # AL2_x86_64, AL2_x86_64_GPU, AL2_ARM_64, BOTTLEROCKET_x86_64, BOTTLEROCKET_ARM_64
+    capacity_type            = "ON_DEMAND"  # ON_DEMAND, SPOT
     subnet_type              = "private"
     subnet_ids               = []
+    enable_node_group_prefix = true
 
     # IAM Roles for Nodegroup
     create_iam_role = true
@@ -45,26 +45,26 @@ locals {
 
     # The following defaults used only when you enable Launch Templates e.g., create_launch_template=true
     # LAUNCH TEMPLATES
+    public_ip              = false
     custom_ami_id          = ""
-    create_launch_template = false
     enable_monitoring      = true
     launch_template_os     = "amazonlinux2eks" # amazonlinux2eks/bottlerocket # Used to identify the launch template
     pre_userdata           = ""
     post_userdata          = ""
     kubelet_extra_args     = ""
     bootstrap_extra_args   = ""
-    public_ip              = false
+    create_launch_template = false
 
     # EBS Block Device config only used with Launch Templates
     block_device_mappings = [{
       device_name           = "/dev/xvda"
       volume_type           = "gp3" # The volume type. Can be standard, gp2, gp3, io1, io2, sc1 or st1 (Default: gp3).
       volume_size           = 100
-      delete_on_termination = true
       encrypted             = true
       kms_key_id            = ""
       iops                  = 3000
       throughput            = 125
+      delete_on_termination = true
     }]
 
     format_mount_nvme_disk = false

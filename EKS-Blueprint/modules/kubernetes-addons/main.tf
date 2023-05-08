@@ -512,9 +512,9 @@ module "aws_privateca_issuer" {
   source                  = "./aws-privateca-issuer"
   helm_config             = var.aws_privateca_issuer_helm_config
   manage_via_gitops       = var.argocd_manage_add_ons
-  addon_context           = local.addon_context
   aws_privateca_acmca_arn = var.aws_privateca_acmca_arn
   irsa_policies           = var.aws_privateca_issuer_irsa_policies
+  addon_context           = local.addon_context
 }
 
 module "velero" {
@@ -522,9 +522,9 @@ module "velero" {
   source            = "./velero"
   helm_config       = var.velero_helm_config
   manage_via_gitops = var.argocd_manage_add_ons
-  addon_context     = local.addon_context
   irsa_policies     = var.velero_irsa_policies
   backup_s3_bucket  = var.velero_backup_s3_bucket
+  addon_context     = local.addon_context
 }
 
 module "opentelemetry_operator" {
@@ -628,10 +628,10 @@ module "external_secrets" {
 
   helm_config                           = var.external_secrets_helm_config
   manage_via_gitops                     = var.argocd_manage_add_ons
-  addon_context                         = local.addon_context
   irsa_policies                         = var.external_secrets_irsa_policies
   external_secrets_ssm_parameter_arns   = var.external_secrets_ssm_parameter_arns
   external_secrets_secrets_manager_arns = var.external_secrets_secrets_manager_arns
+  addon_context                         = local.addon_context
 }
 
 module "promtail" {

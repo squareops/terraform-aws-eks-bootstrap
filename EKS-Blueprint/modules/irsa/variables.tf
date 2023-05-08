@@ -27,14 +27,14 @@ variable "kubernetes_svc_image_pull_secrets" {
 }
 
 variable "irsa_iam_policies" {
-  type        = list(string)
   description = "IAM Policies for IRSA IAM role"
+  type        = list(string)
   default     = []
 }
 
 variable "irsa_iam_role_name" {
-  type        = string
   description = "IAM role name for IRSA"
+  type        = string
   default     = ""
 }
 

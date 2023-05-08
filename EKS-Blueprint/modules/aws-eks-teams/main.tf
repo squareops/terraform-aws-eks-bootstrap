@@ -69,9 +69,9 @@ resource "kubernetes_cluster_role_binding" "team" {
     name = "${each.key}-team-cluster-role-binding"
   }
   role_ref {
-    api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
     name      = "${each.key}-team-cluster-role"
+    api_group = "rbac.authorization.k8s.io"
   }
   subject {
     kind      = "Group"
@@ -87,14 +87,14 @@ resource "kubernetes_role" "team" {
     namespace = kubernetes_namespace.team[each.key].metadata[0].name
   }
   rule {
-    api_groups = ["*"]
-    resources  = ["configmaps", "pods", "podtemplates", "secrets", "serviceaccounts", "services", "deployments", "horizontalpodautoscalers", "networkpolicies", "statefulsets", "replicasets"]
     verbs      = ["get", "list", "watch"]
+    resources  = ["configmaps", "pods", "podtemplates", "secrets", "serviceaccounts", "services", "deployments", "horizontalpodautoscalers", "networkpolicies", "statefulsets", "replicasets"]
+    api_groups = ["*"]
   }
   rule {
-    api_groups = ["*"]
-    resources  = ["resourcequotas"]
     verbs      = ["get", "list", "watch"]
+    resources  = ["resourcequotas"]
+    api_groups = ["*"]
   }
 }
 
@@ -105,9 +105,9 @@ resource "kubernetes_role_binding" "team" {
     namespace = kubernetes_namespace.team[each.key].metadata[0].name
   }
   role_ref {
-    api_group = "rbac.authorization.k8s.io"
     kind      = "Role"
     name      = "${each.key}-role"
+    api_group = "rbac.authorization.k8s.io"
   }
   subject {
     kind      = "Group"

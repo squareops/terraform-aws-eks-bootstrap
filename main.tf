@@ -99,8 +99,8 @@ module "k8s_addons" {
     values = [
       templatefile("${path.module}/addons/karpenter/karpenter.yaml", {
         eks_cluster_id            = var.eks_cluster_name,
-        node_iam_instance_profile = aws_iam_instance_profile.karpenter_profile.name
         eks_cluster_endpoint      = data.aws_eks_cluster.eks.endpoint
+        node_iam_instance_profile = aws_iam_instance_profile.karpenter_profile.name
       })
     ]
   }
@@ -134,8 +134,8 @@ module "k8s_addons" {
 
 resource "helm_release" "cert_manager_le_http" {
   depends_on = [module.k8s_addons]
-  count      = var.cert_manager_install_letsencrypt_http_issuers ? 1 : 0
   name       = "cert-manager-le-http"
+  count      = var.cert_manager_install_letsencrypt_http_issuers ? 1 : 0
   chart      = "${path.module}/addons/cert-manager-le-http"
   version    = "0.1.0"
   set {
@@ -171,12 +171,12 @@ module "external_secrets" {
 module "efs" {
   depends_on         = [module.k8s_addons]
   source             = "./addons/efs"
-  name               = var.name
   count              = var.efs_storage_class_enabled ? 1 : 0
+  name               = var.name
   vpc_id             = var.vpc_id
   region             = data.aws_region.current.name
-  environment        = var.environment
   kms_key_id         = var.kms_key_arn
+  environment        = var.environment
   private_subnet_ids = data.aws_subnet_ids.private_subnet_ids.ids
 }
 
@@ -207,8 +207,8 @@ module "istio" {
 
 module "karpenter_provisioner" {
   depends_on                           = [module.k8s_addons]
-  source                               = "./addons/karpenter_provisioner"
   count                                = var.karpenter_provisioner_enabled ? 1 : 0
+  source                               = "./addons/karpenter_provisioner"
   sg_selector_name                     = var.eks_cluster_name
   subnet_selector_name                 = var.karpenter_provisioner_config.private_subnet_name
   karpenter_ec2_capacity_type          = var.karpenter_provisioner_config.instance_capacity_type

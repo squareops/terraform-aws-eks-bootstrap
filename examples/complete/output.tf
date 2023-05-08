@@ -14,8 +14,8 @@ output "ebs_encryption_enable" {
 }
 
 output "efs_id" {
-  value       = module.eks_bootstrap.efs_id
   description = "EFS ID"
+  value       = module.eks_bootstrap.efs_id
 }
 
 output "internal_nginx_ingress_controller_dns_hostname" {

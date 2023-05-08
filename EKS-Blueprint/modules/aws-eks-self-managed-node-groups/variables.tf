@@ -9,18 +9,18 @@ variable "context" {
   type = object({
     # EKS Cluster Config
     eks_cluster_id    = string
-    cluster_ca_base64 = string
-    cluster_endpoint  = string
     cluster_version   = string
+    cluster_endpoint  = string
+    cluster_ca_base64 = string
     # VPC Config
     vpc_id             = string
-    private_subnet_ids = list(string)
     public_subnet_ids  = list(string)
+    private_subnet_ids = list(string)
     # Security Groups
     worker_security_group_ids = list(string)
     # Data sources
-    aws_partition_dns_suffix = string
     aws_partition_id         = string
+    aws_partition_dns_suffix = string
 
     iam_role_path                 = string
     iam_role_permissions_boundary = string

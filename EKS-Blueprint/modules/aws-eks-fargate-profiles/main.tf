@@ -4,9 +4,9 @@ locals {
 
 resource "aws_eks_fargate_profile" "eks_fargate" {
   cluster_name           = var.context.eks_cluster_id
+  subnet_ids             = var.fargate_profile.subnet_ids
   fargate_profile_name   = var.fargate_profile.fargate_profile_name
   pod_execution_role_arn = local.create_iam_role ? aws_iam_role.fargate[0].arn : var.fargate_profile.iam_role_arn
-  subnet_ids             = var.fargate_profile.subnet_ids
 
   tags = merge(
     {
@@ -50,9 +50,9 @@ resource "aws_iam_role" "fargate" {
   count = local.create_iam_role ? 1 : 0
 
   name                  = "${var.context.eks_cluster_id}-${var.fargate_profile.fargate_profile_name}"
+  path                  = var.context.iam_role_path
   description           = "EKS Fargate IAM Role"
   assume_role_policy    = data.aws_iam_policy_document.fargate_assume_role_policy[0].json
-  path                  = var.context.iam_role_path
   permissions_boundary  = var.context.iam_role_permissions_boundary
   force_detach_policies = true
   tags                  = var.context.tags

@@ -3,10 +3,10 @@ resource "kubernetes_storage_class_v1" "single_az_sc" {
   metadata {
     name = var.single_az_ebs_gp3_storage_class_name
   }
-  storage_provisioner    = "kubernetes.io/aws-ebs"
   reclaim_policy         = "Retain"
-  allow_volume_expansion = true
+  storage_provisioner    = "kubernetes.io/aws-ebs"
   volume_binding_mode    = "WaitForFirstConsumer"
+  allow_volume_expansion = true
   parameters = {
     type      = "gp3"
     encrypted = true

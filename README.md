@@ -64,12 +64,9 @@ The required IAM permissions to create resources from this module can be found [
 
 ## Important Note
 Kubernetes addons are additional components that can be installed in a Kubernetes cluster to provide extra features and functionality. They are designed to work seamlessly with the Kubernetes API and can be managed just like any other Kubernetes resource. Some common examples of Kubernetes addons include:
-
 <details>
-  <summary> AWS ALB </summary>
-Amazon Web Services (AWS) Application Load Balancer (ALB) is a highly available and scalable load balancing service that routes incoming application traffic to multiple Amazon EC2 instances, containers, and IP addresses. It automatically distributes incoming application traffic across multiple targets, ensuring that your applications are highly available and scalable.
-
-With AWS ALB, you can handle increased traffic levels, automatically scale your applications, and improve the overall performance of your applications. ALB provides advanced routing capabilities, including content-based routing, host-based routing, and path-based routing, enabling you to route traffic to different target groups based on specific rules.
+  <summary> AWS ALB Ingress Controller </summary>
+Amazon Web Services (AWS) Application Load Balancer (ALB) Ingress Controller for Kubernetes is a controller that triggers the creation of an Application Load Balancer and the necessary supporting AWS resources whenever an Ingress resource is created on the cluster with the kubernetes.io/ingress.class: alb annotation. The Ingress resource uses the Application Load Balancer (ALB) to route HTTP or HTTPS traffic to different endpoints within the cluster.
 </details>
 <details>
   <summary> Node Termination Handler </summary>

@@ -309,8 +309,8 @@ variable "ondat_etcd_cert" {
 }
 
 variable "ondat_etcd_key" {
-  type        = string
   description = "Private key content for Ondat etcd"
+  type        = string
   default     = null
   sensitive   = true
 }
@@ -348,8 +348,8 @@ variable "external_dns_irsa_policies" {
 }
 
 variable "external_dns_private_zone" {
-  type        = bool
   description = "Determines if referenced Route53 zone is private."
+  type        = bool
   default     = false
 }
 
@@ -1058,41 +1058,41 @@ variable "adot_collector_nginx_helm_config" {
 
 #-----------AWS CSI Secrets Store Provider-------------
 variable "enable_secrets_store_csi_driver_provider_aws" {
+  description = "Enable AWS CSI Secrets Store Provider"
   type        = bool
   default     = false
-  description = "Enable AWS CSI Secrets Store Provider"
 }
 
 variable "csi_secrets_store_provider_aws_helm_config" {
+  description = "CSI Secrets Store Provider AWS Helm Configurations"
   type        = any
   default     = null
-  description = "CSI Secrets Store Provider AWS Helm Configurations"
 }
 
 #-----------CSI Secrets Store Provider-------------
 variable "enable_secrets_store_csi_driver" {
+  description = "Enable CSI Secrets Store Provider"
   type        = bool
   default     = false
-  description = "Enable CSI Secrets Store Provider"
 }
 
 variable "secrets_store_csi_driver_helm_config" {
+  description = "CSI Secrets Store Provider Helm Configurations"
   type        = any
   default     = null
-  description = "CSI Secrets Store Provider Helm Configurations"
 }
 
 #-----------EXTERNAL SECRETS OPERATOR-----------
 variable "enable_external_secrets" {
+  description = "Enable External Secrets operator add-on"
   type        = bool
   default     = false
-  description = "Enable External Secrets operator add-on"
 }
 
 variable "external_secrets_helm_config" {
+  description = "External Secrets operator Helm Chart config"
   type        = any
   default     = {}
-  description = "External Secrets operator Helm Chart config"
 }
 
 variable "external_secrets_irsa_policies" {

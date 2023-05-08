@@ -1,9 +1,9 @@
 locals {
   region      = "us-east-2"
   environment = "prod"
-  name        = "skaf"
+  name        = "add-on"
   additional_tags = {
-    Owner      = "SquareOps"
+    Owner      = "organisation_name"
     Expires    = "Never"
     Department = "Engineering"
   }
@@ -37,22 +37,22 @@ module "eks_bootstrap" {
     excluded_instance_type = ["nano", "micro", "small"]
   }
   cert_manager_letsencrypt_email                = "email@email.com"
-  internal_ingress_nginx_enabled                = true
+  velero_enabled                                = true
   efs_storage_class_enabled                     = true
+  internal_ingress_nginx_enabled                = true
   aws_node_termination_handler_enabled          = true
   amazon_eks_aws_ebs_csi_driver_enabled         = true
   cluster_propotional_autoscaler_enabled        = true
   single_az_ebs_gp3_storage_class_enabled       = true
   cert_manager_install_letsencrypt_http_issuers = true
-  velero_enabled                                = true
   velero_config = {
     namespaces                      = "" ## If you want full cluster backup, leave it blank else provide namespace.
-    slack_notification_token        = "xoxb-EuvmxrYxRatsM8R"
-    slack_notification_channel_name = ""
-    retention_period_in_days        = 45
-    schedule_backup_cron_time       = ""
     velero_backup_name              = ""
     backup_bucket_name              = ""
+    slack_notification_token        = "xoxb-EuvmxrYxRatsM8R"
+    retention_period_in_days        = 45
+    schedule_backup_cron_time       = ""
+    slack_notification_channel_name = ""
   }
 
 }
