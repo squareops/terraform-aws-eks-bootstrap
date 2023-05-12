@@ -244,3 +244,26 @@ data "kubernetes_service" "internal-nginx-ingress" {
     namespace = "internal-ingress-nginx"
   }
 }
+
+##KUBECLARITY
+resource "kubernetes_namespace" "internal_nginx" {
+  count = var.kubeclarity_enabled ? 1 : 0
+  metadata {
+    name = var.namespace
+  }
+}
+
+resource "helm_release" "kubeclarity" {
+  count      = var.kubeclarity_enabled ? 1 : 0
+  name       = "kubeclarity"
+  chart      = "kubeclarity"
+  version    = "2.18.0"
+  namespace  = "kubeclarity"
+  repository = "https://openclarity.github.io/kubeclarity"
+  values = [
+    templatefile("${path.module}/addons/kubeclarity/values.yaml", {
+      hostname  = var.kubeclarity_hostname
+      namespace = var.namespace
+    })
+  ]
+}

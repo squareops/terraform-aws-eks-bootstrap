@@ -1,54 +1,54 @@
 ## COMMON VARIABLES
 variable "amazon_eks_aws_ebs_csi_driver_enabled" {
-  description = "Enable EKS Managed AWS EBS CSI Driver add-on"
+  description = "Whether to enable the EKS Managed AWS EBS CSI Driver add-on or not."
   default     = false
   type        = bool
 }
 
 variable "single_az_ebs_gp3_storage_class_enabled" {
-  description = "Enable Single az storage class."
+  description = "Whether to enable the Single AZ storage class or not."
   default     = false
   type        = bool
 }
 
 variable "single_az_sc_config" {
-  description = "Define the Name and regions for storage class in Key-Value pair."
+  description = "Name and regions for storage class in Key-Value pair."
   default     = []
   type        = list(any)
 }
 
 variable "cluster_autoscaler_enabled" {
-  description = "Enable Cluster autoscaler add-on"
+  description = "Whether to enable the Cluster Autoscaler add-on or not."
   default     = false
   type        = bool
 }
 
 variable "cluster_autoscaler_chart_version" {
-  description = "Mention the version of the cluster autoscaler helm chart"
+  description = "Version of the cluster autoscaler helm chart"
   default     = "9.19.1"
   type        = string
 }
 
 variable "metrics_server_enabled" {
-  description = "Enable metrics server add-on"
+  description = "Enable or disable the metrics server add-on for EKS cluster."
   default     = false
   type        = bool
 }
 
 variable "metrics_server_helm_version" {
-  description = "Mention the version of the metrics server helm chart"
+  description = "Version of the metrics server helm chart"
   default     = "3.8.2"
   type        = string
 }
 
 variable "cert_manager_enabled" {
-  description = "Set true to enable the cert manager for eks"
+  description = "Enable or disable the cert manager add-on for EKS cluster."
   default     = false
   type        = bool
 }
 
 variable "cert_manager_install_letsencrypt_r53_issuers" {
-  description = "Enable to create route53 issuer"
+  description = "Enable or disable the creation of Route53 issuer while installing cert manager."
   default     = false
   type        = bool
 }
@@ -60,49 +60,49 @@ variable "eks_cluster_name" {
 }
 
 variable "efs_storage_class_enabled" {
-  description = "Set to true if you want to enable the EFS"
+  description = "Enable or disable the Amazon Elastic File System (EFS) add-on for EKS cluster."
   default     = false
   type        = bool
 }
 
 variable "keda_enabled" {
-  description = "Enable KEDA Event-based autoscaler add-on"
+  description = "Enable or disable Kubernetes Event-driven Autoscaling (KEDA) add-on for autoscaling workloads."
   type        = bool
   default     = false
 }
 
 variable "environment" {
-  description = "Environment identifier for the EKS cluster"
+  description = "Environment identifier for the Amazon Elastic Kubernetes Service (EKS) cluster."
   default     = ""
   type        = string
 }
 
 variable "external_secrets_enabled" {
-  description = "Enable External Secrets operator add-on"
+  description = "Enable or disable External Secrets operator add-on for managing external secrets."
   default     = false
   type        = bool
 }
 
 variable "ingress_nginx_enabled" {
-  description = "Enable Ingress Nginx add-on"
+  description = "Enable or disable Nginx Ingress Controller add-on for routing external traffic to Kubernetes services."
   default     = false
   type        = bool
 }
 
 variable "enable_aws_load_balancer_controller" {
-  description = "Enable AWS Load Balancer Controller add-on"
+  description = "Enable or disable AWS Load Balancer Controller add-on for managing and controlling load balancers in Kubernetes."
   default     = false
   type        = bool
 }
 
 variable "aws_load_balancer_version" {
-  description = "load balancer version for ingress"
+  description = "Specify the version of the AWS Load Balancer Controller for Ingress"
   default     = "1.4.4"
   type        = string
 }
 
 variable "ingress_nginx_version" {
-  description = "Specify the version of the nginx ingress"
+  description = "Specify the version of the NGINX Ingress Controller"
   default     = "4.1.4"
   type        = string
 }
@@ -120,19 +120,19 @@ variable "vpc_id" {
 }
 
 variable "cert_manager_letsencrypt_email" {
-  description = "Enter cert manager email"
+  description = "Specifies the email address to be used by cert-manager to request Let's Encrypt certificates"
   default     = ""
   type        = string
 }
 
 variable "cert_manager_install_letsencrypt_http_issuers" {
-  description = "Set to true to install http issuer"
+  description = "Enable or disable the HTTP issuer for cert-manager"
   default     = false
   type        = bool
 }
 
 variable "kms_key_arn" {
-  description = "KMS key to Encrypt AWS resources"
+  description = "ARN of the KMS key used to encrypt AWS resources in the EKS cluster."
   default     = ""
   type        = string
 }
@@ -144,19 +144,19 @@ variable "kms_policy_arn" {
 }
 
 variable "cluster_propotional_autoscaler_enabled" {
-  description = "Set true to Enable Cluster propotional autoscaler"
+  description = "Enable or disable Cluster propotional autoscaler add-on"
   default     = false
   type        = bool
 }
 
 variable "karpenter_enabled" {
-  description = "Set it to true to enable Karpenter"
+  description = "Enable or disable Karpenter, a Kubernetes-native, multi-tenant, and auto-scaling solution for containerized workloads on Kubernetes."
   default     = false
   type        = bool
 }
 
 variable "reloader_enabled" {
-  description = "Set true to enable reloader"
+  description = "Enable or disable Reloader, a Kubernetes controller to watch changes in ConfigMap and Secret objects and trigger an application reload on their changes."
   default     = false
   type        = bool
 }
@@ -168,19 +168,19 @@ variable "worker_iam_role_name" {
 }
 
 variable "aws_node_termination_handler_enabled" {
-  description = "Set it to true to Enable node termination handler"
+  description = "Enable or disable node termination handler"
   default     = false
   type        = bool
 }
 
 variable "amazon_eks_vpc_cni_enabled" {
-  description = "Set true to install VPC CNI addon."
+  description = "Enable or disable the installation of the Amazon EKS VPC CNI addon. "
   default     = false
   type        = bool
 }
 
 variable "service_monitor_crd_enabled" {
-  description = "Set true to install CRDs for service monitor."
+  description = "Enable or disable the installation of Custom Resource Definitions (CRDs) for Prometheus Service Monitor. "
   default     = false
   type        = bool
 }
@@ -192,12 +192,12 @@ variable "istio_enabled" {
 }
 
 variable "velero_enabled" {
-  description = "Enable velero for eks cluster backup"
+  description = "Enable or disable the installation of Velero, which is a backup and restore solution for Kubernetes clusters."
   default     = false
   type        = bool
 }
 variable "velero_config" {
-  description = "velero configurations"
+  description = "Configuration to provide settings for Velero, including which namespaces to backup, retention period, backup schedule, and backup bucket name."
   default = {
     namespaces                      = "" ## If you want full cluster backup, leave it blank else provide namespace.
     slack_notification_token        = ""
@@ -211,12 +211,12 @@ variable "velero_config" {
 }
 
 variable "karpenter_provisioner_enabled" {
-  description = "Enable karpenter provisioner"
+  description = "Enable or disable the installation of Karpenter, which is a Kubernetes cluster autoscaler."
   default     = false
   type        = bool
 }
 variable "karpenter_provisioner_config" {
-  description = "karpenter provisioner configuration"
+  description = "Configuration to provide settings for Karpenter, including which private subnet to use, instance capacity types, and excluded instance types."
   default = {
     private_subnet_name    = ""
     instance_capacity_type = ["spot"]
@@ -226,7 +226,7 @@ variable "karpenter_provisioner_config" {
 }
 
 variable "internal_ingress_nginx_enabled" {
-  description = "Set it to true to deploy internal ingress controller"
+  description = "Enable or disable the deployment of an internal ingress controller for Kubernetes."
   default     = false
   type        = bool
 }
@@ -234,5 +234,23 @@ variable "internal_ingress_nginx_enabled" {
 variable "node_termination_handler_version" {
   description = "Specify the version of node termination handler"
   default     = "0.21.0"
+  type        = string
+}
+
+variable "kubeclarity_hostname" {
+  description = "Specify the hostname for the Kubeclarity. "
+  default     = ""
+  type        = string
+}
+
+variable "kubeclarity_enabled" {
+  description = "Enable or disable the deployment of an kubeclarity for Kubernetes."
+  default     = false
+  type        = bool
+}
+
+variable "kubeclarity_namespace" {
+  description = "Name of the Kubernetes namespace where the kubeclarity deployment will be deployed."
+  default     = "kubeclarity"
   type        = string
 }

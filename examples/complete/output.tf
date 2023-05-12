@@ -4,21 +4,26 @@ output "environment" {
 }
 
 output "nginx_ingress_controller_dns_hostname" {
-  description = "NGINX Ingress Controller DNS Hostname"
+  description = "DNS hostname of the NGINX Ingress Controller."
   value       = module.eks_bootstrap.nginx_ingress_controller_dns_hostname
 }
 
 output "ebs_encryption_enable" {
-  description = "Is AWS EBS encryption is enabled or not?"
+  description = "Whether Amazon Elastic Block Store (EBS) encryption is enabled or not."
   value       = "Encrypted by default"
 }
 
 output "efs_id" {
   value       = module.eks_bootstrap.efs_id
-  description = "EFS ID"
+  description = "ID of the Amazon Elastic File System (EFS) that has been created for the EKS cluster."
 }
 
 output "internal_nginx_ingress_controller_dns_hostname" {
-  description = "Internal NGINX Ingress Controller DNS Hostname"
+  description = "DNS hostname of the NGINX Ingress Controller that can be used to access it from within the cluster."
   value       = module.eks_bootstrap.internal_nginx_ingress_controller_dns_hostname
+}
+
+output "kubeclarity_hostname" {
+  value       = module.eks_bootstrap.kubeclarity_hostname
+  description = "Hostname for the kubeclarity."
 }
