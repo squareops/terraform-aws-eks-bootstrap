@@ -62,7 +62,7 @@ kubeclarity:
     # Make sure the ingress remains internal if you decide to enable it.
     enabled: true
     labels: {}
-    annotations: 
+    annotations:
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
       # service.beta.kubernetes.io/aws-load-balancer-type: nlb
       # service.beta.kubek logs -f kubeclarity-kubeclarity-grype-server-58b6dc6c46-46c7r -nrnetes.io/aws-load-balancer-internal: "true"
@@ -81,7 +81,7 @@ kubeclarity:
             path: /
         paths: []
 
-    tls: 
+    tls:
      - secretName: kubeclarity-tls
        hosts:
          - ${hostname}
@@ -420,4 +420,3 @@ kubeclarity-postgresql-secret:
   # password under secretKey key
   create: true
   secretKey: "postgres-password"
-
