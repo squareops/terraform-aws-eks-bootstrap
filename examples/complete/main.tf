@@ -22,6 +22,8 @@ module "eks_bootstrap" {
   reloader_enabled              = true
   karpenter_enabled             = true
   single_az_sc_config           = [{ name = "infra-service-sc", zone = "us-east-2a" }]
+  kubeclarity_enabled           = false
+  kubeclarity_hostname          = ""
   cert_manager_enabled          = true
   worker_iam_role_name          = ""
   ingress_nginx_enabled         = true

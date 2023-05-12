@@ -22,3 +22,8 @@ output "internal_nginx_ingress_controller_dns_hostname" {
   description = "DNS hostname of the NGINX Ingress Controller that can be used to access it from within the cluster."
   value       = module.eks_bootstrap.internal_nginx_ingress_controller_dns_hostname
 }
+
+output "kubeclarity_hostname" {
+  value       = module.eks_bootstrap.kubeclarity_hostname
+  description = "Hostname for the kubeclarity."
+}
