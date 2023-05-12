@@ -1,7 +1,7 @@
 locals {
   region      = "us-east-2"
   environment = "prod"
-  name        = "skaf"
+  name        = "addons"
   additional_tags = {
     Owner      = "SquareOps"
     Expires    = "Never"
@@ -54,5 +54,4 @@ module "eks_bootstrap" {
     velero_backup_name              = ""
     backup_bucket_name              = ""
   }
-
 }
