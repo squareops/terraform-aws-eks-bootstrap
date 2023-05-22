@@ -8,13 +8,6 @@ module "service_monitor_crd" {
   source = "./addons/service_monitor_crd"
 }
 
-data "aws_subnet_ids" "private_subnet_ids" {
-  vpc_id = var.vpc_id # Replace with your VPC ID
-  tags = {
-    Subnet-group = "private"
-  }
-}
-
 resource "aws_iam_instance_profile" "karpenter_profile" {
   role        = var.worker_iam_role_name
   name_prefix = var.eks_cluster_name
@@ -177,7 +170,7 @@ module "efs" {
   region             = data.aws_region.current.name
   environment        = var.environment
   kms_key_id         = var.kms_key_arn
-  private_subnet_ids = data.aws_subnet_ids.private_subnet_ids.ids
+  private_subnet_ids = var.private_subnet_ids.ids
 }
 
 data "kubernetes_service" "nginx-ingress" {
