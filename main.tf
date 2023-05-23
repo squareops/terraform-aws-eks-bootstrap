@@ -242,7 +242,7 @@ data "kubernetes_service" "internal-nginx-ingress" {
 resource "kubernetes_namespace" "kube_clarity" {
   count = var.kubeclarity_enabled ? 1 : 0
   metadata {
-    name = var.namespace
+    name = var.kubeclarity_namespace
   }
 }
 
@@ -251,7 +251,7 @@ resource "helm_release" "kubeclarity" {
   name       = "kubeclarity"
   chart      = "kubeclarity"
   version    = "2.18.0"
-  namespace  = "kubeclarity"
+  namespace  = var.kubeclarity_namespace
   repository = "https://openclarity.github.io/kubeclarity"
   values = [
     templatefile("${path.module}/addons/kubeclarity/values.yaml", {
