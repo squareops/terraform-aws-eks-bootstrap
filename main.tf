@@ -256,7 +256,7 @@ resource "helm_release" "kubeclarity" {
   values = [
     templatefile("${path.module}/addons/kubeclarity/values.yaml", {
       hostname  = var.kubeclarity_hostname
-      namespace = var.namespace
+      namespace = var.kubeclarity_namespace
     })
   ]
 }
