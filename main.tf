@@ -239,7 +239,7 @@ data "kubernetes_service" "internal-nginx-ingress" {
 }
 
 ##KUBECLARITY
-resource "kubernetes_namespace" "internal_nginx" {
+resource "kubernetes_namespace" "kube_clarity" {
   count = var.kubeclarity_enabled ? 1 : 0
   metadata {
     name = var.namespace
