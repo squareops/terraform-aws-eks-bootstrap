@@ -170,7 +170,7 @@ module "efs" {
   region             = data.aws_region.current.name
   environment        = var.environment
   kms_key_id         = var.kms_key_arn
-  private_subnet_ids = var.private_subnet_ids.ids
+  private_subnet_ids = var.private_subnet_ids
 }
 
 data "kubernetes_service" "nginx-ingress" {
