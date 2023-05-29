@@ -3,7 +3,7 @@ locals {
   environment = "prod"
   name        = "addons"
   additional_tags = {
-    Owner      = "SquareOps"
+    Owner      = "Organization_Name"
     Expires    = "Never"
     Department = "Engineering"
   }
