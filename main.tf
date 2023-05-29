@@ -170,7 +170,7 @@ module "efs" {
   region             = data.aws_region.current.name
   environment        = var.environment
   kms_key_id         = var.kms_key_arn
-  private_subnet_ids = var.private_subnet_ids.ids
+  private_subnet_ids = var.private_subnet_ids
 }
 
 data "kubernetes_service" "nginx-ingress" {
@@ -239,10 +239,10 @@ data "kubernetes_service" "internal-nginx-ingress" {
 }
 
 ##KUBECLARITY
-resource "kubernetes_namespace" "internal_nginx" {
+resource "kubernetes_namespace" "kube_clarity" {
   count = var.kubeclarity_enabled ? 1 : 0
   metadata {
-    name = var.namespace
+    name = var.kubeclarity_namespace
   }
 }
 
@@ -251,12 +251,12 @@ resource "helm_release" "kubeclarity" {
   name       = "kubeclarity"
   chart      = "kubeclarity"
   version    = "2.18.0"
-  namespace  = "kubeclarity"
+  namespace  = var.kubeclarity_namespace
   repository = "https://openclarity.github.io/kubeclarity"
   values = [
     templatefile("${path.module}/addons/kubeclarity/values.yaml", {
       hostname  = var.kubeclarity_hostname
-      namespace = var.namespace
+      namespace = var.kubeclarity_namespace
     })
   ]
 }

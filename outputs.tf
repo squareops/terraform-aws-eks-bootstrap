@@ -24,6 +24,6 @@ output "internal_nginx_ingress_controller_dns_hostname" {
 }
 
 output "kubeclarity_hostname" {
-  value       = var.hostname
+  value       = var.kubeclarity_hostname
   description = "Hostname for the kubeclarity."
 }
