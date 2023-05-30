@@ -4,7 +4,7 @@ metadata:
   name: karpenter-provisioner
 spec:
   labels:
-    App-Services: "true"
+    Management-Services: "true"
   requirements:
     - key: karpenter.sh/capacity-type         # optional, set to on-demand by default, spot if both are listed
       operator: In

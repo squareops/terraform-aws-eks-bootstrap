@@ -3,7 +3,7 @@ locals {
   environment = "prod"
   name        = "addons"
   additional_tags = {
-    Owner      = "SquareOps"
+    Owner      = "Organization_Name"
     Expires    = "Never"
     Department = "Engineering"
   }
@@ -21,6 +21,7 @@ module "eks_bootstrap" {
   eks_cluster_name              = ""
   reloader_enabled              = true
   karpenter_enabled             = true
+  private_subnet_ids            = [""]
   single_az_sc_config           = [{ name = "infra-service-sc", zone = "us-east-2a" }]
   kubeclarity_enabled           = false
   kubeclarity_hostname          = ""
