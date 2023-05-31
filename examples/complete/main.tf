@@ -28,6 +28,7 @@ module "eks_bootstrap" {
   kubecost_hostname             = ""
   cert_manager_enabled          = true
   worker_iam_role_name          = ""
+  worker_iam_role_arn           = ""
   ingress_nginx_enabled         = true
   metrics_server_enabled        = false
   external_secrets_enabled      = true
