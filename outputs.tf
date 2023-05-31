@@ -27,3 +27,8 @@ output "kubeclarity_hostname" {
   value       = var.kubeclarity_hostname
   description = "Hostname for the kubeclarity."
 }
+
+output "kubecost_hostname" {
+  value       = var.kubecost_hostname
+  description = "Hostname for the kubecost."
+}

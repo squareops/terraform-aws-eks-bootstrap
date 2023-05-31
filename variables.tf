@@ -173,6 +173,12 @@ variable "worker_iam_role_name" {
   type        = string
 }
 
+variable "worker_iam_role_arn" {
+  description = "Specify the IAM role Arn for the nodes"
+  default     = ""
+  type        = string
+}
+
 variable "aws_node_termination_handler_enabled" {
   description = "Enable or disable node termination handler"
   default     = false
@@ -258,5 +264,23 @@ variable "kubeclarity_enabled" {
 variable "kubeclarity_namespace" {
   description = "Name of the Kubernetes namespace where the kubeclarity deployment will be deployed."
   default     = "kubeclarity"
+  type        = string
+}
+#-----------Kubecost ADDON-------------
+variable "enable_kubecost" {
+  description = "Enable Kubecost add-on"
+  type        = bool
+  default     = true
+}
+
+variable "kubecost_hostname" {
+  description = "Specify the hostname for the kubecsot. "
+  default     = ""
+  type        = string
+}
+
+variable "cluster_issuer" {
+  description = "Specify the letsecrypt cluster-issuer for ingress tls. "
+  default     = "letsencrypt-prod"
   type        = string
 }
