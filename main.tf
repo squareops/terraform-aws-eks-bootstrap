@@ -8,13 +8,6 @@ module "service_monitor_crd" {
   source = "./addons/service_monitor_crd"
 }
 
-data "aws_subnet_ids" "private_subnet_ids" {
-  vpc_id = var.vpc_id # Replace with your VPC ID
-  tags = {
-    Subnet-group = "private"
-  }
-}
-
 resource "aws_iam_instance_profile" "karpenter_profile" {
   role        = var.worker_iam_role_name
   name_prefix = var.eks_cluster_name
@@ -177,7 +170,7 @@ module "efs" {
   region             = data.aws_region.current.name
   environment        = var.environment
   kms_key_id         = var.kms_key_arn
-  private_subnet_ids = data.aws_subnet_ids.private_subnet_ids.ids
+  private_subnet_ids = var.private_subnet_ids
 }
 
 data "kubernetes_service" "nginx-ingress" {
@@ -246,10 +239,10 @@ data "kubernetes_service" "internal-nginx-ingress" {
 }
 
 ##KUBECLARITY
-resource "kubernetes_namespace" "internal_nginx" {
+resource "kubernetes_namespace" "kube_clarity" {
   count = var.kubeclarity_enabled ? 1 : 0
   metadata {
-    name = var.namespace
+    name = var.kubeclarity_namespace
   }
 }
 
@@ -258,12 +251,12 @@ resource "helm_release" "kubeclarity" {
   name       = "kubeclarity"
   chart      = "kubeclarity"
   version    = "2.18.0"
-  namespace  = "kubeclarity"
+  namespace  = var.kubeclarity_namespace
   repository = "https://openclarity.github.io/kubeclarity"
   values = [
     templatefile("${path.module}/addons/kubeclarity/values.yaml", {
       hostname  = var.kubeclarity_hostname
-      namespace = var.namespace
+      namespace = var.kubeclarity_namespace
     })
   ]
 }

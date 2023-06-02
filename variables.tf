@@ -65,6 +65,12 @@ variable "efs_storage_class_enabled" {
   type        = bool
 }
 
+variable "private_subnet_ids" {
+  description = "Private subnets of the VPC which can be used by EFS"
+  default     = [""]
+  type        = list(string)
+}
+
 variable "keda_enabled" {
   description = "Enable or disable Kubernetes Event-driven Autoscaling (KEDA) add-on for autoscaling workloads."
   type        = bool
