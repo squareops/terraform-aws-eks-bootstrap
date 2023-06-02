@@ -284,6 +284,7 @@ resource "aws_eks_addon" "kubecost" {
 
 resource "kubernetes_ingress_v1" "kubecost" {
   count      = var.enable_kubecost ? 1 : 0
+  depends_on = [aws_eks_addon.kubecost]
   wait_for_load_balancer = true
   metadata {
     name = "kubecost"
