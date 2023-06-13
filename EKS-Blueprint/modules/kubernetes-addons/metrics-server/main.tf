@@ -13,5 +13,8 @@ resource "kubernetes_namespace_v1" "this" {
 
   metadata {
     name = local.helm_config["namespace"]
+    labels = {
+      "pod-security.kubernetes.io/warn" = "restricted"
+    }
   }
 }
