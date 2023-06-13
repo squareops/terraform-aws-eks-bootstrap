@@ -212,6 +212,9 @@ resource "kubernetes_namespace" "internal_nginx" {
   count = var.internal_ingress_nginx_enabled ? 1 : 0
   metadata {
     name = "internal-ingress-nginx"
+    labels = {
+      "pod-security.kubernetes.io/warn" = "restricted"
+    }
   }
 }
 
@@ -243,6 +246,9 @@ resource "kubernetes_namespace" "kube_clarity" {
   count = var.kubeclarity_enabled ? 1 : 0
   metadata {
     name = var.kubeclarity_namespace
+    labels = {
+      "pod-security.kubernetes.io/warn" = "restricted"
+    }
   }
 }
 
