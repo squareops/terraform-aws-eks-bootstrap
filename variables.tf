@@ -267,10 +267,10 @@ variable "kubeclarity_namespace" {
   type        = string
 }
 #-----------Kubecost ADDON-------------
-variable "enable_kubecost" {
-  description = "Enable Kubecost add-on"
+variable "kubecost_enabled" {
+  description = "Enable or disable the deployment of an Kubecost for Kubernetes."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "kubecost_hostname" {
