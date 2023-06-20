@@ -5,7 +5,7 @@ data "aws_eks_cluster" "eks" {
 }
 
 module "service_monitor_crd" {
-  count  = var.service_monitor_crd_enabled
+  count  = var.service_monitor_crd_enabled ? 1: 0
   source = "./addons/service_monitor_crd"
 }
 
