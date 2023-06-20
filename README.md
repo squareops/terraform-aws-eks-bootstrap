@@ -14,7 +14,7 @@ module "eks_bootstrap" {
   name                          = "skaf"
   vpc_id                        = "vpc-06e37f0786b7eskaf"
   environment                   = "production"
-  kms_key_arn                   = "arn:aws:kms:us-east-2:222222222222:key/kms_key_arn"
+  kms_key_arn                   = "arn:aws:kms:region:222222222222:key/kms_key_arn"
   keda_enabled                  = true
   istio_enabled                 = false
   kms_policy_arn                = "arn:aws:iam::222222222222:policy/kms_policy_arn" ## eks module will create kms_policy_arn
@@ -22,9 +22,8 @@ module "eks_bootstrap" {
   reloader_enabled              = true
   karpenter_enabled             = true
   private_subnet_ids            = [""]
-  single_az_sc_config           = [{ name = "infra-service-sc", zone = "ap-south-1" }]
+  single_az_sc_config           = [{ name = "infra-service-sc", zone = "zone-name" }]
   kubeclarity_enabled           = false
-  kubeclarity_hostname          = ""
   kubeclarity_hostname          = ""
   kubecost_enabled              = false
   cert_manager_enabled          = true
@@ -52,8 +51,8 @@ module "eks_bootstrap" {
   velero_enabled                                = false
   velero_config = {
     namespaces                      = "my-application" ## If you want full cluster backup, leave it blank else provide namespace.
-    slack_notification_token        = "xoxb-slack-token-skaf"
-    slack_notification_channel_name = "skaf-notifications"
+    slack_notification_token        = "xoxb-slack-token"
+    slack_notification_channel_name = "slack-notifications-channel"
     retention_period_in_days        = 45
     schedule_backup_cron_time       = "* 6 * * *"
     velero_backup_name              = "my-application-backup"
