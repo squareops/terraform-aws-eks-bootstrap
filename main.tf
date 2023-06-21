@@ -260,3 +260,60 @@ resource "helm_release" "kubeclarity" {
     })
   ]
 }
+
+#Kubecost
+
+data "aws_eks_addon_version" "kubecost" {
+  addon_name         = "kubecost_kubecost"
+  # eks_cluster_version  = var.eks_cluster_version != null ? var.eks_cluster_version : 
+  kubernetes_version = data.aws_eks_cluster.eks.version
+  most_recent        = true
+}
+
+resource "aws_eks_addon" "kubecost" {
+  count                    = var.enable_kubecost ? 1 : 0
+  cluster_name             = var.eks_cluster_name
+  addon_name               = "kubecost_kubecost"
+  addon_version            = data.aws_eks_addon_version.kubecost.version
+  resolve_conflicts        = "OVERWRITE"
+  service_account_role_arn = var.worker_iam_role_arn
+  preserve                 = true
+
+}
+
+
+resource "kubernetes_ingress_v1" "kubecost" {
+  count      = var.enable_kubecost ? 1 : 0
+  depends_on = [aws_eks_addon.kubecost]
+  wait_for_load_balancer = true
+  metadata {
+    name = "kubecost"
+    namespace = "kubecost"
+    annotations = {
+      "kubernetes.io/ingress.class" = "nginx"
+      "cert-manager.io/cluster-issuer"= var.cluster_issuer
+    }
+  }
+  spec {
+    rule {
+      host = var.kubecost_hostname
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = "cost-analyzer-cost-analyzer"
+              port {
+                number = 9090
+              }
+          }
+        }
+      }
+    }
+  }
+  tls {
+    secret_name = "tls-kubecost"
+    hosts = [var.kubecost_hostname]
+  }
+}
+}

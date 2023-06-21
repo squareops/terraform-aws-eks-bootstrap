@@ -25,8 +25,11 @@ module "eks_bootstrap" {
   single_az_sc_config           = [{ name = "infra-service-sc", zone = "us-east-2a" }]
   kubeclarity_enabled           = false
   kubeclarity_hostname          = ""
+  enable_kubecost               = false
+  kubecost_hostname             = ""
   cert_manager_enabled          = true
   worker_iam_role_name          = ""
+  worker_iam_role_arn           = ""
   ingress_nginx_enabled         = true
   metrics_server_enabled        = false
   external_secrets_enabled      = true
