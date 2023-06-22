@@ -1223,7 +1223,7 @@ variable "calico_helm_config" {
 }
 
 #-----------Kubecost ADDON-------------
-variable "enable_kubecost" {
+variable "kubecost_enabled" {
   description = "Enable Kubecost add-on"
   type        = bool
   default     = false

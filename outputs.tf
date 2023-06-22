@@ -23,12 +23,20 @@ output "internal_nginx_ingress_controller_dns_hostname" {
   value       = var.internal_ingress_nginx_enabled ? data.kubernetes_service.internal-nginx-ingress.status[0].load_balancer[0].ingress[0].hostname : null
 }
 
-output "kubeclarity_hostname" {
-  value       = var.kubeclarity_hostname
-  description = "Hostname for the kubeclarity."
+output "kubeclarity" {
+  description = "Kubeclarity_Info"
+  value = {
+    username = "admin",
+    password = nonsensitive(random_password.kube_clarity.result),
+    url      = var.kubeclarity_hostname
+  }
 }
 
-output "kubecost_hostname" {
-  value       = var.kubecost_hostname
-  description = "Hostname for the kubecost."
+output "kubecost" {
+  description = "Kubecost_Info"
+  value = {
+    username = "admin",
+    password = nonsensitive(random_password.kubecost.result),
+    url      = var.kubecost_hostname
+  }
 }
