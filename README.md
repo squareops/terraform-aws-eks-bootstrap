@@ -26,6 +26,7 @@ module "eks_bootstrap" {
   kubeclarity_enabled           = false
   kubeclarity_hostname          = ""
   kubecost_enabled              = false
+  kubecost_hostname             = ""
   cert_manager_enabled          = true
   worker_iam_role_name          = "worker_iam_role_name"
   ingress_nginx_enabled         = true
@@ -65,11 +66,14 @@ module "eks_bootstrap" {
 
 ## Compatibility
 
-| Release | Kubernetes 1.23 | Kubernetes 1.24  | Kubernetes 1.25 |
-|------------------|------------------|------------------|----------------------|
-| Release 1.0.0  | &#x2714;  | &#x2717;  | &#x2717; |
-| Release 1.0.1  | &#x2714;  | &#x2714;  | &#x2714; |
-| Release 1.1.0  | &#x2714;  | &#x2714;  | &#x2714; |
+| Release | Kubernetes 1.23 | Kubernetes 1.24  | Kubernetes 1.25 |  Kubernetes 1.26 |
+|------------------|------------------|------------------|----------------------|----------------------|
+| Release 1.0.0  | &#x2714;  | &#x2717;  | &#x2717; | &#x2717; |
+| Release 1.0.1  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717; |
+| Release 1.1.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717; |
+| Release 2.0.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717; |
+| Release 2.1.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717;  |
+| Release 3.0.0  | &#x2714;  | &#x2714;  | &#x2714; |  &#x2714; |
 
 ## IAM Permissions
 The required IAM permissions to create resources from this module can be found [here](https://github.com/squareops/terraform-aws-eks-bootstrap/blob/main/IAM.md)

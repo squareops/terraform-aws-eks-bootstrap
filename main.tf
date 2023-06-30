@@ -221,7 +221,7 @@ resource "helm_release" "internal_nginx" {
   count      = var.internal_ingress_nginx_enabled ? 1 : 0
   name       = "internal-ingress-nginx"
   chart      = "ingress-nginx"
-  version    = "4.1.4"
+  version    = "4.7.0"
   namespace  = "internal-ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
   values = [
@@ -253,6 +253,7 @@ resource "random_password" "kube_clarity" {
 }
 
 resource "kubernetes_secret" "kube_clarity" {
+  count      = var.kubeclarity_enabled ? 1 : 0
   depends_on = [kubernetes_namespace.kube_clarity]
   metadata {
     name      = "basic-auth"
@@ -307,6 +308,7 @@ resource "random_password" "kubecost" {
 }
 
 resource "kubernetes_secret" "kubecost" {
+  count      = var.kubecost_enabled ? 1 : 0
   depends_on = [aws_eks_addon.kubecost]
   metadata {
     name      = "basic-auth"
