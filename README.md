@@ -26,6 +26,7 @@ module "eks_bootstrap" {
   kubeclarity_enabled           = false
   kubeclarity_hostname          = ""
   kubecost_enabled              = false
+  kubecost_hostname             = ""
   cert_manager_enabled          = true
   worker_iam_role_name          = "worker_iam_role_name"
   ingress_nginx_enabled         = true
