@@ -55,7 +55,7 @@ module "k8s_addons" {
   ingress_nginx_helm_config = {
     version = var.ingress_nginx_version
     values = [
-      templatefile("${path.module}/addons/nginx_ingress/nginx_ingress.yaml", {
+      templatefile("${path.module}/addons/nginx_ingress/${data.aws_eks_cluster.eks.kubernetes_network_config[0].ip_family == "ipv4" ? "nginx_ingress.yaml" : "nginx_ingress_ipv6.yaml" }", {
         enable_service_monitor = var.service_monitor_crd_enabled
 
       })
@@ -225,7 +225,7 @@ resource "helm_release" "internal_nginx" {
   namespace  = "internal-ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
   values = [
-    templatefile("${path.module}/addons/internal_nginx_ingress/ingress.yaml", {
+    templatefile("${path.module}/addons/internal_nginx_ingress/${data.aws_eks_cluster.eks.kubernetes_network_config[0].ip_family == "ipv4" ? "ingress.yaml" : "ingress_ipv6.yaml"}", {
       enable_service_monitor = var.service_monitor_crd_enabled
     })
   ]

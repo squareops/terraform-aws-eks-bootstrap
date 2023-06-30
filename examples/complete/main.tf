@@ -37,6 +37,7 @@ module "eks_bootstrap" {
   cluster_autoscaler_enabled    = true
   service_monitor_crd_enabled   = true
   karpenter_provisioner_enabled = false
+  enable_aws_load_balancer_controller = true
   karpenter_provisioner_config = {
     private_subnet_name    = "private-subnet-name"
     instance_capacity_type = ["on-demand"]
