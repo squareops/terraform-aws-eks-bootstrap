@@ -33,6 +33,10 @@ locals {
       {
         name  = "serviceAccount.create"
         value = false
+      },
+      {
+        name  = "clusterName"
+        value = var.addon_context.eks_cluster_id
       }
     ],
     try(var.helm_config.set_values, [])
