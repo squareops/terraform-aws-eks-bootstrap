@@ -25,7 +25,7 @@ variable "cluster_autoscaler_enabled" {
 
 variable "cluster_autoscaler_chart_version" {
   description = "Version of the cluster autoscaler helm chart"
-  default     = "9.19.1"
+  default     = "9.29.0"
   type        = string
 }
 
@@ -109,7 +109,7 @@ variable "aws_load_balancer_version" {
 
 variable "ingress_nginx_version" {
   description = "Specify the version of the NGINX Ingress Controller"
-  default     = "4.1.4"
+  default     = "4.7.0"
   type        = string
 }
 
@@ -267,10 +267,10 @@ variable "kubeclarity_namespace" {
   type        = string
 }
 #-----------Kubecost ADDON-------------
-variable "enable_kubecost" {
-  description = "Enable Kubecost add-on"
+variable "kubecost_enabled" {
+  description = "Enable or disable the deployment of an Kubecost for Kubernetes."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "kubecost_hostname" {

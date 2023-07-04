@@ -14,7 +14,7 @@ module "eks_bootstrap" {
   name                          = "skaf"
   vpc_id                        = "vpc-06e37f0786b7eskaf"
   environment                   = "production"
-  kms_key_arn                   = "arn:aws:kms:us-east-2:222222222222:key/kms_key_arn"
+  kms_key_arn                   = "arn:aws:kms:region:222222222222:key/kms_key_arn"
   keda_enabled                  = true
   istio_enabled                 = false
   kms_policy_arn                = "arn:aws:iam::222222222222:policy/kms_policy_arn" ## eks module will create kms_policy_arn
@@ -22,9 +22,11 @@ module "eks_bootstrap" {
   reloader_enabled              = true
   karpenter_enabled             = true
   private_subnet_ids            = [""]
-  single_az_sc_config           = [{ name = "infra-service-sc", zone = "ap-south-1" }]
+  single_az_sc_config           = [{ name = "infra-service-sc", zone = "zone-name" }]
   kubeclarity_enabled           = false
   kubeclarity_hostname          = ""
+  kubecost_enabled              = false
+  kubecost_hostname             = ""
   cert_manager_enabled          = true
   worker_iam_role_name          = "worker_iam_role_name"
   ingress_nginx_enabled         = true
@@ -50,8 +52,8 @@ module "eks_bootstrap" {
   velero_enabled                                = false
   velero_config = {
     namespaces                      = "my-application" ## If you want full cluster backup, leave it blank else provide namespace.
-    slack_notification_token        = "xoxb-slack-token-skaf"
-    slack_notification_channel_name = "skaf-notifications"
+    slack_notification_token        = "xoxb-slack-token"
+    slack_notification_channel_name = "slack-notifications-channel"
     retention_period_in_days        = 45
     schedule_backup_cron_time       = "* 6 * * *"
     velero_backup_name              = "my-application-backup"
@@ -64,16 +66,19 @@ module "eks_bootstrap" {
 
 ## Compatibility
 
-| Release | Kubernetes 1.23 | Kubernetes 1.24  | Kubernetes 1.25 |
-|------------------|------------------|------------------|----------------------|
-| Release 1.0.0  | &#x2714;  | &#x2717;  | &#x2717; |
-| Release 1.0.1  | &#x2714;  | &#x2714;  | &#x2714; |
-| Release 1.1.0  | &#x2714;  | &#x2714;  | &#x2714; |
+| Release | Kubernetes 1.23 | Kubernetes 1.24  | Kubernetes 1.25 |  Kubernetes 1.26 |
+|------------------|------------------|------------------|----------------------|----------------------|
+| Release 1.0.0  | &#x2714;  | &#x2717;  | &#x2717; | &#x2717; |
+| Release 1.0.1  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717; |
+| Release 1.1.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717; |
+| Release 2.0.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717; |
+| Release 2.1.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717;  |
+| Release 3.0.0  | &#x2714;  | &#x2714;  | &#x2714; |  &#x2714; |
 
 ## IAM Permissions
 The required IAM permissions to create resources from this module can be found [here](https://github.com/squareops/terraform-aws-eks-bootstrap/blob/main/IAM.md)
 
-## Important Note
+## Addons Details
 Kubernetes addons are additional components that can be installed in a Kubernetes cluster to provide extra features and functionality. They are designed to work seamlessly with the Kubernetes API and can be managed just like any other Kubernetes resource. Some common examples of Kubernetes addons include:
 
 <details>
@@ -168,6 +173,14 @@ Velero is designed to work with cloud native environments, making it a popular c
   <summary> KubeClarity </summary>
   KubeClarity helps you to secure your cloud-native applications and infrastructure by offering features such as automated threat detection, policy enforcement, compliance reporting, and continuous monitoring. It allows you to enforce security policies across all your Kubernetes environments and provides automated remediation of security issues, ensuring that your deployments are always secure and compliant.
 </details>
+<details>
+  <summary> Kubecost </summary>
+  Kubecost provides real-time cost visibility and insights for teams using Kubernetes, helping you continuously reduce your cloud costs. Breakdown costs by any Kubernetes concepts, including deployment, service, namespace label, and more.
+</details>
+
+## Notes
+
+Before enabling the **Kubecost** addon for your Amazon EKS cluster, please make sure to subscribe to the **Kubecost - Amazon EKS cost monitoring** license. 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -185,6 +198,7 @@ Velero is designed to work with cloud native environments, making it a popular c
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.23 |
 | <a name="provider_helm"></a> [helm](#provider\_helm) | >= 2.6 |
 | <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | >= 2.13 |
+| <a name="provider_random"></a> [random](#provider\_random) | n/a |
 
 ## Modules
 
@@ -203,11 +217,19 @@ Velero is designed to work with cloud native environments, making it a popular c
 
 | Name | Type |
 |------|------|
+| [aws_eks_addon.kubecost](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_iam_instance_profile.karpenter_profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile) | resource |
 | [helm_release.cert_manager_le_http](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [helm_release.internal_nginx](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [helm_release.kubeclarity](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
+| [kubernetes_ingress_v1.kubecost](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/ingress_v1) | resource |
 | [kubernetes_namespace.internal_nginx](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
+| [kubernetes_namespace.kube_clarity](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
+| [kubernetes_secret.kube_clarity](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
+| [kubernetes_secret.kubecost](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
+| [random_password.kube_clarity](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
+| [random_password.kubecost](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
+| [aws_eks_addon_version.kubecost](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/eks_addon_version) | data source |
 | [aws_eks_cluster.eks](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/eks_cluster) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [kubernetes_service.internal-nginx-ingress](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/data-sources/service) | data source |
@@ -227,6 +249,7 @@ Velero is designed to work with cloud native environments, making it a popular c
 | <a name="input_cert_manager_letsencrypt_email"></a> [cert\_manager\_letsencrypt\_email](#input\_cert\_manager\_letsencrypt\_email) | Specifies the email address to be used by cert-manager to request Let's Encrypt certificates | `string` | `""` | no |
 | <a name="input_cluster_autoscaler_chart_version"></a> [cluster\_autoscaler\_chart\_version](#input\_cluster\_autoscaler\_chart\_version) | Version of the cluster autoscaler helm chart | `string` | `"9.19.1"` | no |
 | <a name="input_cluster_autoscaler_enabled"></a> [cluster\_autoscaler\_enabled](#input\_cluster\_autoscaler\_enabled) | Whether to enable the Cluster Autoscaler add-on or not. | `bool` | `false` | no |
+| <a name="input_cluster_issuer"></a> [cluster\_issuer](#input\_cluster\_issuer) | Specify the letsecrypt cluster-issuer for ingress tls. | `string` | `"letsencrypt-prod"` | no |
 | <a name="input_cluster_propotional_autoscaler_enabled"></a> [cluster\_propotional\_autoscaler\_enabled](#input\_cluster\_propotional\_autoscaler\_enabled) | Enable or disable Cluster propotional autoscaler add-on | `bool` | `false` | no |
 | <a name="input_efs_storage_class_enabled"></a> [efs\_storage\_class\_enabled](#input\_efs\_storage\_class\_enabled) | Enable or disable the Amazon Elastic File System (EFS) add-on for EKS cluster. | `bool` | `false` | no |
 | <a name="input_eks_cluster_name"></a> [eks\_cluster\_name](#input\_eks\_cluster\_name) | Fetch Cluster ID of the cluster | `string` | `""` | no |
@@ -246,6 +269,8 @@ Velero is designed to work with cloud native environments, making it a popular c
 | <a name="input_kubeclarity_enabled"></a> [kubeclarity\_enabled](#input\_kubeclarity\_enabled) | Enable or disable the deployment of an kubeclarity for Kubernetes. | `bool` | `false` | no |
 | <a name="input_kubeclarity_hostname"></a> [kubeclarity\_hostname](#input\_kubeclarity\_hostname) | Specify the hostname for the Kubeclarity. | `string` | `""` | no |
 | <a name="input_kubeclarity_namespace"></a> [kubeclarity\_namespace](#input\_kubeclarity\_namespace) | Name of the Kubernetes namespace where the kubeclarity deployment will be deployed. | `string` | `"kubeclarity"` | no |
+| <a name="input_kubecost_enabled"></a> [kubecost\_enabled](#input\_kubecost\_enabled) | Enable or disable the deployment of an Kubecost for Kubernetes. | `bool` | `false` | no |
+| <a name="input_kubecost_hostname"></a> [kubecost\_hostname](#input\_kubecost\_hostname) | Specify the hostname for the kubecsot. | `string` | `""` | no |
 | <a name="input_metrics_server_enabled"></a> [metrics\_server\_enabled](#input\_metrics\_server\_enabled) | Enable or disable the metrics server add-on for EKS cluster. | `bool` | `false` | no |
 | <a name="input_metrics_server_helm_version"></a> [metrics\_server\_helm\_version](#input\_metrics\_server\_helm\_version) | Version of the metrics server helm chart | `string` | `"3.8.2"` | no |
 | <a name="input_name"></a> [name](#input\_name) | Specify the name prefix of the EKS cluster resources. | `string` | `""` | no |
@@ -258,6 +283,7 @@ Velero is designed to work with cloud native environments, making it a popular c
 | <a name="input_velero_config"></a> [velero\_config](#input\_velero\_config) | Configuration to provide settings for Velero, including which namespaces to backup, retention period, backup schedule, and backup bucket name. | `any` | <pre>{<br>  "backup_bucket_name": "",<br>  "namespaces": "",<br>  "retention_period_in_days": 45,<br>  "schedule_backup_cron_time": "",<br>  "slack_notification_channel_name": "",<br>  "slack_notification_token": "",<br>  "velero_backup_name": ""<br>}</pre> | no |
 | <a name="input_velero_enabled"></a> [velero\_enabled](#input\_velero\_enabled) | Enable or disable the installation of Velero, which is a backup and restore solution for Kubernetes clusters. | `bool` | `false` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC where the cluster and its nodes will be provisioned | `string` | `""` | no |
+| <a name="input_worker_iam_role_arn"></a> [worker\_iam\_role\_arn](#input\_worker\_iam\_role\_arn) | Specify the IAM role Arn for the nodes | `string` | `""` | no |
 | <a name="input_worker_iam_role_name"></a> [worker\_iam\_role\_name](#input\_worker\_iam\_role\_name) | Specify the IAM role for the nodes that will be provisioned through karpenter | `string` | `""` | no |
 
 ## Outputs
@@ -268,7 +294,8 @@ Velero is designed to work with cloud native environments, making it a popular c
 | <a name="output_efs_id"></a> [efs\_id](#output\_efs\_id) | ID of the Amazon Elastic File System (EFS) that has been created for the EKS cluster. |
 | <a name="output_environment"></a> [environment](#output\_environment) | Environment Name for the EKS cluster |
 | <a name="output_internal_nginx_ingress_controller_dns_hostname"></a> [internal\_nginx\_ingress\_controller\_dns\_hostname](#output\_internal\_nginx\_ingress\_controller\_dns\_hostname) | DNS hostname of the NGINX Ingress Controller that can be used to access it from within the cluster. |
-| <a name="output_kubeclarity_hostname"></a> [kubeclarity\_hostname](#output\_kubeclarity\_hostname) | Hostname for the kubeclarity. |
+| <a name="output_kubeclarity"></a> [kubeclarity](#output\_kubeclarity) | Kubeclarity\_Info |
+| <a name="output_kubecost"></a> [kubecost](#output\_kubecost) | Kubecost\_Info |
 | <a name="output_nginx_ingress_controller_dns_hostname"></a> [nginx\_ingress\_controller\_dns\_hostname](#output\_nginx\_ingress\_controller\_dns\_hostname) | DNS hostname of the NGINX Ingress Controller. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

@@ -657,7 +657,7 @@ module "calico" {
 module "kubecost" {
   source = "./kubecost"
 
-  count = var.enable_kubecost ? 1 : 0
+  count = var.kubecost_enabled ? 1 : 0
 
   helm_config       = var.kubecost_helm_config
   manage_via_gitops = var.argocd_manage_add_ons

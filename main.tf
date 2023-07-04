@@ -5,6 +5,7 @@ data "aws_eks_cluster" "eks" {
 }
 
 module "service_monitor_crd" {
+  count  = var.service_monitor_crd_enabled ? 1: 0
   source = "./addons/service_monitor_crd"
 }
 
@@ -220,7 +221,7 @@ resource "helm_release" "internal_nginx" {
   count      = var.internal_ingress_nginx_enabled ? 1 : 0
   name       = "internal-ingress-nginx"
   chart      = "ingress-nginx"
-  version    = "4.1.4"
+  version    = "4.7.0"
   namespace  = "internal-ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
   values = [
@@ -246,6 +247,26 @@ resource "kubernetes_namespace" "kube_clarity" {
   }
 }
 
+resource "random_password" "kube_clarity" {
+  length  = 20
+  special = false
+}
+
+resource "kubernetes_secret" "kube_clarity" {
+  count      = var.kubeclarity_enabled ? 1 : 0
+  depends_on = [kubernetes_namespace.kube_clarity]
+  metadata {
+    name      = "basic-auth"
+    namespace = var.kubeclarity_namespace
+  }
+
+  data = {
+    auth = "admin:${bcrypt(random_password.kube_clarity.result)}"
+  }
+
+  type = "Opaque"
+}
+
 resource "helm_release" "kubeclarity" {
   count      = var.kubeclarity_enabled ? 1 : 0
   name       = "kubeclarity"
@@ -264,14 +285,14 @@ resource "helm_release" "kubeclarity" {
 #Kubecost
 
 data "aws_eks_addon_version" "kubecost" {
-  addon_name         = "kubecost_kubecost"
-  # eks_cluster_version  = var.eks_cluster_version != null ? var.eks_cluster_version : 
+  addon_name = "kubecost_kubecost"
+  # eks_cluster_version  = var.eks_cluster_version != null ? var.eks_cluster_version :
   kubernetes_version = data.aws_eks_cluster.eks.version
   most_recent        = true
 }
 
 resource "aws_eks_addon" "kubecost" {
-  count                    = var.enable_kubecost ? 1 : 0
+  count                    = var.kubecost_enabled ? 1 : 0
   cluster_name             = var.eks_cluster_name
   addon_name               = "kubecost_kubecost"
   addon_version            = data.aws_eks_addon_version.kubecost.version
@@ -281,17 +302,39 @@ resource "aws_eks_addon" "kubecost" {
 
 }
 
+resource "random_password" "kubecost" {
+  length  = 20
+  special = false
+}
+
+resource "kubernetes_secret" "kubecost" {
+  count      = var.kubecost_enabled ? 1 : 0
+  depends_on = [aws_eks_addon.kubecost]
+  metadata {
+    name      = "basic-auth"
+    namespace = "kubecost"
+  }
+
+  data = {
+    auth = "admin:${bcrypt(random_password.kubecost.result)}"
+  }
+
+  type = "Opaque"
+}
 
 resource "kubernetes_ingress_v1" "kubecost" {
-  count      = var.enable_kubecost ? 1 : 0
-  depends_on = [aws_eks_addon.kubecost]
+  count                  = var.kubecost_enabled ? 1 : 0
+  depends_on             = [aws_eks_addon.kubecost, module.k8s_addons, kubernetes_secret.kubecost]
   wait_for_load_balancer = true
   metadata {
-    name = "kubecost"
+    name      = "kubecost"
     namespace = "kubecost"
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
-      "cert-manager.io/cluster-issuer"= var.cluster_issuer
+      "kubernetes.io/ingress.class"             = "nginx"
+      "cert-manager.io/cluster-issuer"          = var.cluster_issuer
+      "nginx.ingress.kubernetes.io/auth-type"   = "basic"
+      "nginx.ingress.kubernetes.io/auth-secret" = "basic-auth"
+      "nginx.ingress.kubernetes.io/auth-realm"  = "Authentication Required - kubecost"
     }
   }
   spec {
@@ -306,14 +349,14 @@ resource "kubernetes_ingress_v1" "kubecost" {
               port {
                 number = 9090
               }
+            }
           }
         }
       }
     }
+    tls {
+      secret_name = "tls-kubecost"
+      hosts       = [var.kubecost_hostname]
+    }
   }
-  tls {
-    secret_name = "tls-kubecost"
-    hosts = [var.kubecost_hostname]
-  }
-}
 }
