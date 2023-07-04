@@ -145,6 +145,11 @@ data "aws_iam_policy_document" "aws_lb" {
       variable = "aws:ResourceTag/ingress.k8s.aws/cluster"
       values   = ["false"]
     }
+    condition {
+      test     = "StringEquals"
+      variable = "elasticloadbalancing:CreateAction"
+      values   = ["CreateTargetGroup", "CreateLoadBalancer"]
+    }
   }
 
   statement {
