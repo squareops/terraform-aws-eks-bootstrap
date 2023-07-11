@@ -394,7 +394,7 @@ resource "helm_release" "vpa-crds" {
 
 resource "helm_release" "metrics-server-vpa" {
   count      = var.metrics_server_vpa_enabled ? 1 : 0
-  depends_on = ["helm_release.vpa-crd"]
+  depends_on = ["helm_release.vpa-crds"]
   name       = "metricsservervpa"
   namespace  = "kube-system"
   chart      = "${path.module}/addons/metrics_server_vpa/"
