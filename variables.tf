@@ -286,11 +286,6 @@ variable "cluster_issuer" {
 }
 
 #core-dns-hpa
-variable "coredns_hpa_enabled" {
-  default     = false
-  type        = bool
-  description = "Specify wheather to enable hpa on coredns"
-}
 
 variable "corednsdeploymentname" {
   default     = "coredns"
@@ -323,12 +318,6 @@ variable "targetMemoryUtilizationPercentage" {
 }
 
 #metrics-server-vpa
-
-variable "metrics_server_vpa_enabled" {
-  default     = false
-  type        = bool
-  description = "Specify wheather to enable vpa on metrics server"
-}
 
 variable "metricsServerDeploymentName" {
   default     = "metrics-server"

@@ -363,7 +363,6 @@ resource "kubernetes_ingress_v1" "kubecost" {
 
 #hpa-coredns
 resource "helm_release" "coredns-hpa" {
-  count     = var.coredns_hpa_enabled ? 1 : 0
   name      = "corednshpa"
   namespace = "kube-system"
   chart     = "${path.module}/addons/core_dns_hpa/"
@@ -380,7 +379,7 @@ resource "helm_release" "coredns-hpa" {
 }
 
 resource "helm_release" "vpa-crds" {
-  count      = var.metrics_server_vpa_enabled ? 1 : 0
+  count      = var.metrics_server_enabled ? 1 : 0
   name       = "vertical-pod-autoscaler"
   namespace  = "kube-system"
   repository = "https://cowboysysop.github.io/charts/"
@@ -393,7 +392,7 @@ resource "helm_release" "vpa-crds" {
 }
 
 resource "helm_release" "metrics-server-vpa" {
-  count      = var.metrics_server_vpa_enabled ? 1 : 0
+  count      = var.metrics_server_enabled ? 1 : 0
   depends_on = ["helm_release.vpa-crds"]
   name       = "metricsservervpa"
   namespace  = "kube-system"

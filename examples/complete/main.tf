@@ -30,10 +30,8 @@ module "eks_bootstrap" {
   cert_manager_enabled          = true
   worker_iam_role_name          = ""
   worker_iam_role_arn           = ""
-  coredns_hpa_enabled           = true
   ingress_nginx_enabled         = true
   metrics_server_enabled        = false
-  metrics_server_vpa_enabled    = true
   external_secrets_enabled      = true
   amazon_eks_vpc_cni_enabled    = true
   cluster_autoscaler_enabled    = true
