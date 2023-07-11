@@ -1,0 +1,35 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+ name: core-dns-hpa-cpu
+ namespace: kube-system
+spec:
+ scaleTargetRef:
+   apiVersion: apps/v1
+   kind: Deployment
+   name: {{ .Values.corednsdeploymentname}}
+ minReplicas: {{ .Values.minReplicas}}
+ maxReplicas: {{ .Values.maxReplicas}}
+ targetCPUUtilizationPercentage: {{ .Values.targetCPUUtilizationPercentage}}
+
+---
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+ name: core-dns-hpa-memory
+ namespace: kube-system
+spec:
+ scaleTargetRef:
+   apiVersion: apps/v1
+   kind: Deployment
+   name: coredns
+ minReplicas: {{ .Values.minReplicas}}
+ maxReplicas: {{ .Values.maxReplicas}}
+ metrics: 
+  - type: Resource
+    resource:
+      name: memory 
+      target:
+        type: Utilization 
+        averageValue: {{ .Values.targetMemoryUtilizationPercentage}}

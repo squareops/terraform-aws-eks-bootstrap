@@ -360,3 +360,52 @@ resource "kubernetes_ingress_v1" "kubecost" {
     }
   }
 }
+
+#hpa-coredns
+resource "helm_release" "coredns-hpa" {
+  count     = var.coredns_hpa_enabled ? 1 : 0
+  name      = "corednshpa"
+  namespace = "kube-system"
+  chart     = "${path.module}/addons/core_dns_hpa/"
+  timeout   = 600
+  values = [
+    templatefile("${path.module}/addons/core_dns_hpa/values.yaml", {
+      corednsdeploymentname             = var.corednsdeploymentname
+      minReplicas                       = var.minReplicas,
+      maxReplicas                       = var.maxReplicas,
+      targetCPUUtilizationPercentage    = var.targetCPUUtilizationPercentage,
+      targetMemoryUtilizationPercentage = var.targetMemoryUtilizationPercentage
+    })
+  ]
+}
+
+resource "helm_release" "vpa-crds" {
+  count      = var.metrics_server_vpa_enabled ? 1 : 0
+  name       = "vertical-pod-autoscaler"
+  namespace  = "kube-system"
+  repository = "https://cowboysysop.github.io/charts/"
+  chart      = "vertical-pod-autoscaler"
+  version    = "7.2.0"
+  timeout    = 600
+  values = [
+    file("${path.module}/addons/vpa_crds/values.yaml")
+  ]
+}
+
+resource "helm_release" "metrics-server-vpa" {
+  count      = var.metrics_server_vpa_enabled ? 1 : 0
+  depends_on = ["helm_release.vpa-crd"]
+  name       = "metricsservervpa"
+  namespace  = "kube-system"
+  chart      = "${path.module}/addons/metrics_server_vpa/"
+  timeout    = 600
+  values = [
+    templatefile("${path.module}/addons/metrics_server_vpa/values.yaml", {
+      metricsServerDeploymentName = var.metricsServerDeploymentName
+      minCPU                      = var.minCPU,
+      minMemory                   = var.minMemory,
+      maxCPU                      = var.maxCPU,
+      maxMemory                   = var.maxMemory
+    })
+  ]
+}

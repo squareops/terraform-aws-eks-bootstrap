@@ -284,3 +284,78 @@ variable "cluster_issuer" {
   default     = "letsencrypt-prod"
   type        = string
 }
+
+#core-dns-hpa
+variable "coredns_hpa_enabled" {
+  default     = false
+  type        = bool
+  description = "Specify wheather to enable hpa on coredns"
+}
+
+variable "corednsdeploymentname" {
+  default     = "coredns"
+  type        = string
+  description = "Specify core dns deployment name"
+}
+
+variable "minReplicas" {
+  default     = 2
+  type        = number
+  description = "Specify min replica for core dns"
+}
+
+variable "maxReplicas" {
+  default     = 10
+  type        = number
+  description = "Specify maxReplicas for core dns"
+}
+
+variable "targetCPUUtilizationPercentage" {
+  default     = 80
+  type        = number
+  description = "Specify targetCPUUtilizationPercentage of core dns"
+}
+
+variable "targetMemoryUtilizationPercentage" {
+  default     = "150Mi"
+  type        = string
+  description = "Specify targetCPUUtilizationPercentage of core dns"
+}
+
+#metrics-server-vpa
+
+variable "metrics_server_vpa_enabled" {
+  default     = false
+  type        = bool
+  description = "Specify wheather to enable vpa on metrics server"
+}
+
+variable "metricsServerDeploymentName" {
+  default     = "metrics-server"
+  type        = string
+  description = "Specify metrics-server deployment name"
+}
+
+variable "minCPU" {
+  default     = "25m"
+  type        = string
+  description = "Specify min cpu of  metrics server"
+}
+
+variable "minMemory" {
+  default     = "150Mi"
+  type        = string
+  description = "Specify mim memory of metrics server"
+}
+
+variable "maxCPU" {
+  default     = "100m"
+  type        = string
+  description = "Specify max cpu of  metrics server"
+}
+
+variable "maxMemory" {
+  default     = "500Mi"
+  type        = string
+  description = "Specify max memory of metrics server"
+}
