@@ -1,0 +1,22 @@
+apiVersion: "autoscaling.k8s.io/v1"
+kind: VerticalPodAutoscaler
+metadata:
+  name: metrics-server-vpa
+  namespace: kube-system
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: {{ .Values.metricsServerDeploymentName}}   
+  updatePolicy:
+    updateMode: "Auto"       
+  resourcePolicy:
+    containerPolicies:
+      - containerName: '*'
+        minAllowed:
+          cpu: {{ .Values.minCPU}}  
+          memory: {{ .Values.minMemory}}   
+        maxAllowed:
+          cpu: {{ .Values.maxCPU}}     
+          memory: {{ .Values.maxMemory}} 
+        controlledResources: ["cpu", "memory"]

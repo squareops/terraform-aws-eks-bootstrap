@@ -284,3 +284,30 @@ variable "cluster_issuer" {
   default     = "letsencrypt-prod"
   type        = string
 }
+
+#core-dns-hpa
+variable "core_dns_hpa_config" {
+  description = "Configuration to provide settings of hpa over core dns"
+  default = {
+    minReplicas                        = 2
+    maxReplicas                        = 10
+    corednsdeploymentname              = "coredns"
+    targetCPUUtilizationPercentage     = 80
+    targetMemoryUtilizationPercentage  = "150Mi"
+  }
+  type = any
+}
+
+#metrics-server-vpa
+variable "metrics_server_vpa_config" {
+  description = "Configuration to provide settings of vpa over metrics server"
+  default = {
+    
+    minCPU                      = "25m"
+    maxCPU                      = "100m"
+    minMemory                   = "150Mi"
+    maxMemory                   = "500Mi"
+    metricsServerDeploymentName = "metrics-server"
+  }
+  type = any
+}
