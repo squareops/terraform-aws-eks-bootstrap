@@ -369,11 +369,11 @@ resource "helm_release" "coredns-hpa" {
   timeout   = 600
   values = [
     templatefile("${path.module}/addons/core_dns_hpa/values.yaml", {
-      corednsdeploymentname             = var.corednsdeploymentname
-      minReplicas                       = var.minReplicas,
-      maxReplicas                       = var.maxReplicas,
-      targetCPUUtilizationPercentage    = var.targetCPUUtilizationPercentage,
-      targetMemoryUtilizationPercentage = var.targetMemoryUtilizationPercentage
+      minReplicas                       = var.core_dns_hpa_config.minReplicas,
+      maxReplicas                       = var.core_dns_hpa_config.maxReplicas,
+      corednsdeploymentname             = var.core_dns_hpa_config.corednsdeploymentname,
+      targetCPUUtilizationPercentage    = var.core_dns_hpa_config.targetCPUUtilizationPercentage,
+      targetMemoryUtilizationPercentage = var.core_dns_hpa_config.targetMemoryUtilizationPercentage
     })
   ]
 }
@@ -400,11 +400,11 @@ resource "helm_release" "metrics-server-vpa" {
   timeout    = 600
   values = [
     templatefile("${path.module}/addons/metrics_server_vpa/values.yaml", {
-      metricsServerDeploymentName = var.metricsServerDeploymentName
-      minCPU                      = var.minCPU,
-      minMemory                   = var.minMemory,
-      maxCPU                      = var.maxCPU,
-      maxMemory                   = var.maxMemory
+      minCPU                      = var.metrics_server_vpa_config.minCPU,
+      minMemory                   = var.metrics_server_vpa_config.minMemory,
+      maxCPU                      = var.metrics_server_vpa_config.maxCPU,
+      maxMemory                   = var.metrics_server_vpa_config.maxMemory,
+      metricsServerDeploymentName = var.metrics_server_vpa_config.metricsServerDeploymentName
     })
   ]
 }

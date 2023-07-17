@@ -286,65 +286,28 @@ variable "cluster_issuer" {
 }
 
 #core-dns-hpa
-
-variable "corednsdeploymentname" {
-  default     = "coredns"
-  type        = string
-  description = "Specify core dns deployment name"
-}
-
-variable "minReplicas" {
-  default     = 2
-  type        = number
-  description = "Specify min replica for core dns"
-}
-
-variable "maxReplicas" {
-  default     = 10
-  type        = number
-  description = "Specify maxReplicas for core dns"
-}
-
-variable "targetCPUUtilizationPercentage" {
-  default     = 80
-  type        = number
-  description = "Specify targetCPUUtilizationPercentage of core dns"
-}
-
-variable "targetMemoryUtilizationPercentage" {
-  default     = "150Mi"
-  type        = string
-  description = "Specify targetCPUUtilizationPercentage of core dns"
+variable "core_dns_hpa_config" {
+  description = "Configuration to provide settings of hpa over core dns"
+  default = {
+    minReplicas                        = 2
+    maxReplicas                        = 10
+    corednsdeploymentname              = "coredns"
+    targetCPUUtilizationPercentage     = 80
+    targetMemoryUtilizationPercentage  = "150Mi"
+  }
+  type = any
 }
 
 #metrics-server-vpa
-
-variable "metricsServerDeploymentName" {
-  default     = "metrics-server"
-  type        = string
-  description = "Specify metrics-server deployment name"
-}
-
-variable "minCPU" {
-  default     = "25m"
-  type        = string
-  description = "Specify min cpu of  metrics server"
-}
-
-variable "minMemory" {
-  default     = "150Mi"
-  type        = string
-  description = "Specify mim memory of metrics server"
-}
-
-variable "maxCPU" {
-  default     = "100m"
-  type        = string
-  description = "Specify max cpu of  metrics server"
-}
-
-variable "maxMemory" {
-  default     = "500Mi"
-  type        = string
-  description = "Specify max memory of metrics server"
+variable "metrics_server_vpa_config" {
+  description = "Configuration to provide settings of vpa over metrics server"
+  default = {
+    
+    minCPU                      = "25m"
+    maxCPU                      = "100m"
+    minMemory                   = "150Mi"
+    maxMemory                   = "500Mi"
+    metricsServerDeploymentName = "metrics-server"
+  }
+  type = any
 }
