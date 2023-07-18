@@ -203,6 +203,22 @@ variable "istio_enabled" {
   type        = bool
 }
 
+variable "istio_config" {
+  description = "Configuration to provide settings for Istio"
+  default = {
+    ingress_gateway_enabled    = true
+    ingress_gateway_namespace = ["istio-ingressgateway"]
+    egress_gateway_enabled    = false
+    egress_gateway_namespace = ["istio-egressgateway"]
+    observability_enabled = true
+    envoy_access_logs_enabled = false
+    prometheus_monitoring_enabled = false
+    cert_manager_cluster_issuer_enabled = false
+  }
+  type = any
+}
+
+
 variable "velero_enabled" {
   description = "Enable or disable the installation of Velero, which is a backup and restore solution for Kubernetes clusters."
   default     = false
