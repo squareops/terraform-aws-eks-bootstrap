@@ -285,3 +285,9 @@ variable "cluster_issuer" {
   default     = "letsencrypt-prod"
   type        = string
 }
+
+variable "ipv6_enabled" {
+  description = "Whether enable IPv6 or not"
+  default = false
+  type = bool
+}
