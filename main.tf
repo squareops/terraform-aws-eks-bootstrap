@@ -203,10 +203,12 @@ module "karpenter_provisioner" {
   depends_on                           = [module.k8s_addons]
   source                               = "./addons/karpenter_provisioner"
   count                                = var.karpenter_provisioner_enabled ? 1 : 0
+  ipv6_enabled                         = var.ipv6_enabled
   sg_selector_name                     = var.eks_cluster_name
   subnet_selector_name                 = var.karpenter_provisioner_config.private_subnet_name
   karpenter_ec2_capacity_type          = var.karpenter_provisioner_config.instance_capacity_type
   excluded_karpenter_ec2_instance_type = var.karpenter_provisioner_config.excluded_instance_type
+  instance_hypervisor = var.karpenter_provisioner_config.instance_hypervisor
 }
 
 resource "kubernetes_namespace" "internal_nginx" {

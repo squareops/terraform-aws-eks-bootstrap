@@ -233,6 +233,7 @@ variable "karpenter_provisioner_config" {
     private_subnet_name    = ""
     instance_capacity_type = ["spot"]
     excluded_instance_type = ["nano", "micro", "small"]
+    instance_hypervisor = ["nitro"]
   }
   type = any
 }

@@ -21,3 +21,15 @@ variable "excluded_karpenter_ec2_instance_type" {
   type        = list(string)
   default     = [""]
 }
+
+variable "instance_hypervisor" {
+  description = "List of instance hypervisor that can be used by Karpenter"
+  type        = list(string)
+  default     = [""]
+}
+
+variable "ipv6_enabled" {
+  description = "whether IPv6 enabled or not"
+  type = bool
+  default = false
+}
