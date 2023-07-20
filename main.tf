@@ -124,6 +124,10 @@ module "k8s_addons" {
   enable_amazon_eks_vpc_cni        = var.amazon_eks_vpc_cni_enabled
   enable_aws_efs_csi_driver        = var.efs_storage_class_enabled
   aws_efs_csi_driver_irsa_policies = [var.kms_policy_arn]
+
+  # External Secrets
+  enable_external_secrets = var.external_secrets_enabled
+
 }
 
 resource "helm_release" "cert_manager_le_http" {
@@ -149,17 +153,6 @@ module "single_az_sc" {
   single_az_ebs_gp3_storage_class_name = each.value.name
 }
 
-module "external_secrets" {
-  depends_on             = [module.service_monitor_crd]
-  source                 = "./addons/external_secrets"
-  count                  = var.external_secrets_enabled ? 1 : 0
-  name                   = var.name
-  region                 = data.aws_region.current.name
-  cluster_id             = var.eks_cluster_name
-  environment            = var.environment
-  provider_url           = data.aws_eks_cluster.eks.identity[0].oidc[0].issuer
-  enable_service_monitor = var.service_monitor_crd_enabled
-}
 
 ### EFS
 module "efs" {
@@ -361,4 +354,52 @@ resource "kubernetes_ingress_v1" "kubecost" {
       hosts       = [var.kubecost_hostname]
     }
   }
+}
+
+#hpa-coredns
+resource "helm_release" "coredns-hpa" {
+  name      = "corednshpa"
+  namespace = "kube-system"
+  chart     = "${path.module}/addons/core_dns_hpa/"
+  timeout   = 600
+  values = [
+    templatefile("${path.module}/addons/core_dns_hpa/values.yaml", {
+      minReplicas                       = var.core_dns_hpa_config.minReplicas,
+      maxReplicas                       = var.core_dns_hpa_config.maxReplicas,
+      corednsdeploymentname             = var.core_dns_hpa_config.corednsdeploymentname,
+      targetCPUUtilizationPercentage    = var.core_dns_hpa_config.targetCPUUtilizationPercentage,
+      targetMemoryUtilizationPercentage = var.core_dns_hpa_config.targetMemoryUtilizationPercentage
+    })
+  ]
+}
+
+resource "helm_release" "vpa-crds" {
+  count      = var.metrics_server_enabled ? 1 : 0
+  name       = "vertical-pod-autoscaler"
+  namespace  = "kube-system"
+  repository = "https://cowboysysop.github.io/charts/"
+  chart      = "vertical-pod-autoscaler"
+  version    = "7.2.0"
+  timeout    = 600
+  values = [
+    file("${path.module}/addons/vpa_crds/values.yaml")
+  ]
+}
+
+resource "helm_release" "metrics-server-vpa" {
+  count      = var.metrics_server_enabled ? 1 : 0
+  depends_on = ["helm_release.vpa-crds"]
+  name       = "metricsservervpa"
+  namespace  = "kube-system"
+  chart      = "${path.module}/addons/metrics_server_vpa/"
+  timeout    = 600
+  values = [
+    templatefile("${path.module}/addons/metrics_server_vpa/values.yaml", {
+      minCPU                      = var.metrics_server_vpa_config.minCPU,
+      minMemory                   = var.metrics_server_vpa_config.minMemory,
+      maxCPU                      = var.metrics_server_vpa_config.maxCPU,
+      maxMemory                   = var.metrics_server_vpa_config.maxMemory,
+      metricsServerDeploymentName = var.metrics_server_vpa_config.metricsServerDeploymentName
+    })
+  ]
 }

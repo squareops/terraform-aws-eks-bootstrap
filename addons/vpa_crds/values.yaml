@@ -1,0 +1,627 @@
+# Default values for vertical-pod-autoscaler.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  # Global Docker image registry
+  imageRegistry: ""
+
+  # Global Docker registry secret names as an array
+  imagePullSecrets: []
+
+# Override Kubernetes version
+kubeVersion: ""
+
+nameOverride: ""
+fullnameOverride: ""
+
+# Annotations to add to all deployed objects
+commonAnnotations: {}
+
+# Labels to add to all deployed objects
+commonLabels: {}
+
+# Array of extra objects to deploy with the release
+extraDeploy: []
+
+admissionController:
+  # Enable the component
+  enabled: true
+
+  replicaCount: 1
+
+  image:
+    # Image registry
+    registry: registry.k8s.io
+
+    # Image repository
+    repository: autoscaling/vpa-admission-controller
+
+    # Image tag
+    tag: 0.14.0
+
+    # Image digest
+    digest: ""
+
+    # Image pull policy
+    pullPolicy: IfNotPresent
+
+  pdb:
+    # Specifies whether a pod disruption budget should be created
+    create: false
+
+    # Minimum number/percentage of pods that should remain scheduled
+    minAvailable: 1
+
+    # Maximum number/percentage of pods that may be made unavailable
+    # maxUnavailable: 1
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name:
+
+  # Additional pod annotations
+  podAnnotations: {}
+
+  # Additional pod labels
+  podLabels: {}
+
+  podSecurityContext:
+    # fsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 65534
+
+  # Priority class name
+  # priorityClassName : high-priority
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  livenessProbe:
+    # Enable liveness probe
+    enabled: true
+
+    # Delay before the liveness probe is initiated
+    initialDelaySeconds: 0
+
+    # How often to perform the liveness probe
+    periodSeconds: 10
+
+    # When the liveness probe times out
+    timeoutSeconds: 1
+
+    # Minimum consecutive failures for the liveness probe to be considered failed after having succeeded
+    failureThreshold: 3
+
+    # Minimum consecutive successes for the liveness probe to be considered successful after having failed
+    successThreshold: 1
+
+  readinessProbe:
+    # Enable readiness probe
+    enabled: true
+
+    # Delay before the readiness probe is initiated
+    initialDelaySeconds: 0
+
+    # How often to perform the readiness probe
+    periodSeconds: 10
+
+    # When the readiness probe times out
+    timeoutSeconds: 1
+
+    # Minimum consecutive failures for the readiness probe to be considered failed after having succeeded
+    failureThreshold: 3
+
+    # Minimum consecutive successes for the readiness probe to be considered successful after having failed
+    successThreshold: 1
+
+  service:
+    # Service annotations
+    annotations: {}
+
+    # Service type
+    type: ClusterIP
+
+    # Static cluster IP address or None for headless service when service type is ClusterIP
+    # clusterIP: 10.43.0.100
+
+    # Service port
+    # port: 8000
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 200m
+    #   memory: 512Mi
+    # requests:
+    #   cpu: 50m
+    #   memory: 256Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  extraArgs:
+    # kube-api-burst: 10
+    # kube-api-qps: 5
+    v: 2
+    # vpa-object-namespace: ""
+    # webhook-timeout-seconds: 30
+
+  # Additional container environment variables
+  extraEnvVars: []
+  #  - name: MY-NAME
+  #    value: "MY-VALUE"
+
+  # Name of existing ConfigMap containing additional container environment variables
+  extraEnvVarsCM:
+
+  # Name of existing Secret containing additional container environment variables
+  extraEnvVarsSecret:
+
+  metrics:
+    service:
+      # Metrics service annotations
+      annotations: {}
+
+      # Metrics service type
+      type: ClusterIP
+
+      # Metrics static cluster IP address or None for headless service when service type is ClusterIP
+      # clusterIP: 10.43.0.100
+
+      # Metrics service port
+      port: 8944
+
+    serviceMonitor:
+      # Specifies whether a service monitor should be created
+      enabled: false
+      # Extra annotations for the ServiceMonitor
+      annotations: {}
+      # Extra labels for the ServiceMonitor
+      labels: {}
+      # The name of the label on the target service to use as the job name in Prometheus
+      jobLabel: ""
+      # How frequently to scrape metrics
+      interval: ""
+      # Timeout after which the scrape is ended
+      scrapeTimeout: ""
+      # Specify additional relabeling of metrics
+      metricRelabelings: []
+      # Specify general relabeling
+      relabelings: []
+
+  tls:
+    caCert: ""
+    cert: ""
+    key: ""
+    existingSecret: ""
+
+recommender:
+  replicaCount: 1
+
+  image:
+    # Image registry
+    registry: registry.k8s.io
+
+    # Image repository
+    repository: autoscaling/vpa-recommender
+
+    # Image tag
+    tag: 0.14.0
+
+    # Image digest
+    digest: ""
+
+    # Image pull policy
+    pullPolicy: IfNotPresent
+
+  pdb:
+    # Specifies whether a pod disruption budget should be created
+    create: false
+
+    # Minimum number/percentage of pods that should remain scheduled
+    minAvailable: 1
+
+    # Maximum number/percentage of pods that may be made unavailable
+    # maxUnavailable: 1
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name:
+
+  # Additional pod annotations
+  podAnnotations: {}
+
+  # Additional pod labels
+  podLabels: {}
+
+  podSecurityContext:
+    # fsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 65534
+
+  # Priority class name
+  # priorityClassName : high-priority
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  livenessProbe:
+    # Enable liveness probe
+    enabled: true
+
+    # Delay before the liveness probe is initiated
+    initialDelaySeconds: 0
+
+    # How often to perform the liveness probe
+    periodSeconds: 10
+
+    # When the liveness probe times out
+    timeoutSeconds: 1
+
+    # Minimum consecutive failures for the liveness probe to be considered failed after having succeeded
+    failureThreshold: 3
+
+    # Minimum consecutive successes for the liveness probe to be considered successful after having failed
+    successThreshold: 1
+
+  readinessProbe:
+    # Enable readiness probe
+    enabled: true
+
+    # Delay before the readiness probe is initiated
+    initialDelaySeconds: 0
+
+    # How often to perform the readiness probe
+    periodSeconds: 10
+
+    # When the readiness probe times out
+    timeoutSeconds: 1
+
+    # Minimum consecutive failures for the readiness probe to be considered failed after having succeeded
+    failureThreshold: 3
+
+    # Minimum consecutive successes for the readiness probe to be considered successful after having failed
+    successThreshold: 1
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 200m
+    #   memory: 1024Mi
+    # requests:
+    #   cpu: 50m
+    #   memory: 512Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  extraArgs:
+    # checkpoints-gc-interval: 10m0s
+    # checkpoints-timeout: 1m0s
+    # container-name-label: name
+    # container-namespace-label: namespace
+    # container-pod-name-label: pod_name
+    # cpu-histogram-decay-half-life: 24h0m0s
+    # cpu-integer-post-processor-enabled: false
+    # history-length: 8d
+    # history-resolution: 1h
+    # kube-api-burst: 10
+    # kube-api-qps: 5
+    # memory-aggregation-interval: 24h0m0s
+    # memory-aggregation-interval-count: 8
+    # memory-histogram-decay-half-life: 24h0m0s
+    # memory-saver: false
+    # metric-for-pod-labels: up{job="kubernetes-pods"}
+    # min-checkpoints: 10
+    # oom-bump-up-ratio: 1.2
+    # oom-min-bump-up-bytes: 104857600
+    # pod-label-prefix: pod_label_
+    # pod-name-label: kubernetes_pod_name
+    # pod-namespace-label: kubernetes_namespace
+    # pod-recommendation-min-cpu-millicores: 25
+    # pod-recommendation-min-memory-mb: 250
+    # prometheus-address: ""
+    # prometheus-cadvisor-job-name: kubernetes-cadvisor
+    # prometheus-query-timeout: 5m
+    # recommendation-margin-fraction: 0.15
+    # recommender-interval: 1m0s
+    # recommender-name: default
+    # storage: checkpoint
+    # target-cpu-percentile: 0.9
+    v: 2
+    # vpa-object-namespace: ""
+
+  # Additional container environment variables
+  extraEnvVars: []
+  #  - name: MY-NAME
+  #    value: "MY-VALUE"
+
+  # Name of existing ConfigMap containing additional container environment variables
+  extraEnvVarsCM:
+
+  # Name of existing Secret containing additional container environment variables
+  extraEnvVarsSecret:
+
+  metrics:
+    service:
+      # Metrics service annotations
+      annotations: {}
+
+      # Metrics service type
+      type: ClusterIP
+
+      # Metrics static cluster IP address or None for headless service when service type is ClusterIP
+      # clusterIP: 10.43.0.100
+
+      # Metrics service port
+      port: 8942
+
+    serviceMonitor:
+      # Specifies whether a service monitor should be created
+      enabled: false
+      # Extra annotations for the ServiceMonitor
+      annotations: {}
+      # Extra labels for the ServiceMonitor
+      labels: {}
+      # The name of the label on the target service to use as the job name in Prometheus
+      jobLabel: ""
+      # How frequently to scrape metrics
+      interval: ""
+      # Timeout after which the scrape is ended
+      scrapeTimeout: ""
+      # Specify additional relabeling of metrics
+      metricRelabelings: []
+      # Specify general relabeling
+      relabelings: []
+
+updater:
+  # Enable the component
+  enabled: true
+
+  replicaCount: 1
+
+  image:
+    # Image registry
+    registry: registry.k8s.io
+
+    # Image repository
+    repository: autoscaling/vpa-updater
+
+    # Image tag
+    tag: 0.14.0
+
+    # Image digest
+    digest: ""
+
+    # Image pull policy
+    pullPolicy: IfNotPresent
+
+  pdb:
+    # Specifies whether a pod disruption budget should be created
+    create: false
+
+    # Minimum number/percentage of pods that should remain scheduled
+    minAvailable: 1
+
+    # Maximum number/percentage of pods that may be made unavailable
+    # maxUnavailable: 1
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name:
+
+  # Additional pod annotations
+  podAnnotations: {}
+
+  # Additional pod labels
+  podLabels: {}
+
+  podSecurityContext:
+    # fsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 65534
+
+  # Priority class name
+  # priorityClassName : high-priority
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  livenessProbe:
+    # Enable liveness probe
+    enabled: true
+
+    # Delay before the liveness probe is initiated
+    initialDelaySeconds: 0
+
+    # How often to perform the liveness probe
+    periodSeconds: 10
+
+    # When the liveness probe times out
+    timeoutSeconds: 1
+
+    # Minimum consecutive failures for the liveness probe to be considered failed after having succeeded
+    failureThreshold: 3
+
+    # Minimum consecutive successes for the liveness probe to be considered successful after having failed
+    successThreshold: 1
+
+  readinessProbe:
+    # Enable readiness probe
+    enabled: true
+
+    # Delay before the readiness probe is initiated
+    initialDelaySeconds: 0
+
+    # How often to perform the readiness probe
+    periodSeconds: 10
+
+    # When the readiness probe times out
+    timeoutSeconds: 1
+
+    # Minimum consecutive failures for the readiness probe to be considered failed after having succeeded
+    failureThreshold: 3
+
+    # Minimum consecutive successes for the readiness probe to be considered successful after having failed
+    successThreshold: 1
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 200m
+    #   memory: 1024Mi
+    # requests:
+    #   cpu: 50m
+    #   memory: 512Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  extraArgs:
+    # evict-after-oom-threshold: 10m0s
+    # eviction-rate-burst: 1
+    # eviction-rate-limit: -1
+    # eviction-tolerance: 0.5
+    # in-recommendation-bounds-eviction-lifetime-threshold: 12h0m0s
+    # kube-api-burst: 10
+    # kube-api-qps: 5
+    # min-replicas: 2
+    # pod-update-threshold: 0.1
+    # updater-interval: 1m0s
+    # use-admission-controller-status: true
+    v: 2
+    # vpa-object-namespace: ""
+
+  # Additional container environment variables
+  extraEnvVars: []
+  #  - name: MY-NAME
+  #    value: "MY-VALUE"
+
+  # Name of existing ConfigMap containing additional container environment variables
+  extraEnvVarsCM:
+
+  # Name of existing Secret containing additional container environment variables
+  extraEnvVarsSecret:
+
+  metrics:
+    service:
+      # Metrics service annotations
+      annotations: {}
+
+      # Metrics service type
+      type: ClusterIP
+
+      # Metrics static cluster IP address or None for headless service when service type is ClusterIP
+      # clusterIP: 10.43.0.100
+
+      # Metrics service port
+      port: 8943
+    serviceMonitor:
+      # Specifies whether a service monitor should be created
+      enabled: false
+      # Extra annotations for the ServiceMonitor
+      annotations: {}
+      # Extra labels for the ServiceMonitor
+      labels: {}
+      # The name of the label on the target service to use as the job name in Prometheus
+      jobLabel: ""
+      # How frequently to scrape metrics
+      interval: ""
+      # Timeout after which the scrape is ended
+      scrapeTimeout: ""
+      # Specify additional relabeling of metrics
+      metricRelabelings: []
+      # Specify general relabeling
+      relabelings: []
+
+crds:
+  image:
+    # Image registry
+    registry: docker.io
+
+    # Image repository
+    repository: bitnami/kubectl
+
+    # Image tag
+    tag: 1.26.3
+
+    # Image digest
+    digest: ""
+
+    # Image pull policy
+    pullPolicy: IfNotPresent
+
+  # Additional pod annotations
+  podAnnotations: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+tests:
+  image:
+    # Image registry
+    registry: ghcr.io
+
+    # Image repository
+    repository: cowboysysop/pytest
+
+    # Image tag
+    tag: 1.0.35
+
+    # Image digest
+    digest: ""
+
+    # Image pull policy
+    pullPolicy: IfNotPresent

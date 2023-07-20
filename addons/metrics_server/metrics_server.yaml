@@ -31,3 +31,5 @@ resources:
 
 podAnnotations:
   co.elastic.logs/enabled: "true"
+
+replicas: 2

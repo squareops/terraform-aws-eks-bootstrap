@@ -1,0 +1,5 @@
+corednsdeploymentname: ${corednsdeploymentname}
+minReplicas: ${minReplicas}
+maxReplicas: ${maxReplicas}
+targetCPUUtilizationPercentage: ${targetCPUUtilizationPercentage}
+targetMemoryUtilizationPercentage: ${targetMemoryUtilizationPercentage}

@@ -1,0 +1,5 @@
+metricsServerDeploymentName: ${metricsServerDeploymentName}
+minCPU: ${minCPU}
+minMemory: ${minMemory}
+maxCPU: ${maxCPU}
+maxMemory: ${maxMemory}
