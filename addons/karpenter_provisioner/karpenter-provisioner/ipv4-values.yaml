@@ -1,0 +1,4 @@
+subnet_selector_name: "${subnet_selector_name}"
+sg_selector_name: "${sg_selector_name}"
+karpenter_ec2_capacity_type: "${karpenter_ec2_capacity_type}"
+excluded_karpenter_ec2_instance_type: "${excluded_karpenter_ec2_instance_type}"

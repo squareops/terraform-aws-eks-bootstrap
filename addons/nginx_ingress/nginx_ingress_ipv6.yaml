@@ -1,0 +1,59 @@
+## Set kind to DaemonSet so no affinity is assigned to it
+
+controller:
+  kind: Deployment
+  service:
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: external
+      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+      service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+      service.beta.kubernetes.io/aws-load-balancer-ip-address-type: dualstack
+    externalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv6
+    ipFamilyPolicy: PreferDualStack
+  resources:
+    limits:
+      cpu: 500m
+      memory: 750Mi
+    requests:
+      cpu: 50m
+      memory: 200Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+  podAnnotations:
+    co.elastic.logs/enabled: "true"
+    co.elastic.logs/module: nginx
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - ingress-nginx
+          - key: app.kubernetes.io/instance
+            operator: In
+            values:
+            - ingress-nginx
+          - key: app.kubernetes.io/component
+            operator: In
+            values:
+            - controller
+        topologyKey: "kubernetes.io/hostname"
+
+
+
+## Enabling metrics for prometheus monitoring
+
+  metrics:
+    enabled: ${enable_service_monitor}
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: "prometheus-operator"

@@ -7,40 +7,44 @@ locals {
     Expires    = "Never"
     Department = "Engineering"
   }
+  ipv6_enabled = false
 }
 
 module "eks_bootstrap" {
-  source                        = "squareops/eks-bootstrap/aws"
-  name                          = local.name
-  vpc_id                        = ""
-  environment                   = local.environment
-  kms_key_arn                   = ""
-  keda_enabled                  = true
-  istio_enabled                 = false
-  kms_policy_arn                = "" ## eks module will create kms_policy_arn
-  eks_cluster_name              = ""
-  reloader_enabled              = true
-  karpenter_enabled             = true
-  private_subnet_ids            = [""]
-  single_az_sc_config           = [{ name = "infra-service-sc", zone = "us-east-2a" }]
-  kubeclarity_enabled           = false
-  kubeclarity_hostname          = ""
-  kubecost_enabled              = false
-  kubecost_hostname             = ""
-  cert_manager_enabled          = true
-  worker_iam_role_name          = ""
-  worker_iam_role_arn           = ""
-  ingress_nginx_enabled         = true
-  metrics_server_enabled        = false
-  external_secrets_enabled      = true
-  amazon_eks_vpc_cni_enabled    = true
-  cluster_autoscaler_enabled    = true
-  service_monitor_crd_enabled   = true
-  karpenter_provisioner_enabled = false
+  source                              = "squareops/eks-bootstrap/aws"
+  name                                = local.name
+  vpc_id                              = ""
+  environment                         = local.environment
+  ipv6_enabled                        = local.ipv6_enabled
+  kms_key_arn                         = ""
+  keda_enabled                        = true
+  istio_enabled                       = false
+  kms_policy_arn                      = "" ## eks module will create kms_policy_arn
+  eks_cluster_name                    = ""
+  reloader_enabled                    = true
+  karpenter_enabled                   = true
+  private_subnet_ids                  = [""]
+  single_az_sc_config                 = [{ name = "infra-service-sc", zone = "us-east-2a" }]
+  kubeclarity_enabled                 = false
+  kubeclarity_hostname                = ""
+  kubecost_enabled                    = false
+  kubecost_hostname                   = ""
+  cert_manager_enabled                = true
+  worker_iam_role_name                = ""
+  worker_iam_role_arn                 = ""
+  ingress_nginx_enabled               = true
+  metrics_server_enabled              = false
+  external_secrets_enabled            = true
+  amazon_eks_vpc_cni_enabled          = true
+  cluster_autoscaler_enabled          = true
+  service_monitor_crd_enabled         = true
+  karpenter_provisioner_enabled       = false
+  enable_aws_load_balancer_controller = true
   karpenter_provisioner_config = {
     private_subnet_name    = "private-subnet-name"
     instance_capacity_type = ["on-demand"]
     excluded_instance_type = ["nano", "micro", "small"]
+    instance_hypervisor    = ["nitro"]
   }
   cert_manager_letsencrypt_email                = "email@email.com"
   internal_ingress_nginx_enabled                = true
