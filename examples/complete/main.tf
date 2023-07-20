@@ -44,6 +44,7 @@ module "eks_bootstrap" {
     private_subnet_name    = "private-subnet-name"
     instance_capacity_type = ["on-demand"]
     excluded_instance_type = ["nano", "micro", "small"]
+    instance_hypervisor    = ["nitro"]
   }
   cert_manager_letsencrypt_email                = "email@email.com"
   internal_ingress_nginx_enabled                = true
