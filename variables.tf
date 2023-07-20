@@ -286,12 +286,6 @@ variable "cluster_issuer" {
   type        = string
 }
 
-variable "ipv6_enabled" {
-  description = "Whether enable IPv6 or not"
-  default     = false
-  type        = bool
-}
-
 #core-dns-hpa
 variable "core_dns_hpa_config" {
   description = "Configuration to provide settings of hpa over core dns"
@@ -316,5 +310,6 @@ variable "metrics_server_vpa_config" {
     maxMemory                   = "500Mi"
     metricsServerDeploymentName = "metrics-server"
   }
-  type = any
+  type = anyAD
 }
+
