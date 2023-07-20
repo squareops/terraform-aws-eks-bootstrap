@@ -14,6 +14,7 @@ module "eks_bootstrap" {
   name                          = "skaf"
   vpc_id                        = "vpc-06e37f0786b7eskaf"
   environment                   = "production"
+  ipv6_enabled                  = true
   kms_key_arn                   = "arn:aws:kms:region:222222222222:key/kms_key_arn"
   keda_enabled                  = true
   istio_enabled                 = false
@@ -40,6 +41,7 @@ module "eks_bootstrap" {
     private_subnet_name    = "private_subnet_name"
     instance_capacity_type = ["spot"]
     excluded_instance_type = ["nano", "micro", "small"]
+    instance_hypervisor    = ["nitro"]   ## Instance hypervisor is picked up only if IPv6 enable is chosen
   }
   cert_manager_letsencrypt_email                = "email@example.com"
   internal_ingress_nginx_enabled                = true
@@ -74,6 +76,7 @@ module "eks_bootstrap" {
 | Release 2.0.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717; |
 | Release 2.1.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717;  |
 | Release 3.0.0  | &#x2714;  | &#x2714;  | &#x2714; |  &#x2714; |
+| Release 3.1.0  | &#x2714;  | &#x2714;  | &#x2714; |  &#x2714; |
 
 ## IAM Permissions
 The required IAM permissions to create resources from this module can be found [here](https://github.com/squareops/terraform-aws-eks-bootstrap/blob/main/IAM.md)
