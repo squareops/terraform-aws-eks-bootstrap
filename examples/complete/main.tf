@@ -7,6 +7,7 @@ locals {
     Expires    = "Never"
     Department = "Engineering"
   }
+  ipv6_enabled = false
 }
 
 module "eks_bootstrap" {
@@ -14,6 +15,7 @@ module "eks_bootstrap" {
   name                                = local.name
   vpc_id                              = ""
   environment                         = local.environment
+  ipv6_enabled                        = local.ipv6_enabled
   kms_key_arn                         = ""
   keda_enabled                        = true
   istio_enabled                       = false
