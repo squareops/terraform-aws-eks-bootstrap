@@ -30,6 +30,6 @@ variable "instance_hypervisor" {
 
 variable "ipv6_enabled" {
   description = "whether IPv6 enabled or not"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }

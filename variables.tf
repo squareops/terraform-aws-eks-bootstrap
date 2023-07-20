@@ -233,7 +233,7 @@ variable "karpenter_provisioner_config" {
     private_subnet_name    = ""
     instance_capacity_type = ["spot"]
     excluded_instance_type = ["nano", "micro", "small"]
-    instance_hypervisor = ["nitro"]
+    instance_hypervisor    = ["nitro"]
   }
   type = any
 }
@@ -288,6 +288,6 @@ variable "cluster_issuer" {
 
 variable "ipv6_enabled" {
   description = "Whether enable IPv6 or not"
-  default = false
-  type = bool
+  default     = false
+  type        = bool
 }
