@@ -12,6 +12,11 @@ spec:
     - key: karpenter.k8s.aws/instance-size
       operator: NotIn
       values: {{ .Values.karpenter_ec2_instance_type }}
+    {{- if .Values.karpenter_instance_hypervisor }}
+    - key: "karpenter.k8s.aws/instance-hypervisor"
+      operator: In
+      values: {{ .Values.karpenter_instance_hypervisor }}
+    {{- end }}
   providerRef:                                # optional, recommended to use instead of `provider`
     name: karpenter-node-template
   ttlSecondsAfterEmpty: 300                   # optional, but never scales down if not set

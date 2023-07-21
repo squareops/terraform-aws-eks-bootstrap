@@ -7,7 +7,7 @@ locals {
     name        = local.name
     chart       = local.name
     repository  = "https://aws.github.io/eks-charts"
-    version     = "1.4.5"
+    version     = "1.5.4"
     namespace   = "kube-system"
     values      = local.default_helm_values
     description = "aws-load-balancer-controller Helm Chart for ingress resources"
@@ -33,6 +33,10 @@ locals {
       {
         name  = "serviceAccount.create"
         value = false
+      },
+      {
+        name  = "clusterName"
+        value = var.addon_context.eks_cluster_id
       }
     ],
     try(var.helm_config.set_values, [])

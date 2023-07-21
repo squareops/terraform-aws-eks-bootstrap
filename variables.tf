@@ -249,6 +249,7 @@ variable "karpenter_provisioner_config" {
     private_subnet_name    = ""
     instance_capacity_type = ["spot"]
     excluded_instance_type = ["nano", "micro", "small"]
+    instance_hypervisor    = ["nitro"]
   }
   type = any
 }
@@ -325,5 +326,11 @@ variable "metrics_server_vpa_config" {
     maxMemory                   = "500Mi"
     metricsServerDeploymentName = "metrics-server"
   }
-  type = any
+  type = anyAD
+}
+
+variable "ipv6_enabled" {
+  description = "whether IPv6 enabled or not"
+  type = bool
+  default = false
 }

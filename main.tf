@@ -5,7 +5,7 @@ data "aws_eks_cluster" "eks" {
 }
 
 module "service_monitor_crd" {
-  count  = var.service_monitor_crd_enabled ? 1: 0
+  count  = var.service_monitor_crd_enabled ? 1 : 0
   source = "./addons/service_monitor_crd"
 }
 
@@ -55,7 +55,7 @@ module "k8s_addons" {
   ingress_nginx_helm_config = {
     version = var.ingress_nginx_version
     values = [
-      templatefile("${path.module}/addons/nginx_ingress/nginx_ingress.yaml", {
+      templatefile("${path.module}/addons/nginx_ingress/${data.aws_eks_cluster.eks.kubernetes_network_config[0].ip_family == "ipv4" ? "nginx_ingress.yaml" : "nginx_ingress_ipv6.yaml"}", {
         enable_service_monitor = var.service_monitor_crd_enabled
 
       })
@@ -203,10 +203,12 @@ module "karpenter_provisioner" {
   depends_on                           = [module.k8s_addons]
   source                               = "./addons/karpenter_provisioner"
   count                                = var.karpenter_provisioner_enabled ? 1 : 0
+  ipv6_enabled                         = var.ipv6_enabled
   sg_selector_name                     = var.eks_cluster_name
   subnet_selector_name                 = var.karpenter_provisioner_config.private_subnet_name
   karpenter_ec2_capacity_type          = var.karpenter_provisioner_config.instance_capacity_type
   excluded_karpenter_ec2_instance_type = var.karpenter_provisioner_config.excluded_instance_type
+  instance_hypervisor                  = var.karpenter_provisioner_config.instance_hypervisor
 }
 
 resource "kubernetes_namespace" "internal_nginx" {
@@ -225,7 +227,7 @@ resource "helm_release" "internal_nginx" {
   namespace  = "internal-ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
   values = [
-    templatefile("${path.module}/addons/internal_nginx_ingress/ingress.yaml", {
+    templatefile("${path.module}/addons/internal_nginx_ingress/${data.aws_eks_cluster.eks.kubernetes_network_config[0].ip_family == "ipv4" ? "ingress.yaml" : "ingress_ipv6.yaml"}", {
       enable_service_monitor = var.service_monitor_crd_enabled
     })
   ]
