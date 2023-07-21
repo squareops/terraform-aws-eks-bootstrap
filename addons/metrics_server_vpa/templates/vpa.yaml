@@ -7,16 +7,16 @@ spec:
   targetRef:
     apiVersion: "apps/v1"
     kind: Deployment
-    name: {{ .Values.metricsServerDeploymentName}}   
+    name: {{ .Values.metricsServerDeploymentName}}
   updatePolicy:
-    updateMode: "Auto"       
+    updateMode: "Auto"
   resourcePolicy:
     containerPolicies:
       - containerName: '*'
         minAllowed:
-          cpu: {{ .Values.minCPU}}  
-          memory: {{ .Values.minMemory}}   
+          cpu: {{ .Values.minCPU}}
+          memory: {{ .Values.minMemory}}
         maxAllowed:
-          cpu: {{ .Values.maxCPU}}     
-          memory: {{ .Values.maxMemory}} 
+          cpu: {{ .Values.maxCPU}}
+          memory: {{ .Values.maxMemory}}
         controlledResources: ["cpu", "memory"]

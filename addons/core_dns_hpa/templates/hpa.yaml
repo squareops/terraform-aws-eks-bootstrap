@@ -26,10 +26,10 @@ spec:
    name: coredns
  minReplicas: {{ .Values.minReplicas}}
  maxReplicas: {{ .Values.maxReplicas}}
- metrics: 
+ metrics:
   - type: Resource
     resource:
-      name: memory 
+      name: memory
       target:
-        type: Utilization 
+        type: Utilization
         averageValue: {{ .Values.targetMemoryUtilizationPercentage}}

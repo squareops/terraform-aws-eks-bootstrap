@@ -28,7 +28,7 @@ resource "helm_release" "istiod" {
 resource "kubernetes_namespace" "istio_ingress" {
 
   depends_on = [helm_release.istiod]
-  count  = var.ingress_gateway_enabled ? 1: 0
+  count      = var.ingress_gateway_enabled ? 1 : 0
 
   metadata {
     name = var.ingress_gateway_namespace
@@ -38,7 +38,7 @@ resource "kubernetes_namespace" "istio_ingress" {
 
 resource "helm_release" "istio_ingress" {
   depends_on = [helm_release.istiod, kubernetes_namespace.istio_ingress]
-  count  = var.ingress_gateway_enabled ? 1: 0
+  count      = var.ingress_gateway_enabled ? 1 : 0
   name       = "istio-ingressgateway"
   repository = "https://istio-release.storage.googleapis.com/charts"
   chart      = "gateway"
@@ -67,7 +67,7 @@ resource "helm_release" "istio_ingress" {
 resource "kubernetes_namespace" "istio_egress" {
 
   depends_on = [helm_release.istiod]
-  count  = var.egress_gateway_enabled ? 1: 0
+  count      = var.egress_gateway_enabled ? 1 : 0
 
   metadata {
     name = var.egress_gateway_namespace
@@ -76,7 +76,7 @@ resource "kubernetes_namespace" "istio_egress" {
 }
 resource "helm_release" "istio_egress" {
   depends_on = [helm_release.istiod, kubernetes_namespace.istio_egress]
-  count  = var.egress_gateway_enabled ? 1: 0
+  count      = var.egress_gateway_enabled ? 1 : 0
 
   name       = "istio-egressgateway"
   repository = "https://istio-release.storage.googleapis.com/charts"
@@ -103,7 +103,7 @@ resource "helm_release" "istio_egress" {
 
 resource "helm_release" "istio_observability" {
   depends_on = [helm_release.istiod]
-  count  = var.observability_enabled ? 1: 0
+  count      = var.observability_enabled ? 1 : 0
   name       = "istio-observability"
   chart      = "${path.module}/istio-observability/"
   namespace  = "istio-system"

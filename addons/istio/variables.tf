@@ -49,5 +49,3 @@ variable "cert_manager_letsencrypt_email" {
   description = "Specifies the email address to be used by cert-manager to request Let's Encrypt certificates"
   type        = string
 }
-
-

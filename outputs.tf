@@ -40,3 +40,8 @@ output "kubecost" {
     url      = var.kubecost_hostname
   }
 }
+
+output "istio_ingressgateway_dns_hostname" {
+  description = "DNS hostname of the Istio Ingress Gateway."
+  value       = var.istio_enabled ? data.kubernetes_service.istio-ingress.status[0].load_balancer[0].ingress[0].hostname : null
+}

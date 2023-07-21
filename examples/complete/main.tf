@@ -18,7 +18,6 @@ module "eks_bootstrap" {
   ipv6_enabled                        = local.ipv6_enabled
   kms_key_arn                         = ""
   keda_enabled                        = true
-  istio_enabled                       = false
   kms_policy_arn                      = "" ## eks module will create kms_policy_arn
   eks_cluster_name                    = ""
   reloader_enabled                    = true
@@ -40,6 +39,17 @@ module "eks_bootstrap" {
   service_monitor_crd_enabled         = true
   karpenter_provisioner_enabled       = false
   enable_aws_load_balancer_controller = true
+  istio_enabled                       = false
+  istio_config = {
+    ingress_gateway_enabled             = true
+    ingress_gateway_namespace           = "istio-ingressgateway"
+    egress_gateway_enabled              = true
+    egress_gateway_namespace            = "istio-egressgateway"
+    observability_enabled               = true
+    envoy_access_logs_enabled           = true
+    prometheus_monitoring_enabled       = true
+    cert_manager_cluster_issuer_enabled = true
+  }
   karpenter_provisioner_config = {
     private_subnet_name    = "private-subnet-name"
     instance_capacity_type = ["on-demand"]
@@ -54,7 +64,7 @@ module "eks_bootstrap" {
   cluster_propotional_autoscaler_enabled        = true
   single_az_ebs_gp3_storage_class_enabled       = true
   cert_manager_install_letsencrypt_http_issuers = true
-  velero_enabled                                = true
+  velero_enabled                                = false
   velero_config = {
     namespaces                      = "" ## If you want full cluster backup, leave it blank else provide namespace.
     slack_notification_token        = "xoxb-EuvmxrYxRatsM8R"
