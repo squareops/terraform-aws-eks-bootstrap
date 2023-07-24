@@ -17,7 +17,6 @@ module "eks_bootstrap" {
   ipv6_enabled                  = true
   kms_key_arn                   = "arn:aws:kms:region:222222222222:key/kms_key_arn"
   keda_enabled                  = true
-  istio_enabled                 = false
   kms_policy_arn                = "arn:aws:iam::222222222222:policy/kms_policy_arn" ## eks module will create kms_policy_arn
   eks_cluster_name              = "cluster_name"
   reloader_enabled              = true
@@ -36,6 +35,17 @@ module "eks_bootstrap" {
   amazon_eks_vpc_cni_enabled    = true
   cluster_autoscaler_enabled    = true
   service_monitor_crd_enabled   = true
+  istio_enabled                 = false
+  istio_config = {
+    ingress_gateway_enabled             = true
+    ingress_gateway_namespace           = "istio-ingressgateway"
+    egress_gateway_enabled              = true
+    egress_gateway_namespace            = "istio-egressgateway"
+    observability_enabled               = true
+    envoy_access_logs_enabled           = true
+    prometheus_monitoring_enabled       = true
+    cert_manager_cluster_issuer_enabled = true
+  }
   karpenter_provisioner_enabled = true
   karpenter_provisioner_config = {
     private_subnet_name    = "private_subnet_name"
