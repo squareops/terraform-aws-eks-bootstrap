@@ -186,10 +186,26 @@ module "velero" {
 }
 
 module "istio" {
-  source = "./addons/istio"
-  count  = var.istio_enabled ? 1 : 0
+  depends_on                          = [helm_release.cert_manager_le_http]
+  source                              = "./addons/istio"
+  count                               = var.istio_enabled ? 1 : 0
+  ingress_gateway_enabled             = var.istio_config.ingress_gateway_enabled
+  ingress_gateway_namespace           = var.istio_config.ingress_gateway_namespace
+  egress_gateway_enabled              = var.istio_config.egress_gateway_enabled
+  egress_gateway_namespace            = var.istio_config.egress_gateway_namespace
+  observability_enabled               = var.istio_config.observability_enabled
+  envoy_access_logs_enabled           = var.istio_config.envoy_access_logs_enabled
+  prometheus_monitoring_enabled       = var.istio_config.prometheus_monitoring_enabled
+  cert_manager_cluster_issuer_enabled = var.istio_config.cert_manager_cluster_issuer_enabled
+  cert_manager_letsencrypt_email      = var.cert_manager_letsencrypt_email
+}
 
-
+data "kubernetes_service" "istio-ingress" {
+  depends_on = [module.istio]
+  metadata {
+    name      = "istio-ingressgateway"
+    namespace = var.istio_config.ingress_gateway_namespace
+  }
 }
 
 module "karpenter_provisioner" {

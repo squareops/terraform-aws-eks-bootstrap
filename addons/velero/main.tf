@@ -75,7 +75,7 @@ resource "aws_iam_policy" "velero_iam_policy" {
             "s3:GetObjectVersion",
             "s3:ListObjects",
             "s3:ListBucketVersions",
-            "sts:AssumeRole"	,			
+            "sts:AssumeRole"	,
             "autoscaling:CreateAutoScalingGroup",
             "autoscaling:DeleteAutoScalingGroup",
             "autoscaling:UpdateAutoScalingGroup",

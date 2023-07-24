@@ -5,7 +5,7 @@
 
 ### [SquareOps Technologies](https://squareops.com/) Your DevOps Partner for Accelerating cloud journey.
 <br>
-This example will be very useful for users who are new to a module and want to quickly learn how to use it. By reviewing the examples, users can gain a better understanding of how the module works, what features it supports, and how to customize it to their specific needs.
+This example is useful for users who are new to a module and want to quickly learn how to use it. By reviewing the examples, users can gain a better understanding of how the module works, what features it supports, and how to customize it to their specific needs.
 <br>
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -47,6 +47,8 @@ No inputs.
 | <a name="output_efs_id"></a> [efs\_id](#output\_efs\_id) | ID of the Amazon Elastic File System (EFS) that has been created for the EKS cluster. |
 | <a name="output_environment"></a> [environment](#output\_environment) | Environment Name for the EKS cluster |
 | <a name="output_internal_nginx_ingress_controller_dns_hostname"></a> [internal\_nginx\_ingress\_controller\_dns\_hostname](#output\_internal\_nginx\_ingress\_controller\_dns\_hostname) | DNS hostname of the NGINX Ingress Controller that can be used to access it from within the cluster. |
-| <a name="output_kubeclarity_hostname"></a> [kubeclarity\_hostname](#output\_kubeclarity\_hostname) | Hostname for the kubeclarity. |
+| <a name="output_istio_ingressgateway_dns_hostname"></a> [istio\_ingressgateway\_dns\_hostname](#output\_istio\_ingressgateway\_dns\_hostname) | DNS hostname of the Istio Ingress Gateway |
+| <a name="output_kubeclarity"></a> [kubeclarity](#output\_kubeclarity) | Hostname for the kubeclarity. |
+| <a name="output_kubecost"></a> [kubecost](#output\_kubecost) | Hostname for the kubecost. |
 | <a name="output_nginx_ingress_controller_dns_hostname"></a> [nginx\_ingress\_controller\_dns\_hostname](#output\_nginx\_ingress\_controller\_dns\_hostname) | DNS hostname of the NGINX Ingress Controller. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

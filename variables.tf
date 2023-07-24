@@ -1,4 +1,3 @@
-## COMMON VARIABLES
 variable "amazon_eks_aws_ebs_csi_driver_enabled" {
   description = "Whether to enable the EKS Managed AWS EBS CSI Driver add-on or not."
   default     = false
@@ -203,6 +202,22 @@ variable "istio_enabled" {
   type        = bool
 }
 
+variable "istio_config" {
+  description = "Configuration to provide settings for Istio"
+  default = {
+    ingress_gateway_enabled             = true
+    ingress_gateway_namespace           = "istio-ingressgateway"
+    egress_gateway_enabled              = false
+    egress_gateway_namespace            = "istio-egressgateway"
+    observability_enabled               = true
+    envoy_access_logs_enabled           = false
+    prometheus_monitoring_enabled       = false
+    cert_manager_cluster_issuer_enabled = false
+  }
+  type = any
+}
+
+
 variable "velero_enabled" {
   description = "Enable or disable the installation of Velero, which is a backup and restore solution for Kubernetes clusters."
   default     = false
@@ -267,7 +282,7 @@ variable "kubeclarity_namespace" {
   default     = "kubeclarity"
   type        = string
 }
-#-----------Kubecost ADDON-------------
+
 variable "kubecost_enabled" {
   description = "Enable or disable the deployment of an Kubecost for Kubernetes."
   type        = bool
@@ -286,35 +301,33 @@ variable "cluster_issuer" {
   type        = string
 }
 
-#core-dns-hpa
 variable "core_dns_hpa_config" {
   description = "Configuration to provide settings of hpa over core dns"
   default = {
-    minReplicas                        = 2
-    maxReplicas                        = 10
-    corednsdeploymentname              = "coredns"
-    targetCPUUtilizationPercentage     = 80
-    targetMemoryUtilizationPercentage  = "150Mi"
+    minReplicas                       = 2
+    maxReplicas                       = 10
+    corednsdeploymentname             = "coredns"
+    targetCPUUtilizationPercentage    = 80
+    targetMemoryUtilizationPercentage = "150Mi"
   }
   type = any
 }
 
-#metrics-server-vpa
 variable "metrics_server_vpa_config" {
   description = "Configuration to provide settings of vpa over metrics server"
   default = {
-    
+
     minCPU                      = "25m"
     maxCPU                      = "100m"
     minMemory                   = "150Mi"
     maxMemory                   = "500Mi"
     metricsServerDeploymentName = "metrics-server"
   }
-  type = anyAD
+  type = any
 }
 
 variable "ipv6_enabled" {
   description = "whether IPv6 enabled or not"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
