@@ -80,16 +80,10 @@ module "eks_bootstrap" {
 
 | Release | Kubernetes 1.23 | Kubernetes 1.24  | Kubernetes 1.25 |  Kubernetes 1.26 |
 |------------------|------------------|------------------|----------------------|----------------------|
-| Release 1.0.0  | &#x2714;  | &#x2717;  | &#x2717; | &#x2717; |
-| Release 1.0.1  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717; |
-| Release 1.1.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717; |
-| Release 2.0.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717; |
-| Release 2.1.0  | &#x2714;  | &#x2714;  | &#x2714; | &#x2717;  |
-| Release 3.0.0  | &#x2714;  | &#x2714;  | &#x2714; |  &#x2714; |
 | Release 3.1.0  | &#x2714;  | &#x2714;  | &#x2714; |  &#x2714; |
 
 ## IAM Permissions
-The required IAM permissions to create resources from this module can be found [here](https://github.com/squareops/terraform-aws-eks-bootstrap/blob/main/IAM.md)
+The required IAM permissions to create resources from this module can be found [here](https://github.com/squareops/terraform-aws-eks-addons/blob/main/IAM.md)
 
 ## Addons Details
 Kubernetes addons are additional components that can be installed in a Kubernetes cluster to provide extra features and functionality. They are designed to work seamlessly with the Kubernetes API and can be managed just like any other Kubernetes resource. Some common examples of Kubernetes addons include:
@@ -217,13 +211,13 @@ Before enabling the **Kubecost** addon for your Amazon EKS cluster, please make 
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_efs"></a> [efs](#module\_efs) | ./addons/efs | n/a |
-| <a name="module_istio"></a> [istio](#module\_istio) | ./addons/istio | n/a |
-| <a name="module_k8s_addons"></a> [k8s\_addons](#module\_k8s\_addons) | ./EKS-Blueprint/modules/kubernetes-addons | n/a |
-| <a name="module_karpenter_provisioner"></a> [karpenter\_provisioner](#module\_karpenter\_provisioner) | ./addons/karpenter_provisioner | n/a |
-| <a name="module_service_monitor_crd"></a> [service\_monitor\_crd](#module\_service\_monitor\_crd) | ./addons/service_monitor_crd | n/a |
-| <a name="module_single_az_sc"></a> [single\_az\_sc](#module\_single\_az\_sc) | ./addons/aws-ebs-storage-class | n/a |
-| <a name="module_velero"></a> [velero](#module\_velero) | ./addons/velero | n/a |
+| <a name="module_efs"></a> [efs](#module\_efs) | ./modules/efs | n/a |
+| <a name="module_istio"></a> [istio](#module\_istio) | ./modules/istio | n/a |
+| <a name="module_k8s_addons"></a> [k8s\_addons](#module\_k8s\_addons) | ./modules/kubernetes-addons | n/a |
+| <a name="module_karpenter_provisioner"></a> [karpenter\_provisioner](#module\_karpenter\_provisioner) | ./modules/karpenter_provisioner | n/a |
+| <a name="module_service_monitor_crd"></a> [service\_monitor\_crd](#module\_service\_monitor\_crd) | ./modules/service_monitor_crd | n/a |
+| <a name="module_single_az_sc"></a> [single\_az\_sc](#module\_single\_az\_sc) | ./modules/aws-ebs-storage-class | n/a |
+| <a name="module_velero"></a> [velero](#module\_velero) | ./modules/velero | n/a |
 
 ## Resources
 
@@ -324,7 +318,7 @@ Before enabling the **Kubecost** addon for your Amazon EKS cluster, please make 
 
 To report an issue with a project:
 
-  1. Check the repository's [issue tracker](https://github.com/squareops/terraform-aws-eks-bootstrap/issues) on GitHub
+  1. Check the repository's [issue tracker](https://github.com/squareops/terraform-aws-eks-addons/issues) on GitHub
   2. Search to see if the issue has already been reported
   3. If you can't find an answer to your question in the documentation or issue tracker, you can ask a question by creating a new issue. Be sure to provide enough context and details so others can understand your problem.
   4. Contributing to the project can be a great way to get involved and get help. The maintainers and other contributors may be more likely to help you if you're already making contributions to the project.
@@ -338,7 +332,7 @@ Apache License, Version 2.0, January 2004 (http://www.apache.org/licenses/).
 
 To support a GitHub project by liking it, you can follow these steps:
 
-  1. Visit the repository: Navigate to the [GitHub repository](https://github.com/squareops/terraform-aws-eks-bootstrap).
+  1. Visit the repository: Navigate to the [GitHub repository](https://github.com/squareops/terraform-aws-eks-addons).
 
   2. Click the "Star" button On the repository page, you'll see a "Star" button in the upper right corner. Clicking on it will star the repository, indicating your support for the project.
 

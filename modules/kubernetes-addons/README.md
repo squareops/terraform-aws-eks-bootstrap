@@ -20,14 +20,6 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_adot_collector_haproxy"></a> [adot\_collector\_haproxy](#module\_adot\_collector\_haproxy) | ./adot-collector-haproxy | n/a |
-| <a name="module_adot_collector_java"></a> [adot\_collector\_java](#module\_adot\_collector\_java) | ./adot-collector-java | n/a |
-| <a name="module_adot_collector_memcached"></a> [adot\_collector\_memcached](#module\_adot\_collector\_memcached) | ./adot-collector-memcached | n/a |
-| <a name="module_adot_collector_nginx"></a> [adot\_collector\_nginx](#module\_adot\_collector\_nginx) | ./adot-collector-nginx | n/a |
-| <a name="module_agones"></a> [agones](#module\_agones) | ./agones | n/a |
-| <a name="module_airflow"></a> [airflow](#module\_airflow) | ./airflow | n/a |
-| <a name="module_app_2048"></a> [app\_2048](#module\_app\_2048) | ./app-2048 | n/a |
-| <a name="module_appmesh_controller"></a> [appmesh\_controller](#module\_appmesh\_controller) | ./appmesh-controller | n/a |
 | <a name="module_argo_rollouts"></a> [argo\_rollouts](#module\_argo\_rollouts) | ./argo-rollouts | n/a |
 | <a name="module_argo_workflows"></a> [argo\_workflows](#module\_argo\_workflows) | ./argo-workflows | n/a |
 | <a name="module_argocd"></a> [argocd](#module\_argocd) | ./argocd | n/a |
@@ -35,49 +27,29 @@
 | <a name="module_aws_coredns"></a> [aws\_coredns](#module\_aws\_coredns) | ./aws-coredns | n/a |
 | <a name="module_aws_ebs_csi_driver"></a> [aws\_ebs\_csi\_driver](#module\_aws\_ebs\_csi\_driver) | ./aws-ebs-csi-driver | n/a |
 | <a name="module_aws_efs_csi_driver"></a> [aws\_efs\_csi\_driver](#module\_aws\_efs\_csi\_driver) | ./aws-efs-csi-driver | n/a |
-| <a name="module_aws_for_fluent_bit"></a> [aws\_for\_fluent\_bit](#module\_aws\_for\_fluent\_bit) | ./aws-for-fluentbit | n/a |
-| <a name="module_aws_fsx_csi_driver"></a> [aws\_fsx\_csi\_driver](#module\_aws\_fsx\_csi\_driver) | ./aws-fsx-csi-driver | n/a |
 | <a name="module_aws_kube_proxy"></a> [aws\_kube\_proxy](#module\_aws\_kube\_proxy) | ./aws-kube-proxy | n/a |
 | <a name="module_aws_load_balancer_controller"></a> [aws\_load\_balancer\_controller](#module\_aws\_load\_balancer\_controller) | ./aws-load-balancer-controller | n/a |
 | <a name="module_aws_node_termination_handler"></a> [aws\_node\_termination\_handler](#module\_aws\_node\_termination\_handler) | ./aws-node-termination-handler | n/a |
 | <a name="module_aws_privateca_issuer"></a> [aws\_privateca\_issuer](#module\_aws\_privateca\_issuer) | ./aws-privateca-issuer | n/a |
 | <a name="module_aws_vpc_cni"></a> [aws\_vpc\_cni](#module\_aws\_vpc\_cni) | ./aws-vpc-cni | n/a |
-| <a name="module_calico"></a> [calico](#module\_calico) | ./calico | n/a |
 | <a name="module_cert_manager"></a> [cert\_manager](#module\_cert\_manager) | ./cert-manager | n/a |
 | <a name="module_cert_manager_csi_driver"></a> [cert\_manager\_csi\_driver](#module\_cert\_manager\_csi\_driver) | ./cert-manager-csi-driver | n/a |
 | <a name="module_cert_manager_istio_csr"></a> [cert\_manager\_istio\_csr](#module\_cert\_manager\_istio\_csr) | ./cert-manager-istio-csr | n/a |
-| <a name="module_chaos_mesh"></a> [chaos\_mesh](#module\_chaos\_mesh) | ./chaos-mesh | n/a |
-| <a name="module_cilium"></a> [cilium](#module\_cilium) | ./cilium | n/a |
 | <a name="module_cluster_autoscaler"></a> [cluster\_autoscaler](#module\_cluster\_autoscaler) | ./cluster-autoscaler | n/a |
 | <a name="module_coredns_autoscaler"></a> [coredns\_autoscaler](#module\_coredns\_autoscaler) | ./cluster-proportional-autoscaler | n/a |
 | <a name="module_crossplane"></a> [crossplane](#module\_crossplane) | ./crossplane | n/a |
 | <a name="module_csi_secrets_store_provider_aws"></a> [csi\_secrets\_store\_provider\_aws](#module\_csi\_secrets\_store\_provider\_aws) | ./csi-secrets-store-provider-aws | n/a |
-| <a name="module_datadog_operator"></a> [datadog\_operator](#module\_datadog\_operator) | ./datadog-operator | n/a |
 | <a name="module_external_dns"></a> [external\_dns](#module\_external\_dns) | ./external-dns | n/a |
 | <a name="module_external_secrets"></a> [external\_secrets](#module\_external\_secrets) | ./external-secrets | n/a |
-| <a name="module_fargate_fluentbit"></a> [fargate\_fluentbit](#module\_fargate\_fluentbit) | ./fargate-fluentbit | n/a |
-| <a name="module_gatekeeper"></a> [gatekeeper](#module\_gatekeeper) | ./gatekeeper | n/a |
-| <a name="module_grafana"></a> [grafana](#module\_grafana) | ./grafana | n/a |
 | <a name="module_ingress_nginx"></a> [ingress\_nginx](#module\_ingress\_nginx) | ./ingress-nginx | n/a |
 | <a name="module_karpenter"></a> [karpenter](#module\_karpenter) | ./karpenter | n/a |
 | <a name="module_keda"></a> [keda](#module\_keda) | ./keda | n/a |
-| <a name="module_kube_prometheus_stack"></a> [kube\_prometheus\_stack](#module\_kube\_prometheus\_stack) | ./kube-prometheus-stack | n/a |
 | <a name="module_kubecost"></a> [kubecost](#module\_kubecost) | ./kubecost | n/a |
-| <a name="module_kuberay_operator"></a> [kuberay\_operator](#module\_kuberay\_operator) | ./kuberay-operator | n/a |
 | <a name="module_kubernetes_dashboard"></a> [kubernetes\_dashboard](#module\_kubernetes\_dashboard) | ./kubernetes-dashboard | n/a |
-| <a name="module_kyverno"></a> [kyverno](#module\_kyverno) | ./kyverno | n/a |
-| <a name="module_local_volume_provisioner"></a> [local\_volume\_provisioner](#module\_local\_volume\_provisioner) | ./local-volume-provisioner | n/a |
 | <a name="module_metrics_server"></a> [metrics\_server](#module\_metrics\_server) | ./metrics-server | n/a |
-| <a name="module_nvidia_device_plugin"></a> [nvidia\_device\_plugin](#module\_nvidia\_device\_plugin) | ./nvidia-device-plugin | n/a |
-| <a name="module_opentelemetry_operator"></a> [opentelemetry\_operator](#module\_opentelemetry\_operator) | ./opentelemetry-operator | n/a |
 | <a name="module_portworx"></a> [portworx](#module\_portworx) | portworx/portworx-addon/eksblueprints | 0.0.6 |
-| <a name="module_prometheus"></a> [prometheus](#module\_prometheus) | ./prometheus | n/a |
-| <a name="module_promtail"></a> [promtail](#module\_promtail) | ./promtail | n/a |
 | <a name="module_reloader"></a> [reloader](#module\_reloader) | ./reloader | n/a |
 | <a name="module_secrets_store_csi_driver"></a> [secrets\_store\_csi\_driver](#module\_secrets\_store\_csi\_driver) | ./secrets-store-csi-driver | n/a |
-| <a name="module_smb_csi_driver"></a> [smb\_csi\_driver](#module\_smb\_csi\_driver) | ./smb-csi-driver | n/a |
-| <a name="module_spark_history_server"></a> [spark\_history\_server](#module\_spark\_history\_server) | ./spark-history-server | n/a |
-| <a name="module_spark_k8s_operator"></a> [spark\_k8s\_operator](#module\_spark\_k8s\_operator) | ./spark-k8s-operator | n/a |
 | <a name="module_strimzi_kafka_operator"></a> [strimzi\_kafka\_operator](#module\_strimzi\_kafka\_operator) | ./strimzi-kafka-operator | n/a |
 | <a name="module_sysdig_agent"></a> [sysdig\_agent](#module\_sysdig\_agent) | sysdiglabs/sysdig-addon/eksblueprints | 0.0.1 |
 | <a name="module_tetrate_istio"></a> [tetrate\_istio](#module\_tetrate\_istio) | ./tetrate-istio | n/a |
@@ -85,7 +57,6 @@
 | <a name="module_vault"></a> [vault](#module\_vault) | hashicorp/hashicorp-vault-eks-addon/aws | 1.0.0-rc2 |
 | <a name="module_velero"></a> [velero](#module\_velero) | ./velero | n/a |
 | <a name="module_vpa"></a> [vpa](#module\_vpa) | ./vpa | n/a |
-| <a name="module_yunikorn"></a> [yunikorn](#module\_yunikorn) | ./yunikorn | n/a |
 
 ## Resources
 
@@ -322,13 +293,6 @@
 
 | Name | Description |
 |------|-------------|
-| <a name="output_adot_collector_haproxy"></a> [adot\_collector\_haproxy](#output\_adot\_collector\_haproxy) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_adot_collector_java"></a> [adot\_collector\_java](#output\_adot\_collector\_java) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_adot_collector_memcached"></a> [adot\_collector\_memcached](#output\_adot\_collector\_memcached) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_adot_collector_nginx"></a> [adot\_collector\_nginx](#output\_adot\_collector\_nginx) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_agones"></a> [agones](#output\_agones) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_airflow"></a> [airflow](#output\_airflow) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_appmesh_controller"></a> [appmesh\_controller](#output\_appmesh\_controller) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_argo_rollouts"></a> [argo\_rollouts](#output\_argo\_rollouts) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_argo_workflows"></a> [argo\_workflows](#output\_argo\_workflows) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_argocd"></a> [argocd](#output\_argocd) | Map of attributes of the Helm release and IRSA created |
@@ -336,51 +300,30 @@
 | <a name="output_aws_coredns"></a> [aws\_coredns](#output\_aws\_coredns) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_aws_ebs_csi_driver"></a> [aws\_ebs\_csi\_driver](#output\_aws\_ebs\_csi\_driver) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_aws_efs_csi_driver"></a> [aws\_efs\_csi\_driver](#output\_aws\_efs\_csi\_driver) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_aws_for_fluent_bit"></a> [aws\_for\_fluent\_bit](#output\_aws\_for\_fluent\_bit) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_aws_fsx_csi_driver"></a> [aws\_fsx\_csi\_driver](#output\_aws\_fsx\_csi\_driver) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_aws_kube_proxy"></a> [aws\_kube\_proxy](#output\_aws\_kube\_proxy) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_aws_load_balancer_controller"></a> [aws\_load\_balancer\_controller](#output\_aws\_load\_balancer\_controller) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_aws_node_termination_handler"></a> [aws\_node\_termination\_handler](#output\_aws\_node\_termination\_handler) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_aws_privateca_issuer"></a> [aws\_privateca\_issuer](#output\_aws\_privateca\_issuer) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_aws_vpc_cni"></a> [aws\_vpc\_cni](#output\_aws\_vpc\_cni) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_calico"></a> [calico](#output\_calico) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_cert_manager"></a> [cert\_manager](#output\_cert\_manager) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_cert_manager_csi_driver"></a> [cert\_manager\_csi\_driver](#output\_cert\_manager\_csi\_driver) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_cert_manager_istio_csr"></a> [cert\_manager\_istio\_csr](#output\_cert\_manager\_istio\_csr) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_chaos_mesh"></a> [chaos\_mesh](#output\_chaos\_mesh) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_cilium"></a> [cilium](#output\_cilium) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_cluster_autoscaler"></a> [cluster\_autoscaler](#output\_cluster\_autoscaler) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_coredns_autoscaler"></a> [coredns\_autoscaler](#output\_coredns\_autoscaler) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_crossplane"></a> [crossplane](#output\_crossplane) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_csi_secrets_store_provider_aws"></a> [csi\_secrets\_store\_provider\_aws](#output\_csi\_secrets\_store\_provider\_aws) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_datadog_operator"></a> [datadog\_operator](#output\_datadog\_operator) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_external_dns"></a> [external\_dns](#output\_external\_dns) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_external_secrets"></a> [external\_secrets](#output\_external\_secrets) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_fargate_fluentbit"></a> [fargate\_fluentbit](#output\_fargate\_fluentbit) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_gatekeeper"></a> [gatekeeper](#output\_gatekeeper) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_grafana"></a> [grafana](#output\_grafana) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_ingress_nginx"></a> [ingress\_nginx](#output\_ingress\_nginx) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_karpenter"></a> [karpenter](#output\_karpenter) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_keda"></a> [keda](#output\_keda) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_kube_prometheus_stack"></a> [kube\_prometheus\_stack](#output\_kube\_prometheus\_stack) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_kubecost"></a> [kubecost](#output\_kubecost) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_kuberay_operator"></a> [kuberay\_operator](#output\_kuberay\_operator) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_kubernetes_dashboard"></a> [kubernetes\_dashboard](#output\_kubernetes\_dashboard) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_kyverno"></a> [kyverno](#output\_kyverno) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_local_volume_provisioner"></a> [local\_volume\_provisioner](#output\_local\_volume\_provisioner) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_metrics_server"></a> [metrics\_server](#output\_metrics\_server) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_nvidia_device_plugin"></a> [nvidia\_device\_plugin](#output\_nvidia\_device\_plugin) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_opentelemetry_operator"></a> [opentelemetry\_operator](#output\_opentelemetry\_operator) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_prometheus"></a> [prometheus](#output\_prometheus) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_promtail"></a> [promtail](#output\_promtail) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_reloader"></a> [reloader](#output\_reloader) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_secrets_store_csi_driver"></a> [secrets\_store\_csi\_driver](#output\_secrets\_store\_csi\_driver) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_smb_csi_driver"></a> [smb\_csi\_driver](#output\_smb\_csi\_driver) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_spark_history_server"></a> [spark\_history\_server](#output\_spark\_history\_server) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_spark_k8s_operator"></a> [spark\_k8s\_operator](#output\_spark\_k8s\_operator) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_strimzi_kafka_operator"></a> [strimzi\_kafka\_operator](#output\_strimzi\_kafka\_operator) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_traefik"></a> [traefik](#output\_traefik) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_velero"></a> [velero](#output\_velero) | Map of attributes of the Helm release and IRSA created |
 | <a name="output_vpa"></a> [vpa](#output\_vpa) | Map of attributes of the Helm release and IRSA created |
-| <a name="output_yunikorn"></a> [yunikorn](#output\_yunikorn) | Map of attributes of the Helm release and IRSA created |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
