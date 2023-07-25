@@ -5,7 +5,7 @@ output "environment" {
 
 output "nginx_ingress_controller_dns_hostname" {
   description = "DNS hostname of the NGINX Ingress Controller."
-  value       = data.kubernetes_service.nginx-ingress.status[0].load_balancer[0].ingress[0].hostname
+  value       = var.ingress_nginx_enabled ? data.kubernetes_service.nginx-ingress.status[0].load_balancer[0].ingress[0].hostname : null
 }
 
 output "ebs_encryption_enable" {
@@ -14,7 +14,7 @@ output "ebs_encryption_enable" {
 }
 
 output "efs_id" {
-  value       = module.efs.*.efs_id
+  value       = var.efs_storage_class_enabled ? module.efs.*.efs_id : null
   description = "ID of the Amazon Elastic File System (EFS) that has been created for the EKS cluster."
 }
 
@@ -25,20 +25,20 @@ output "internal_nginx_ingress_controller_dns_hostname" {
 
 output "kubeclarity" {
   description = "Kubeclarity_Info"
-  value = {
+  value = var.kubeclarity_enabled ? {
     username = "admin",
     password = nonsensitive(random_password.kube_clarity.result),
     url      = var.kubeclarity_hostname
-  }
+  } : null
 }
 
 output "kubecost" {
   description = "Kubecost_Info"
-  value = {
+  value = var.kubecost_enabled ? {
     username = "admin",
     password = nonsensitive(random_password.kubecost.result),
     url      = var.kubecost_hostname
-  }
+  } : null
 }
 
 output "istio_ingressgateway_dns_hostname" {
