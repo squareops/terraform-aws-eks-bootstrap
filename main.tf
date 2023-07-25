@@ -6,7 +6,7 @@ data "aws_eks_cluster" "eks" {
 
 module "service_monitor_crd" {
   count  = var.service_monitor_crd_enabled ? 1 : 0
-  source = "./addons/service_monitor_crd"
+  source = "./modules/service_monitor_crd"
 }
 
 resource "aws_iam_instance_profile" "karpenter_profile" {
@@ -21,7 +21,7 @@ resource "aws_iam_instance_profile" "karpenter_profile" {
 
 module "k8s_addons" {
   depends_on     = [module.service_monitor_crd]
-  source         = "./EKS-Blueprint/modules/kubernetes-addons"
+  source         = "./modules/kubernetes-addons"
   eks_cluster_id = var.eks_cluster_name
 
   #ebs csi driver
@@ -34,7 +34,7 @@ module "k8s_addons" {
   enable_cluster_autoscaler = var.cluster_autoscaler_enabled
   cluster_autoscaler_helm_config = {
     version = var.cluster_autoscaler_chart_version
-    values = [templatefile("${path.module}/addons/cluster_autoscaler/cluster_autoscaler.yaml", {
+    values = [templatefile("${path.module}/modules/cluster_autoscaler/cluster_autoscaler.yaml", {
       aws_region     = data.aws_region.current.name
       eks_cluster_id = var.eks_cluster_name
     })]
@@ -44,7 +44,7 @@ module "k8s_addons" {
   enable_metrics_server = var.metrics_server_enabled
   metrics_server_helm_config = {
     version = var.metrics_server_helm_version
-    values  = [file("${path.module}/addons/metrics_server/metrics_server.yaml")]
+    values  = [file("${path.module}/modules/metrics_server/metrics_server.yaml")]
   }
 
   #keda
@@ -55,7 +55,7 @@ module "k8s_addons" {
   ingress_nginx_helm_config = {
     version = var.ingress_nginx_version
     values = [
-      templatefile("${path.module}/addons/nginx_ingress/${data.aws_eks_cluster.eks.kubernetes_network_config[0].ip_family == "ipv4" ? "nginx_ingress.yaml" : "nginx_ingress_ipv6.yaml"}", {
+      templatefile("${path.module}/modules/nginx_ingress/${data.aws_eks_cluster.eks.kubernetes_network_config[0].ip_family == "ipv4" ? "nginx_ingress.yaml" : "nginx_ingress_ipv6.yaml"}", {
         enable_service_monitor = var.service_monitor_crd_enabled
 
       })
@@ -68,7 +68,7 @@ module "k8s_addons" {
   cert_manager_install_letsencrypt_issuers = var.cert_manager_install_letsencrypt_r53_issuers
   cert_manager_helm_config = {
     values = [
-      file("${path.module}/addons/cert_manager/cert_manager.yaml")
+      file("${path.module}/modules/cert_manager/cert_manager.yaml")
     ]
   }
 
@@ -77,21 +77,21 @@ module "k8s_addons" {
   aws_load_balancer_controller_helm_config = {
     version = var.aws_load_balancer_version
     values = [
-      file("${path.module}/addons/aws_alb/aws_alb.yaml")
+      file("${path.module}/modules/aws_alb/aws_alb.yaml")
     ]
   }
 
   enable_coredns_autoscaler = var.cluster_propotional_autoscaler_enabled
   coredns_autoscaler_helm_config = {
     values = [
-      file("${path.module}/addons/cluster_propotional_autoscaler/cpa.yaml")
+      file("${path.module}/modules/cluster_propotional_autoscaler/cpa.yaml")
     ]
   }
 
   enable_karpenter = var.karpenter_enabled
   karpenter_helm_config = {
     values = [
-      templatefile("${path.module}/addons/karpenter/karpenter.yaml", {
+      templatefile("${path.module}/modules/karpenter/karpenter.yaml", {
         eks_cluster_id            = var.eks_cluster_name,
         node_iam_instance_profile = aws_iam_instance_profile.karpenter_profile.name
         eks_cluster_endpoint      = data.aws_eks_cluster.eks.endpoint
@@ -103,7 +103,7 @@ module "k8s_addons" {
   enable_reloader = var.reloader_enabled
   reloader_helm_config = {
     values = [
-      templatefile("${path.module}/addons/reloader/reloader.yaml", {
+      templatefile("${path.module}/modules/reloader/reloader.yaml", {
         enable_service_monitor = var.service_monitor_crd_enabled
       })
     ]
@@ -115,7 +115,7 @@ module "k8s_addons" {
   aws_node_termination_handler_helm_config = {
     version = var.node_termination_handler_version
     values = [
-      templatefile("${path.module}/addons/aws_node_termination_handler/aws_nth.yaml", {
+      templatefile("${path.module}/modules/aws_node_termination_handler/aws_nth.yaml", {
         enable_service_monitor = var.service_monitor_crd_enabled
       })
     ]
@@ -134,7 +134,7 @@ resource "helm_release" "cert_manager_le_http" {
   depends_on = [module.k8s_addons]
   count      = var.cert_manager_install_letsencrypt_http_issuers ? 1 : 0
   name       = "cert-manager-le-http"
-  chart      = "${path.module}/addons/cert-manager-le-http"
+  chart      = "${path.module}/modules/cert-manager-le-http"
   version    = "0.1.0"
   set {
     name  = "email"
@@ -146,7 +146,7 @@ resource "helm_release" "cert_manager_le_http" {
 # OPEN: Default label needs to be removed from gp2 storageclass in order to make gp3 as default choice for EBS volume provisioning.
 module "single_az_sc" {
   for_each                             = { for sc in var.single_az_sc_config : sc.name => sc }
-  source                               = "./addons/aws-ebs-storage-class"
+  source                               = "./modules/aws-ebs-storage-class"
   kms_key_id                           = var.kms_key_arn
   availability_zone                    = each.value.zone
   single_az_ebs_gp3_storage_class      = var.single_az_ebs_gp3_storage_class_enabled
@@ -157,7 +157,7 @@ module "single_az_sc" {
 ### EFS
 module "efs" {
   depends_on         = [module.k8s_addons]
-  source             = "./addons/efs"
+  source             = "./modules/efs"
   name               = var.name
   count              = var.efs_storage_class_enabled ? 1 : 0
   vpc_id             = var.vpc_id
@@ -176,7 +176,7 @@ data "kubernetes_service" "nginx-ingress" {
 }
 
 module "velero" {
-  source        = "./addons/velero"
+  source        = "./modules/velero"
   name          = var.name
   count         = var.velero_enabled ? 1 : 0
   region        = data.aws_region.current.name
@@ -187,7 +187,7 @@ module "velero" {
 
 module "istio" {
   depends_on                          = [helm_release.cert_manager_le_http]
-  source                              = "./addons/istio"
+  source                              = "./modules/istio"
   count                               = var.istio_enabled ? 1 : 0
   ingress_gateway_enabled             = var.istio_config.ingress_gateway_enabled
   ingress_gateway_namespace           = var.istio_config.ingress_gateway_namespace
@@ -210,7 +210,7 @@ data "kubernetes_service" "istio-ingress" {
 
 module "karpenter_provisioner" {
   depends_on                           = [module.k8s_addons]
-  source                               = "./addons/karpenter_provisioner"
+  source                               = "./modules/karpenter_provisioner"
   count                                = var.karpenter_provisioner_enabled ? 1 : 0
   ipv6_enabled                         = var.ipv6_enabled
   sg_selector_name                     = var.eks_cluster_name
@@ -236,7 +236,7 @@ resource "helm_release" "internal_nginx" {
   namespace  = "internal-ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
   values = [
-    templatefile("${path.module}/addons/internal_nginx_ingress/${data.aws_eks_cluster.eks.kubernetes_network_config[0].ip_family == "ipv4" ? "ingress.yaml" : "ingress_ipv6.yaml"}", {
+    templatefile("${path.module}/modules/internal_nginx_ingress/${data.aws_eks_cluster.eks.kubernetes_network_config[0].ip_family == "ipv4" ? "ingress.yaml" : "ingress_ipv6.yaml"}", {
       enable_service_monitor = var.service_monitor_crd_enabled
     })
   ]
@@ -286,7 +286,7 @@ resource "helm_release" "kubeclarity" {
   namespace  = var.kubeclarity_namespace
   repository = "https://openclarity.github.io/kubeclarity"
   values = [
-    templatefile("${path.module}/addons/kubeclarity/values.yaml", {
+    templatefile("${path.module}/modules/kubeclarity/values.yaml", {
       hostname  = var.kubeclarity_hostname
       namespace = var.kubeclarity_namespace
     })
@@ -376,10 +376,10 @@ resource "kubernetes_ingress_v1" "kubecost" {
 resource "helm_release" "coredns-hpa" {
   name      = "corednshpa"
   namespace = "kube-system"
-  chart     = "${path.module}/addons/core_dns_hpa/"
+  chart     = "${path.module}/modules/core_dns_hpa/"
   timeout   = 600
   values = [
-    templatefile("${path.module}/addons/core_dns_hpa/values.yaml", {
+    templatefile("${path.module}/modules/core_dns_hpa/values.yaml", {
       minReplicas                       = var.core_dns_hpa_config.minReplicas,
       maxReplicas                       = var.core_dns_hpa_config.maxReplicas,
       corednsdeploymentname             = var.core_dns_hpa_config.corednsdeploymentname,
@@ -398,7 +398,7 @@ resource "helm_release" "vpa-crds" {
   version    = "7.2.0"
   timeout    = 600
   values = [
-    file("${path.module}/addons/vpa_crds/values.yaml")
+    file("${path.module}/modules/vpa_crds/values.yaml")
   ]
 }
 
@@ -407,10 +407,10 @@ resource "helm_release" "metrics-server-vpa" {
   depends_on = ["helm_release.vpa-crds"]
   name       = "metricsservervpa"
   namespace  = "kube-system"
-  chart      = "${path.module}/addons/metrics_server_vpa/"
+  chart      = "${path.module}/modules/metrics_server_vpa/"
   timeout    = 600
   values = [
-    templatefile("${path.module}/addons/metrics_server_vpa/values.yaml", {
+    templatefile("${path.module}/modules/metrics_server_vpa/values.yaml", {
       minCPU                      = var.metrics_server_vpa_config.minCPU,
       minMemory                   = var.metrics_server_vpa_config.minMemory,
       maxCPU                      = var.metrics_server_vpa_config.maxCPU,
