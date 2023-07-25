@@ -10,7 +10,7 @@ This module provides a set of reusable, configurable, and scalable AWS EKS boots
 ## Usage Example
 ```hcl
 module "eks_bootstrap" {
-  source                        = "squareops/eks-bootstrap/aws"
+  source                        = "squareops/eks-addons/aws"
   name                          = "skaf"
   vpc_id                        = "vpc-06e37f0786b7eskaf"
   environment                   = "production"
@@ -80,7 +80,7 @@ module "eks_bootstrap" {
 
 | Release | Kubernetes 1.23 | Kubernetes 1.24  | Kubernetes 1.25 |  Kubernetes 1.26 |
 |------------------|------------------|------------------|----------------------|----------------------|
-| Release 3.1.0  | &#x2714;  | &#x2714;  | &#x2714; |  &#x2714; |
+| Release 1.0.0  | &#x2714;  | &#x2714;  | &#x2714; |  &#x2714; |
 
 ## IAM Permissions
 The required IAM permissions to create resources from this module can be found [here](https://github.com/squareops/terraform-aws-eks-addons/blob/main/IAM.md)

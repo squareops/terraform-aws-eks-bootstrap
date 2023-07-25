@@ -11,7 +11,7 @@ locals {
 }
 
 module "eks_bootstrap" {
-  source                              = "squareops/eks-bootstrap/aws"
+  source                              = "squareops/eks-addons/aws"
   name                                = local.name
   vpc_id                              = ""
   environment                         = local.environment
