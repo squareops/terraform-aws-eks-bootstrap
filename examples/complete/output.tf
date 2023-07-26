@@ -25,12 +25,12 @@ output "internal_nginx_ingress_controller_dns_hostname" {
 
 output "kubeclarity" {
   value       = module.eks_bootstrap.kubeclarity
-  description = "Hostname for the kubeclarity."
+  description = "Kubeclarity_credentials"
 }
 
 output "kubecost" {
   value       = module.eks_bootstrap.kubecost
-  description = "Hostname for the kubecost."
+  description = "Kubecost_credentials"
 }
 
 output "istio_ingressgateway_dns_hostname" {

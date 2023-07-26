@@ -26,7 +26,7 @@ This example is useful for users who are new to a module and want to quickly lea
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_eks_bootstrap"></a> [eks\_bootstrap](#module\_eks\_bootstrap) | squareops/eks-bootstrap/aws | n/a |
+| <a name="module_eks_bootstrap"></a> [eks\_bootstrap](#module\_eks\_bootstrap) | squareops/eks-addons/aws | n/a |
 
 ## Resources
 
@@ -48,7 +48,7 @@ No inputs.
 | <a name="output_environment"></a> [environment](#output\_environment) | Environment Name for the EKS cluster |
 | <a name="output_internal_nginx_ingress_controller_dns_hostname"></a> [internal\_nginx\_ingress\_controller\_dns\_hostname](#output\_internal\_nginx\_ingress\_controller\_dns\_hostname) | DNS hostname of the NGINX Ingress Controller that can be used to access it from within the cluster. |
 | <a name="output_istio_ingressgateway_dns_hostname"></a> [istio\_ingressgateway\_dns\_hostname](#output\_istio\_ingressgateway\_dns\_hostname) | DNS hostname of the Istio Ingress Gateway |
-| <a name="output_kubeclarity"></a> [kubeclarity](#output\_kubeclarity) | Hostname for the kubeclarity. |
-| <a name="output_kubecost"></a> [kubecost](#output\_kubecost) | Hostname for the kubecost. |
+| <a name="output_kubeclarity"></a> [kubeclarity](#output\_kubeclarity) | Kubeclarity\_credentials |
+| <a name="output_kubecost"></a> [kubecost](#output\_kubecost) | Kubecost\_credentials |
 | <a name="output_nginx_ingress_controller_dns_hostname"></a> [nginx\_ingress\_controller\_dns\_hostname](#output\_nginx\_ingress\_controller\_dns\_hostname) | DNS hostname of the NGINX Ingress Controller. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
