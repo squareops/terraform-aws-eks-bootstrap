@@ -49,6 +49,9 @@ module "k8s_addons" {
 
   #keda
   enable_keda = var.keda_enabled
+  keda_helm_config = {
+    version = "2.10.2"
+  }
 
   #Ingress Nginx Controller
   enable_ingress_nginx = var.ingress_nginx_enabled

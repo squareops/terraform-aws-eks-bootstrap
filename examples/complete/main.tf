@@ -24,22 +24,22 @@ module "eks_bootstrap" {
   karpenter_enabled                   = true
   private_subnet_ids                  = [""]
   single_az_sc_config                 = [{ name = "infra-service-sc", zone = "us-east-2a" }]
-  kubeclarity_enabled                 = false
+  kubeclarity_enabled                 = true
   kubeclarity_hostname                = ""
-  kubecost_enabled                    = false
+  kubecost_enabled                    = true
   kubecost_hostname                   = ""
   cert_manager_enabled                = true
   worker_iam_role_name                = ""
   worker_iam_role_arn                 = ""
   ingress_nginx_enabled               = true
-  metrics_server_enabled              = false
+  metrics_server_enabled              = true
   external_secrets_enabled            = true
   amazon_eks_vpc_cni_enabled          = true
   cluster_autoscaler_enabled          = true
   service_monitor_crd_enabled         = true
-  karpenter_provisioner_enabled       = false
+  karpenter_provisioner_enabled       = true
   enable_aws_load_balancer_controller = true
-  istio_enabled                       = false
+  istio_enabled                       = true
   istio_config = {
     ingress_gateway_enabled             = true
     ingress_gateway_namespace           = "istio-ingressgateway"
@@ -64,7 +64,7 @@ module "eks_bootstrap" {
   cluster_propotional_autoscaler_enabled        = true
   single_az_ebs_gp3_storage_class_enabled       = true
   cert_manager_install_letsencrypt_http_issuers = true
-  velero_enabled                                = false
+  velero_enabled                                = true
   velero_config = {
     namespaces                      = "" ## If you want full cluster backup, leave it blank else provide namespace.
     slack_notification_token        = "xoxb-EuvmxrYxRatsM8R"
