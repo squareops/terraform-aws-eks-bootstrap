@@ -70,7 +70,6 @@
 | <a name="module_metrics_server"></a> [metrics\_server](#module\_metrics\_server) | ./metrics-server | n/a |
 | <a name="module_nvidia_device_plugin"></a> [nvidia\_device\_plugin](#module\_nvidia\_device\_plugin) | ./nvidia-device-plugin | n/a |
 | <a name="module_opentelemetry_operator"></a> [opentelemetry\_operator](#module\_opentelemetry\_operator) | ./opentelemetry-operator | n/a |
-| <a name="module_portworx"></a> [portworx](#module\_portworx) | portworx/portworx-addon/eksblueprints | 0.0.6 |
 | <a name="module_prometheus"></a> [prometheus](#module\_prometheus) | ./prometheus | n/a |
 | <a name="module_promtail"></a> [promtail](#module\_promtail) | ./promtail | n/a |
 | <a name="module_reloader"></a> [reloader](#module\_reloader) | ./reloader | n/a |
@@ -79,7 +78,6 @@
 | <a name="module_spark_history_server"></a> [spark\_history\_server](#module\_spark\_history\_server) | ./spark-history-server | n/a |
 | <a name="module_spark_k8s_operator"></a> [spark\_k8s\_operator](#module\_spark\_k8s\_operator) | ./spark-k8s-operator | n/a |
 | <a name="module_strimzi_kafka_operator"></a> [strimzi\_kafka\_operator](#module\_strimzi\_kafka\_operator) | ./strimzi-kafka-operator | n/a |
-| <a name="module_sysdig_agent"></a> [sysdig\_agent](#module\_sysdig\_agent) | sysdiglabs/sysdig-addon/eksblueprints | 0.0.1 |
 | <a name="module_tetrate_istio"></a> [tetrate\_istio](#module\_tetrate\_istio) | ./tetrate-istio | n/a |
 | <a name="module_traefik"></a> [traefik](#module\_traefik) | ./traefik | n/a |
 | <a name="module_vault"></a> [vault](#module\_vault) | hashicorp/hashicorp-vault-eks-addon/aws | 1.0.0-rc2 |

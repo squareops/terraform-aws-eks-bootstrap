@@ -14,13 +14,13 @@ data "aws_eks_addon_version" "this" {
 }
 
 resource "aws_eks_addon" "aws_ebs_csi_driver" {
-  count                    = var.enable_amazon_eks_aws_ebs_csi_driver && !var.enable_self_managed_aws_ebs_csi_driver ? 1 : 0
-  cluster_name             = var.addon_context.eks_cluster_id
-  addon_name               = local.name
-  addon_version            = try(var.addon_config.addon_version, data.aws_eks_addon_version.this.version)
+  count                       = var.enable_amazon_eks_aws_ebs_csi_driver && !var.enable_self_managed_aws_ebs_csi_driver ? 1 : 0
+  cluster_name                = var.addon_context.eks_cluster_id
+  addon_name                  = local.name
+  addon_version               = try(var.addon_config.addon_version, data.aws_eks_addon_version.this.version)
   resolve_conflicts_on_create = "OVERWRITE"
-  service_account_role_arn = local.create_irsa ? module.irsa_addon[0].irsa_iam_role_arn : try(var.addon_config.service_account_role_arn, null)
-  preserve                 = try(var.addon_config.preserve, true)
+  service_account_role_arn    = local.create_irsa ? module.irsa_addon[0].irsa_iam_role_arn : try(var.addon_config.service_account_role_arn, null)
+  preserve                    = try(var.addon_config.preserve, true)
 
   tags = merge(
     var.addon_context.tags,
