@@ -1,5 +1,3 @@
-provider "archive" {}
-
 #velero bucket lifecycle policy
 resource "aws_s3_bucket_lifecycle_configuration" "velero_bucket_policy" {
 

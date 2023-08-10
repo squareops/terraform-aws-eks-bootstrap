@@ -306,13 +306,13 @@ data "aws_eks_addon_version" "kubecost" {
 }
 
 resource "aws_eks_addon" "kubecost" {
-  count                    = var.kubecost_enabled ? 1 : 0
-  cluster_name             = var.eks_cluster_name
-  addon_name               = "kubecost_kubecost"
-  addon_version            = data.aws_eks_addon_version.kubecost.version
-  resolve_conflicts        = "OVERWRITE"
-  service_account_role_arn = var.worker_iam_role_arn
-  preserve                 = true
+  count                       = var.kubecost_enabled ? 1 : 0
+  cluster_name                = var.eks_cluster_name
+  addon_name                  = "kubecost_kubecost"
+  addon_version               = data.aws_eks_addon_version.kubecost.version
+  resolve_conflicts_on_create = "OVERWRITE"
+  service_account_role_arn    = var.worker_iam_role_arn
+  preserve                    = true
 
 }
 
@@ -407,7 +407,7 @@ resource "helm_release" "vpa-crds" {
 
 resource "helm_release" "metrics-server-vpa" {
   count      = var.metrics_server_enabled ? 1 : 0
-  depends_on = ["helm_release.vpa-crds"]
+  depends_on = [helm_release.vpa-crds]
   name       = "metricsservervpa"
   namespace  = "kube-system"
   chart      = "${path.module}/addons/metrics_server_vpa/"
